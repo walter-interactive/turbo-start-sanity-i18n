@@ -1,0 +1,20 @@
+{
+  "common": {
+    "readMore": "Lire la suite",
+    "backToHome": "Retour à l'accueil",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "notFound": "Non trouvé"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "about": "À propos",
+    "blog": "Blogue",
+    "contact": "Contact"
+  },
+  "errors": {
+    "pageNotFound": "Page non trouvée",
+    "somethingWentWrong": "Quelque chose s'est mal passé",
+    "tryAgain": "Réessayer"
+  }
+}
