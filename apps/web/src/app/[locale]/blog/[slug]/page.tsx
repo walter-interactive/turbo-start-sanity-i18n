@@ -59,14 +59,15 @@ export async function generateMetadata({
   return getSEOMetadata(
     data
       ? {
-          title: data?.title ?? data?.seoTitle ?? "",
-          description: data?.description ?? data?.seoDescription ?? "",
+          title: data?.seoTitle ?? data?.title ?? "",
+          description: data?.seoDescription ?? data?.description ?? "",
           slug: data?.slug,
           contentId: data?._id,
           contentType: data?._type,
           pageType: "article",
+          locale,
         }
-      : {}
+      : { locale }
   );
 }
 
@@ -100,7 +101,7 @@ export default async function BlogSlugPage({
     <div className="container mx-auto my-16 px-4 md:px-6">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_300px]">
         <main>
-          <ArticleJsonLd article={data} />
+          <ArticleJsonLd article={data} locale={locale} />
           <header className="mb-8">
             <h1 className="mt-2 font-bold text-4xl">{title}</h1>
             <p className="mt-4 text-lg text-muted-foreground">{description}</p>

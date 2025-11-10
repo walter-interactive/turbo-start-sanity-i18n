@@ -2,6 +2,7 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
 import { PageBuilder } from "@/components/pagebuilder";
+import type { Locale } from "@/i18n/routing";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogIndexPageData } from "@/lib/sanity/query";
 import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
@@ -10,7 +11,7 @@ import { handleErrors } from "@/utils";
 
 type Blog = NonNullable<QueryBlogIndexPageDataResult>["blogs"][number];
 
-async function fetchBlogPosts(locale: string) {
+async function fetchBlogPosts(locale: Locale) {
   return await handleErrors(
     sanityFetch({
       query: queryBlogIndexPageData,
@@ -22,7 +23,7 @@ async function fetchBlogPosts(locale: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
   const { data: result } = await sanityFetch({
@@ -33,20 +34,21 @@ export async function generateMetadata({
   return getSEOMetadata(
     result
       ? {
-          title: result?.title ?? result?.seoTitle ?? "",
-          description: result?.description ?? result?.seoDescription ?? "",
+          title: result?.seoTitle ?? result?.title ?? "",
+          description: result?.seoDescription ?? result?.description ?? "",
           slug: result?.slug,
           contentId: result?._id,
           contentType: result?._type,
+          locale,
         }
-      : {}
+      : { locale }
   );
 }
 
 export default async function BlogIndexPage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);

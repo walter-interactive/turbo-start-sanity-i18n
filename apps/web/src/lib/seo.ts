@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import type { Locale } from "@/i18n/routing";
+import { LOCALES, DEFAULT_LOCALE } from "@/i18n/routing";
 import type { Maybe } from "@/types";
 import { capitalize, getBaseUrl } from "@/utils";
 
@@ -21,6 +23,7 @@ interface PageSeoData extends Metadata {
   keywords?: string[];
   seoNoIndex?: boolean;
   pageType?: Extract<Metadata["openGraph"], { type: string }>["type"];
+  locale?: Locale;
 }
 
 // OpenGraph image generation parameters
@@ -81,6 +84,87 @@ function extractTitle({
   return siteTitle;
 }
 
+/**
+ * Generate hreflang alternate links for multilingual pages
+ *
+ * Creates alternate language links for SEO, helping search engines understand
+ * which language versions of a page are available.
+ *
+ * @param slug - Page slug (without locale prefix)
+ * @param currentLocale - Current page locale
+ * @returns Object with language alternates for Next.js metadata
+ *
+ * @example
+ * const alternates = generateHreflangAlternates('/about', 'en')
+ * // Returns:
+ * // {
+ * //   languages: { 'fr': '/fr/about', 'en': '/en/about', 'x-default': '/fr/about' }
+ * // }
+ */
+export function generateHreflangAlternates(
+  slug: string,
+  currentLocale: Locale
+): Metadata["alternates"] {
+  const baseUrl = getBaseUrl();
+  const normalizedSlug = slug.startsWith("/") ? slug : `/${slug}`;
+
+  // Build language alternates for all supported locales
+  const languages: Record<string, string> = {};
+
+  for (const locale of LOCALES) {
+    languages[locale] = `${baseUrl}/${locale}${normalizedSlug}`;
+  }
+
+  // Add x-default pointing to default locale (French for Quebec compliance)
+  languages["x-default"] = `${baseUrl}/${DEFAULT_LOCALE}${normalizedSlug}`;
+
+  return {
+    canonical: `${baseUrl}/${currentLocale}${normalizedSlug}`,
+    languages,
+  };
+}
+
+/**
+ * Map locale codes to Open Graph locale format
+ *
+ * Converts ISO 639-1 locale codes (e.g., 'en', 'fr') to Open Graph
+ * locale format (e.g., 'en_US', 'fr_CA') for proper social media metadata.
+ *
+ * @param locale - ISO locale code
+ * @returns Open Graph formatted locale string
+ *
+ * @example
+ * getOgLocale('fr') // 'fr_CA'
+ * getOgLocale('en') // 'en_US'
+ */
+export function getOgLocale(locale: Locale): string {
+  const ogLocaleMap: Record<Locale, string> = {
+    fr: "fr_CA", // Quebec French
+    en: "en_US", // US English
+  };
+
+  return ogLocaleMap[locale];
+}
+
+/**
+ * Generate Open Graph locale alternates
+ *
+ * Creates alternate locale tags for Open Graph metadata, indicating
+ * which other language versions are available for social media platforms.
+ *
+ * @param currentLocale - Current page locale
+ * @returns Array of alternate locale strings in Open Graph format
+ *
+ * @example
+ * getOgLocaleAlternates('fr') // ['en_US']
+ * getOgLocaleAlternates('en') // ['fr_CA']
+ */
+export function getOgLocaleAlternates(currentLocale: Locale): string[] {
+  return LOCALES.filter((locale) => locale !== currentLocale).map((locale) =>
+    getOgLocale(locale)
+  );
+}
+
 export function getSEOMetadata(page: PageSeoData = {}): Metadata {
   const {
     title: pageTitle,
@@ -91,6 +175,7 @@ export function getSEOMetadata(page: PageSeoData = {}): Metadata {
     keywords: pageKeywords = [],
     seoNoIndex = false,
     pageType = "website",
+    locale,
     ...pageOverrides
   } = page;
 
@@ -116,6 +201,15 @@ export function getSEOMetadata(page: PageSeoData = {}): Metadata {
       ? defaultTitle
       : `${defaultTitle} | ${siteConfig.title}`;
 
+  // Generate hreflang alternates if locale is provided
+  const alternates = locale
+    ? generateHreflangAlternates(slug, locale)
+    : { canonical: pageUrl };
+
+  // Get Open Graph locale information if locale is provided
+  const ogLocale = locale ? getOgLocale(locale) : undefined;
+  const ogLocaleAlternates = locale ? getOgLocaleAlternates(locale) : undefined;
+
   // Build default metadata object
   const defaultMetadata: Metadata = {
     title: fullTitle,
@@ -135,14 +229,14 @@ export function getSEOMetadata(page: PageSeoData = {}): Metadata {
       title: defaultTitle,
       description: defaultDescription,
     },
-    alternates: {
-      canonical: pageUrl,
-    },
+    alternates,
     openGraph: {
       type: pageType ?? "website",
-      countryName: "UK",
+      countryName: "CA", // Quebec, Canada
       description: defaultDescription,
       title: defaultTitle,
+      locale: ogLocale,
+      alternateLocale: ogLocaleAlternates,
       images: [
         {
           url: ogImage,

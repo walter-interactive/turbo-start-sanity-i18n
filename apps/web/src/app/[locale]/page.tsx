@@ -3,8 +3,9 @@ import { PageBuilder } from "@/components/pagebuilder";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryHomePageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
+import { Locale } from "@/i18n/routing";
 
-async function fetchHomePageData(locale: string) {
+async function fetchHomePageData(locale: Locale) {
   return await sanityFetch({
     query: queryHomePageData,
     params: { locale },
@@ -14,28 +15,29 @@ async function fetchHomePageData(locale: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
   const { data: homePageData } = await fetchHomePageData(locale);
   return getSEOMetadata(
     homePageData
       ? {
-          title: homePageData?.title ?? homePageData?.seoTitle ?? "",
+          title: homePageData?.seoTitle ?? homePageData?.title ?? "",
           description:
-            homePageData?.description ?? homePageData?.seoDescription ?? "",
+            homePageData?.seoDescription ?? homePageData?.description ?? "",
           slug: homePageData?.slug,
           contentId: homePageData?._id,
           contentType: homePageData?._type,
+          locale,
         }
-      : {}
+      : { locale }
   );
 }
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);

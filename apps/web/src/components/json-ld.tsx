@@ -128,10 +128,12 @@ function buildSafeImageUrl(image?: { id?: string | null }) {
 type ArticleJsonLdProps = {
   article: QueryBlogSlugPageDataResult;
   settings?: QuerySettingsDataResult;
+  locale?: string;
 };
 export function ArticleJsonLd({
   article: rawArticle,
   settings,
+  locale,
 }: ArticleJsonLdProps) {
   if (!rawArticle) {
     return null;
@@ -148,6 +150,7 @@ export function ArticleJsonLd({
     headline: article.title,
     description: article.description || undefined,
     image: imageUrl ? [imageUrl] : undefined,
+    inLanguage: locale || article.language || "fr",
     author: article.authors
       ? [
           {
@@ -235,9 +238,10 @@ export function OrganizationJsonLd({ settings }: OrganizationJsonLdProps) {
 // Website JSON-LD Component
 type WebSiteJsonLdProps = {
   settings: QuerySettingsDataResult;
+  locale?: string;
 };
 
-export function WebSiteJsonLd({ settings }: WebSiteJsonLdProps) {
+export function WebSiteJsonLd({ settings, locale }: WebSiteJsonLdProps) {
   if (!settings) {
     return null;
   }
@@ -250,6 +254,7 @@ export function WebSiteJsonLd({ settings }: WebSiteJsonLdProps) {
     name: settings.siteTitle,
     description: settings.siteDescription || undefined,
     url: baseUrl,
+    inLanguage: locale || "fr",
     publisher: {
       "@type": "Organization",
       name: settings.siteTitle,
@@ -266,11 +271,13 @@ type CombinedJsonLdProps = {
   faqs?: FlexibleFaq[];
   includeWebsite?: boolean;
   includeOrganization?: boolean;
+  locale?: string;
 };
 
 export async function CombinedJsonLd({
   includeWebsite = false,
   includeOrganization = false,
+  locale,
 }: CombinedJsonLdProps) {
   const [res] = await handleErrors(client.fetch(querySettingsData));
 
@@ -278,7 +285,7 @@ export async function CombinedJsonLd({
   return (
     <>
       {includeWebsite && cleanSettings && (
-        <WebSiteJsonLd settings={cleanSettings} />
+        <WebSiteJsonLd settings={cleanSettings} locale={locale} />
       )}
       {includeOrganization && cleanSettings && (
         <OrganizationJsonLd settings={cleanSettings} />
