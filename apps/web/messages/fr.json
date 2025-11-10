@@ -4,17 +4,40 @@
     "backToHome": "Retour à l'accueil",
     "loading": "Chargement...",
     "error": "Une erreur s'est produite",
-    "notFound": "Non trouvé"
+    "notFound": "Non trouvé",
+    "switchLanguage": "Changer de langue",
+    "pageContent": "Contenu de la page",
+    "blogPostImage": "Image de l'article",
+    "authorImage": "Photo de l'auteur"
   },
   "navigation": {
     "home": "Accueil",
     "about": "À propos",
     "blog": "Blogue",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu",
+    "closeMenu": "Fermer le menu"
   },
   "errors": {
     "pageNotFound": "Page non trouvée",
     "somethingWentWrong": "Quelque chose s'est mal passé",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "pageDoesNotExist": "La page que vous recherchez n'existe pas.",
+    "returnHome": "Retour à l'accueil",
+    "failedToFetch": "Échec de la récupération des données"
+  },
+  "newsletter": {
+    "subscribe": "S'abonner à l'infolettre",
+    "subscribing": "Abonnement en cours...",
+    "emailPlaceholder": "Entrez votre adresse courriel",
+    "emailRequired": "L'adresse courriel est requise",
+    "thankYou": "Merci de vous être abonné!"
+  },
+  "social": {
+    "followInstagram": "Suivez-nous sur Instagram",
+    "followFacebook": "Suivez-nous sur Facebook",
+    "followTwitter": "Suivez-nous sur Twitter",
+    "followLinkedIn": "Suivez-nous sur LinkedIn",
+    "subscribeYouTube": "Abonnez-vous à notre chaîne YouTube"
   }
 }

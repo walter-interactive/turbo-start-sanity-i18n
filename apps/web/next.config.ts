@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 import { client } from "@/lib/sanity/client";
 import { queryRedirects } from "@/lib/sanity/query";
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@workspace/ui"],
@@ -30,4 +33,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

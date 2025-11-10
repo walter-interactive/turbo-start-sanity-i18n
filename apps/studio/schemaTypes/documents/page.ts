@@ -4,7 +4,7 @@ import { defineField, defineType } from "sanity";
 import { GROUP, GROUPS } from "../../utils/constant";
 import { ogFields } from "../../utils/og-fields";
 import { seoFields } from "../../utils/seo-fields";
-import { documentSlugField, pageBuilderField } from "../common";
+import { documentSlugField, languageField, pageBuilderField } from "../common";
 
 export const page = defineType({
   name: "page",
@@ -15,6 +15,7 @@ export const page = defineType({
     "Create a new page for your website, like an 'About Us' or 'Contact' page. Each page has its own web address and content that you can customize.",
   groups: GROUPS,
   fields: [
+    languageField,
     defineField({
       name: "title",
       type: "string",

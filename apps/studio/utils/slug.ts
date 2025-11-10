@@ -1,3 +1,4 @@
+import type { SanityDocument } from "@sanity/client";
 import {
   defineField,
   type FieldDefinition,
@@ -9,6 +10,17 @@ import {
 import slugify from "slugify";
 
 import type { PathnameParams } from "./types";
+
+function hasLanguageField(
+  doc: SanityDocument | null | undefined
+): doc is SanityDocument & { language: string } {
+  return (
+    doc !== null &&
+    doc !== undefined &&
+    "language" in doc &&
+    typeof doc.language === "string"
+  );
+}
 
 export function defineSlug(
   schema: PathnameParams = { name: "slug" }
@@ -39,12 +51,23 @@ export async function isUnique(
   const client = getClient({ apiVersion: "2025-02-10" });
   const id = getPublishedId(document?._id ?? "");
   const draftId = getDraftId(id);
+
+  // Extract language from document if it exists (for i18n documents)
+  const language = hasLanguageField(document) ? document.language : undefined;
+
   const params = {
     draft: draftId,
     published: id,
     slug,
+    ...(language && { language }),
   };
-  const query = "*[!(_id in [$draft, $published]) && slug.current == $slug]";
+
+  // If the document has a language field, check uniqueness per language
+  // Otherwise, check globally (for backwards compatibility with non-i18n documents)
+  const query = language
+    ? "*[!(_id in [$draft, $published]) && slug.current == $slug && language == $language]"
+    : "*[!(_id in [$draft, $published]) && slug.current == $slug]";
+
   const result = await client.fetch(query, params);
   return result.length === 0;
 }

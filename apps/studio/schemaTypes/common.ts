@@ -2,10 +2,35 @@ import { defineField } from "sanity";
 
 import { PathnameFieldComponent } from "../components/slug-field-component";
 import { GROUP } from "../utils/constant";
+import { isUnique } from "../utils/slug";
 import {
   createSlugValidator,
   getDocumentTypeConfig,
 } from "../utils/slug-validation";
+
+export const SUPPORTED_LANGUAGES = [
+  { id: "fr", title: "Français" },
+  { id: "en", title: "English" },
+] as const;
+
+export const languageField = defineField({
+  name: "language",
+  type: "string",
+  title: "Language",
+  description:
+    "Language of this document version. Managed automatically by the translation plugin.",
+  readOnly: true,
+  hidden: true,
+  validation: (Rule) =>
+    Rule.required().custom((value: string | undefined) => {
+      if (!value) return "Language is required";
+      const validLanguages = SUPPORTED_LANGUAGES.map((l) => l.id);
+      if (!validLanguages.includes(value as "fr" | "en")) {
+        return `Language must be one of: ${validLanguages.join(", ")}`;
+      }
+      return true;
+    }),
+});
 
 export const richTextField = defineField({
   name: "richText",
@@ -64,6 +89,9 @@ export const documentSlugField = (
     group,
     components: {
       field: PathnameFieldComponent,
+    },
+    options: {
+      isUnique,
     },
     validation: (Rule) => [
       Rule.required().error("A URL slug is required"),

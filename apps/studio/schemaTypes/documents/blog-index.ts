@@ -3,7 +3,7 @@ import { defineField, defineType } from "sanity";
 import { GROUP, GROUPS } from "../../utils/constant";
 import { ogFields } from "../../utils/og-fields";
 import { seoFields } from "../../utils/seo-fields";
-import { documentSlugField, pageBuilderField } from "../common";
+import { documentSlugField, languageField, pageBuilderField } from "../common";
 
 export const blogIndex = defineType({
   name: "blogIndex",
@@ -13,6 +13,7 @@ export const blogIndex = defineType({
     "This is the main page that shows all your blog posts. You can customize how your blog listing page looks, what title it has, and which blog post you want to highlight at the top.",
   groups: GROUPS,
   fields: [
+    languageField,
     defineField({
       name: "title",
       type: "string",

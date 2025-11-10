@@ -1,4 +1,5 @@
 import { defineQuery } from "next-sanity";
+import { translationsFragment } from "./i18n";
 
 const imageFields = /* groq */ `
   "id": asset._ref,
@@ -199,58 +200,72 @@ export const queryImageType = defineQuery(`
 `);
 
 export const queryHomePageData =
-  defineQuery(`*[_type == "homePage" && _id == "homePage"][0]{
+  defineQuery(`*[_type == "homePage" && language == $locale][0]{
     ...,
     _id,
     _type,
+    language,
     "slug": slug.current,
     title,
     description,
-    ${pageBuilderFragment}
+    ${pageBuilderFragment},
+    ${translationsFragment}
   }`);
 
 export const querySlugPageData = defineQuery(`
-  *[_type == "page" && slug.current == $slug][0]{
+  *[_type == "page" && slug.current == $slug && language == $locale][0]{
     ...,
     "slug": slug.current,
-    ${pageBuilderFragment}
+    language,
+    ${pageBuilderFragment},
+    ${translationsFragment}
   }
   `);
 
 export const querySlugPagePaths = defineQuery(`
-  *[_type == "page" && defined(slug.current)].slug.current
+  *[_type == "page" && defined(slug.current) && language == $locale]{
+    "slug": slug.current,
+    language
+  }
 `);
 
 export const queryBlogIndexPageData = defineQuery(`
-  *[_type == "blogIndex"][0]{
+  *[_type == "blogIndex" && language == $locale][0]{
     ...,
     _id,
     _type,
+    language,
     title,
     description,
     "displayFeaturedBlogs" : displayFeaturedBlogs == "yes",
     "featuredBlogsCount" : featuredBlogsCount,
     ${pageBuilderFragment},
     "slug": slug.current,
-    "blogs": *[_type == "blog" && (seoHideFromLists != true)] | order(orderRank asc){
+    ${translationsFragment},
+    "blogs": *[_type == "blog" && language == $locale && (seoHideFromLists != true)] | order(orderRank asc){
       ${blogCardFragment}
     }
   }
 `);
 
 export const queryBlogSlugPageData = defineQuery(`
-  *[_type == "blog" && slug.current == $slug][0]{
+  *[_type == "blog" && slug.current == $slug && language == $locale][0]{
     ...,
     "slug": slug.current,
+    language,
     ${blogAuthorFragment},
     ${imageFragment},
     ${richTextFragment},
-    ${pageBuilderFragment}
+    ${pageBuilderFragment},
+    ${translationsFragment}
   }
 `);
 
 export const queryBlogPaths = defineQuery(`
-  *[_type == "blog" && defined(slug.current)].slug.current
+  *[_type == "blog" && defined(slug.current) && language == $locale]{
+    "slug": slug.current,
+    language
+  }
 `);
 
 const ogFieldsFragment = /* groq */ `
@@ -319,8 +334,9 @@ export const queryFooterData = defineQuery(`
 `);
 
 export const queryNavbarData = defineQuery(`
-  *[_type == "navbar" && _id == "navbar"][0]{
+  *[_type == "navbar" && _id == "navbar" && language == $locale][0]{
     _id,
+    language,
     columns[]{
       _key,
       _type == "navbarColumn" => {
@@ -358,10 +374,12 @@ export const queryNavbarData = defineQuery(`
 export const querySitemapData = defineQuery(`{
   "slugPages": *[_type == "page" && defined(slug.current)]{
     "slug": slug.current,
+    language,
     "lastModified": _updatedAt
   },
   "blogPages": *[_type == "blog" && defined(slug.current)]{
     "slug": slug.current,
+    language,
     "lastModified": _updatedAt
   }
 }`);

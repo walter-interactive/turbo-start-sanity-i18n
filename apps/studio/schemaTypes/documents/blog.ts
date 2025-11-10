@@ -8,7 +8,7 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 import { GROUP, GROUPS } from "../../utils/constant";
 import { ogFields } from "../../utils/og-fields";
 import { seoFields } from "../../utils/seo-fields";
-import { documentSlugField } from "../common";
+import { documentSlugField, languageField } from "../common";
 
 export const blog = defineType({
   name: "blog",
@@ -21,6 +21,7 @@ export const blog = defineType({
     "A blog post that will be published on the website. Add a title, description, author, and content to create a new article for readers.",
   fields: [
     orderRankField({ type: "blog" }),
+    languageField,
     defineField({
       name: "title",
       type: "string",

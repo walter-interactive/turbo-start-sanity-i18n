@@ -2,6 +2,7 @@ import { MessageCircle } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
 import { parseRichTextToString } from "../../utils/helper";
+import { languageField } from "../common";
 import { customRichText } from "../definitions/rich-text";
 
 export const faq = defineType({
@@ -12,6 +13,7 @@ export const faq = defineType({
     "A simple question and answer pair that helps visitors find information quickly. Think of it like writing down the questions customers often ask, along with clear answers.",
   icon: MessageCircle,
   fields: [
+    languageField,
     defineField({
       name: "title",
       title: "Question",

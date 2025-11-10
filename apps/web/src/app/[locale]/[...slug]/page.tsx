@@ -1,22 +1,23 @@
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-
 import { PageBuilder } from "@/components/pagebuilder";
+import type { Locale } from "@/i18n/routing";
 import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
 import { querySlugPageData, querySlugPagePaths } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 
-async function fetchSlugPageData(slug: string, stega = true) {
+async function fetchSlugPageData(slug: string, locale: Locale, stega = true) {
   return await sanityFetch({
     query: querySlugPageData,
-    params: { slug: `/${slug}` },
+    params: { slug: `/${slug}`, locale },
     stega,
   });
 }
 
-async function fetchSlugPagePaths() {
+async function fetchSlugPagePaths(locale: Locale) {
   try {
-    const slugs = await client.fetch(querySlugPagePaths);
+    const slugs = await client.fetch(querySlugPagePaths, { locale });
 
     // If no slugs found, return empty array to prevent build errors
     if (!Array.isArray(slugs) || slugs.length === 0) {
@@ -25,15 +26,15 @@ async function fetchSlugPagePaths() {
 
     const paths: { slug: string[] }[] = [];
     for (const slug of slugs) {
-      if (!slug) {
+      if (!slug?.slug) {
         continue;
       }
-      const parts = slug.split("/").filter(Boolean);
+      const parts = slug.slug.split("/").filter(Boolean);
       paths.push({ slug: parts });
     }
     return paths;
   } catch (error) {
-    console.error("Error fetching slug paths:", error);
+    console.error("Error fetching slug paths for locale:", locale, error);
     // Return empty array to allow build to continue
     return [];
   }
@@ -42,11 +43,11 @@ async function fetchSlugPagePaths() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ locale: Locale; slug: string[] }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const slugString = slug.join("/");
-  const { data: pageData } = await fetchSlugPageData(slugString, false);
+  const { data: pageData } = await fetchSlugPageData(slugString, locale, false);
   return getSEOMetadata(
     pageData
       ? {
@@ -60,8 +61,13 @@ export async function generateMetadata({
   );
 }
 
-export async function generateStaticParams() {
-  const paths = await fetchSlugPagePaths();
+export async function generateStaticParams({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
+  const paths = await fetchSlugPagePaths(locale);
   return paths;
 }
 
@@ -71,11 +77,12 @@ export const dynamicParams = true;
 export default async function SlugPage({
   params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ locale: Locale; slug: string[] }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const slugString = slug.join("/");
-  const { data: pageData } = await fetchSlugPageData(slugString);
+  const { data: pageData } = await fetchSlugPageData(slugString, locale);
 
   if (!pageData) {
     return notFound();

@@ -1,25 +1,30 @@
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-
 import { RichText } from "@/components/elements/rich-text";
 import { SanityImage } from "@/components/elements/sanity-image";
 import { TableOfContent } from "@/components/elements/table-of-content";
 import { ArticleJsonLd } from "@/components/json-ld";
+import type { Locale } from "@/i18n/routing";
 import { client } from "@/lib/sanity/client";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryBlogPaths, queryBlogSlugPageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 
-async function fetchBlogSlugPageData(slug: string, stega = true) {
+async function fetchBlogSlugPageData(
+  slug: string,
+  locale: Locale,
+  stega = true
+) {
   return await sanityFetch({
     query: queryBlogSlugPageData,
-    params: { slug: `/blog/${slug}` },
+    params: { slug: `/blog/${slug}`, locale },
     stega,
   });
 }
 
-async function fetchBlogPaths() {
+async function fetchBlogPaths(locale: Locale) {
   try {
-    const slugs = await client.fetch(queryBlogPaths);
+    const slugs = await client.fetch(queryBlogPaths, { locale });
 
     // If no slugs found, return empty array to prevent build errors
     if (!Array.isArray(slugs) || slugs.length === 0) {
@@ -28,17 +33,17 @@ async function fetchBlogPaths() {
 
     const paths: { slug: string }[] = [];
     for (const slug of slugs) {
-      if (!slug) {
+      if (!slug?.slug) {
         continue;
       }
-      const [, , path] = slug.split("/");
+      const [, , path] = slug.slug.split("/");
       if (path) {
         paths.push({ slug: path });
       }
     }
     return paths;
   } catch (error) {
-    console.error("Error fetching blog paths:", error);
+    console.error("Error fetching blog paths for locale:", locale, error);
     // Return empty array to allow build to continue
     return [];
   }
@@ -47,10 +52,10 @@ async function fetchBlogPaths() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }) {
-  const { slug } = await params;
-  const { data } = await fetchBlogSlugPageData(slug, false);
+  const { locale, slug } = await params;
+  const { data } = await fetchBlogSlugPageData(slug, locale, false);
   return getSEOMetadata(
     data
       ? {
@@ -65,8 +70,13 @@ export async function generateMetadata({
   );
 }
 
-export async function generateStaticParams() {
-  const paths = await fetchBlogPaths();
+export async function generateStaticParams({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
+  const paths = await fetchBlogPaths(locale);
   return paths;
 }
 
@@ -76,10 +86,11 @@ export const dynamicParams = true;
 export default async function BlogSlugPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }) {
-  const { slug } = await params;
-  const { data } = await fetchBlogSlugPageData(slug);
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+  const { data } = await fetchBlogSlugPageData(slug, locale);
   if (!data) {
     return notFound();
   }

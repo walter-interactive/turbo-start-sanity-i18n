@@ -1,6 +1,8 @@
 import { LayoutPanelLeft, Link, PanelBottom } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
+import { languageField } from "../common";
+
 const footerColumnLink = defineField({
   name: "footerColumnLink",
   type: "object",
@@ -79,6 +81,7 @@ export const footer = defineType({
   title: "Footer",
   description: "Footer content for your website",
   fields: [
+    languageField,
     defineField({
       name: "label",
       type: "string",

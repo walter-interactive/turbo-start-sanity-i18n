@@ -1,5 +1,5 @@
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-
 import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
 import { PageBuilder } from "@/components/pagebuilder";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -10,13 +10,24 @@ import { handleErrors } from "@/utils";
 
 type Blog = NonNullable<QueryBlogIndexPageDataResult>["blogs"][number];
 
-async function fetchBlogPosts() {
-  return await handleErrors(sanityFetch({ query: queryBlogIndexPageData }));
+async function fetchBlogPosts(locale: string) {
+  return await handleErrors(
+    sanityFetch({
+      query: queryBlogIndexPageData,
+      params: { locale },
+    })
+  );
 }
 
-export async function generateMetadata() {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const { data: result } = await sanityFetch({
     query: queryBlogIndexPageData,
+    params: { locale },
     stega: false,
   });
   return getSEOMetadata(
@@ -32,8 +43,15 @@ export async function generateMetadata() {
   );
 }
 
-export default async function BlogIndexPage() {
-  const [res, err] = await fetchBlogPosts();
+export default async function BlogIndexPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const [res, err] = await fetchBlogPosts(locale);
   if (err || !res?.data) {
     notFound();
   }

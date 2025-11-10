@@ -1,4 +1,5 @@
 import { assist } from "@sanity/assist";
+import { documentInternationalization } from "@sanity/document-internationalization";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
@@ -48,6 +49,22 @@ export default defineConfig({
     media(),
     iconPicker(),
     assist(),
+    documentInternationalization({
+      supportedLanguages: [
+        { id: "fr", title: "Français" },
+        { id: "en", title: "English" },
+      ],
+      schemaTypes: [
+        "page",
+        "blog",
+        "blogIndex",
+        "navbar",
+        "footer",
+        "settings",
+        "homePage",
+        "faq",
+      ],
+    }),
   ],
   document: {
     newDocumentOptions: (prev, { creationContext }) => {

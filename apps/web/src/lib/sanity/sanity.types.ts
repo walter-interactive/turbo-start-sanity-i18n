@@ -298,55 +298,141 @@ export type Redirect = {
   permanent?: "true" | "false";
 };
 
-export type Navbar = {
+export type Author = {
   _id: string;
-  _type: "navbar";
+  _type: "author";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  label: string;
-  columns?: Array<{
-    title?: string;
-    links: Array<{
-      icon?: IconPicker;
-      name?: string;
-      description?: string;
-      url?: CustomUrl;
-      _type: "navbarColumnLink";
-      _key: string;
-    }>;
-    _type: "navbarColumn";
-    _key: string;
-  } | {
-    name?: string;
-    url?: CustomUrl;
-    _type: "navbarLink";
-    _key: string;
-  }>;
-  buttons?: Array<{
-    _key: string;
-  } & Button>;
+  name: string;
+  position?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  bio?: string;
 };
 
-export type Footer = {
+export type TranslationMetadata = {
   _id: string;
-  _type: "footer";
+  _type: "translation.metadata";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  label: string;
-  subtitle?: string;
-  columns?: Array<{
-    title?: string;
-    links?: Array<{
-      name?: string;
-      url?: CustomUrl;
-      _type: "footerColumnLink";
+  translations?: Array<{
+    _key: string;
+  } & InternationalizedArrayReferenceValue>;
+  schemaTypes?: Array<string>;
+};
+
+export type InternationalizedArrayReferenceValue = {
+  _type: "internationalizedArrayReferenceValue";
+  value?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "page";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "blog";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "blogIndex";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "navbar";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "footer";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "settings";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "homePage";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "faq";
+  };
+};
+
+export type Faq = {
+  _id: string;
+  _type: "faq";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language: string;
+  title: string;
+  richText?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
       _key: string;
     }>;
-    _type: "footerColumn";
+    style?: "normal" | "h2" | "h3" | "h4" | "h5" | "h6" | "inline";
+    listItem?: "number" | "bullet";
+    markDefs?: Array<{
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
     _key: string;
   }>;
+};
+
+export type HomePage = {
+  _id: string;
+  _type: "homePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language: string;
+  title?: string;
+  description?: string;
+  slug: Slug;
+  pageBuilder?: PageBuilder;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  ogTitle?: string;
+  ogDescription?: string;
 };
 
 export type Settings = {
@@ -355,6 +441,7 @@ export type Settings = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language: string;
   label: string;
   siteTitle: string;
   siteDescription: string;
@@ -380,12 +467,66 @@ export type Settings = {
   };
 };
 
+export type Footer = {
+  _id: string;
+  _type: "footer";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language: string;
+  label: string;
+  subtitle?: string;
+  columns?: Array<{
+    title?: string;
+    links?: Array<{
+      name?: string;
+      url?: CustomUrl;
+      _type: "footerColumnLink";
+      _key: string;
+    }>;
+    _type: "footerColumn";
+    _key: string;
+  }>;
+};
+
+export type Navbar = {
+  _id: string;
+  _type: "navbar";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language: string;
+  label: string;
+  columns?: Array<{
+    title?: string;
+    links: Array<{
+      icon?: IconPicker;
+      name?: string;
+      description?: string;
+      url?: CustomUrl;
+      _type: "navbarColumnLink";
+      _key: string;
+    }>;
+    _type: "navbarColumn";
+    _key: string;
+  } | {
+    name?: string;
+    url?: CustomUrl;
+    _type: "navbarLink";
+    _key: string;
+  }>;
+  buttons?: Array<{
+    _key: string;
+  } & Button>;
+};
+
 export type BlogIndex = {
   _id: string;
   _type: "blogIndex";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language: string;
   title?: string;
   description?: string;
   slug: Slug;
@@ -410,125 +551,6 @@ export type BlogIndex = {
   ogDescription?: string;
 };
 
-export type HomePage = {
-  _id: string;
-  _type: "homePage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  slug: Slug;
-  pageBuilder?: PageBuilder;
-  seoTitle?: string;
-  seoDescription?: string;
-  seoImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  ogTitle?: string;
-  ogDescription?: string;
-};
-
-export type Author = {
-  _id: string;
-  _type: "author";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  position?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  bio?: string;
-};
-
-export type Faq = {
-  _id: string;
-  _type: "faq";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  richText?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h2" | "h3" | "h4" | "h5" | "h6" | "inline";
-    listItem?: "number" | "bullet";
-    markDefs?: Array<{
-      customLink?: CustomUrl;
-      _type: "customLink";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-};
-
-export type Page = {
-  _id: string;
-  _type: "page";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  description?: string;
-  slug: Slug;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  pageBuilder?: PageBuilder;
-  seoTitle?: string;
-  seoDescription?: string;
-  seoImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  seoNoIndex?: boolean;
-  ogTitle?: string;
-  ogDescription?: string;
-};
-
 export type Blog = {
   _id: string;
   _type: "blog";
@@ -536,6 +558,7 @@ export type Blog = {
   _updatedAt: string;
   _rev: string;
   orderRank?: string;
+  language: string;
   title: string;
   description?: string;
   slug: Slug;
@@ -580,6 +603,48 @@ export type Blog = {
   ogDescription?: string;
 };
 
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language: string;
+  title: string;
+  description?: string;
+  slug: Slug;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  pageBuilder?: PageBuilder;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoNoIndex?: boolean;
+  ogTitle?: string;
+  ogDescription?: string;
+};
+
 export type CustomUrl = {
   _type: "customUrl";
   type: "internal" | "external";
@@ -603,6 +668,10 @@ export type CustomUrl = {
     [internalGroqTypeReferenceTo]?: "page";
   };
 };
+
+export type InternationalizedArrayReference = Array<{
+  _key: string;
+} & InternationalizedArrayReferenceValue>;
 
 export type SanityAssistInstructionTask = {
   _type: "sanity.assist.instructionTask";
@@ -859,7 +928,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = SubscribeNewsletter | ImageLinkCards | FaqAccordion | FeatureCardsIcon | Cta | Hero | PageBuilder | Button | RichText | Redirect | Navbar | Footer | Settings | BlogIndex | HomePage | Author | Faq | Page | Blog | CustomUrl | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | IconPicker | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = SubscribeNewsletter | ImageLinkCards | FaqAccordion | FeatureCardsIcon | Cta | Hero | PageBuilder | Button | RichText | Redirect | Author | TranslationMetadata | InternationalizedArrayReferenceValue | Faq | HomePage | Settings | Footer | Navbar | BlogIndex | Blog | Page | CustomUrl | InternationalizedArrayReference | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | IconPicker | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../web/src/lib/sanity/query.ts
 // Variable: queryImageType
@@ -879,13 +948,14 @@ export type QueryImageTypeResult = {
   } | null;
 } | null;
 // Variable: queryHomePageData
-// Query: *[_type == "homePage" && _id == "homePage"][0]{    ...,    _id,    _type,    "slug": slug.current,    title,    description,      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  }  }
+// Query: *[_type == "homePage" && language == $locale][0]{    ...,    _id,    _type,    language,    "slug": slug.current,    title,    description,      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  },      "_translations": *[    _type == "translation.metadata" && references(^._id)  ][0].translations[].value->{    _id,    _type,    language,    "slug": slug.current,    title  }  }
 export type QueryHomePageDataResult = {
   _id: string;
   _type: "homePage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language: string;
   title: string | null;
   description: string | null;
   slug: string;
@@ -1207,15 +1277,65 @@ export type QueryHomePageDataResult = {
   };
   ogTitle?: string;
   ogDescription?: string;
+  _translations: Array<{
+    _id: string;
+    _type: "blog";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "blogIndex";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "faq";
+    language: string;
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _type: "footer";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "homePage";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "navbar";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "page";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "settings";
+    language: string;
+    slug: null;
+    title: null;
+  } | null> | null;
 } | null;
 // Variable: querySlugPageData
-// Query: *[_type == "page" && slug.current == $slug][0]{    ...,    "slug": slug.current,      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  }  }
+// Query: *[_type == "page" && slug.current == $slug && language == $locale][0]{    ...,    "slug": slug.current,    language,      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  },      "_translations": *[    _type == "translation.metadata" && references(^._id)  ][0].translations[].value->{    _id,    _type,    language,    "slug": slug.current,    title  }  }
 export type QuerySlugPageDataResult = {
   _id: string;
   _type: "page";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language: string;
   title: string;
   description?: string;
   slug: string;
@@ -1550,18 +1670,71 @@ export type QuerySlugPageDataResult = {
   seoNoIndex?: boolean;
   ogTitle?: string;
   ogDescription?: string;
+  _translations: Array<{
+    _id: string;
+    _type: "blog";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "blogIndex";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "faq";
+    language: string;
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _type: "footer";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "homePage";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "navbar";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "page";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "settings";
+    language: string;
+    slug: null;
+    title: null;
+  } | null> | null;
 } | null;
 // Variable: querySlugPagePaths
-// Query: *[_type == "page" && defined(slug.current)].slug.current
-export type QuerySlugPagePathsResult = Array<string>;
+// Query: *[_type == "page" && defined(slug.current) && language == $locale]{    "slug": slug.current,    language  }
+export type QuerySlugPagePathsResult = Array<{
+  slug: string;
+  language: string;
+}>;
 // Variable: queryBlogIndexPageData
-// Query: *[_type == "blogIndex"][0]{    ...,    _id,    _type,    title,    description,    "displayFeaturedBlogs" : displayFeaturedBlogs == "yes",    "featuredBlogsCount" : featuredBlogsCount,      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  },    "slug": slug.current,    "blogs": *[_type == "blog" && (seoHideFromLists != true)] | order(orderRank asc){        _type,  _id,  title,  description,  "slug":slug.current,  orderRank,    image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },  publishedAt,    authors[0]->{    _id,    name,    position,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  }  }    }  }
+// Query: *[_type == "blogIndex" && language == $locale][0]{    ...,    _id,    _type,    language,    title,    description,    "displayFeaturedBlogs" : displayFeaturedBlogs == "yes",    "featuredBlogsCount" : featuredBlogsCount,      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  },    "slug": slug.current,      "_translations": *[    _type == "translation.metadata" && references(^._id)  ][0].translations[].value->{    _id,    _type,    language,    "slug": slug.current,    title  },    "blogs": *[_type == "blog" && language == $locale && (seoHideFromLists != true)] | order(orderRank asc){        _type,  _id,  title,  description,  "slug":slug.current,  orderRank,    image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },  publishedAt,    authors[0]->{    _id,    name,    position,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  }  }    }  }
 export type QueryBlogIndexPageDataResult = {
   _id: string;
   _type: "blogIndex";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language: string;
   title: string | null;
   description: string | null;
   slug: string;
@@ -1885,6 +2058,55 @@ export type QueryBlogIndexPageDataResult = {
   };
   ogTitle?: string;
   ogDescription?: string;
+  _translations: Array<{
+    _id: string;
+    _type: "blog";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "blogIndex";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "faq";
+    language: string;
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _type: "footer";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "homePage";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "navbar";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "page";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "settings";
+    language: string;
+    slug: null;
+    title: null;
+  } | null> | null;
   blogs: Array<{
     _type: "blog";
     _id: string;
@@ -1929,7 +2151,7 @@ export type QueryBlogIndexPageDataResult = {
   }>;
 } | null;
 // Variable: queryBlogSlugPageData
-// Query: *[_type == "blog" && slug.current == $slug][0]{    ...,    "slug": slug.current,      authors[0]->{    _id,    name,    position,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  }  },      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  }  }
+// Query: *[_type == "blog" && slug.current == $slug && language == $locale][0]{    ...,    "slug": slug.current,    language,      authors[0]->{    _id,    name,    position,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  }  },      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      pageBuilder[]{    ...,    _type,      _type == "cta" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  },      _type == "hero" => {    ...,      image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  },      _type == "faqAccordion" => {    ...,      "faqs": array::compact(faqs[]->{    title,    _id,    _type,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  }  }),    link{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      )    }  },      _type == "featureCardsIcon" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    "cards": array::compact(cards[]{      ...,        richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },    })  },      _type == "subscribeNewsletter" => {    ...,    "subTitle": subTitle[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    "helperText": helperText[]{      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    }  },      _type == "imageLinkCards" => {    ...,      richText[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },    "cards": array::compact(cards[]{      ...,      "openInNewTab": url.openInNewTab,      "href": select(        url.type == "internal" => url.internal->slug.current,        url.type == "external" => url.external,        url.href      ),        image {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },    })  }  },      "_translations": *[    _type == "translation.metadata" && references(^._id)  ][0].translations[].value->{    _id,    _type,    language,    "slug": slug.current,    title  }  }
 export type QueryBlogSlugPageDataResult = {
   _id: string;
   _type: "blog";
@@ -1937,6 +2159,7 @@ export type QueryBlogSlugPageDataResult = {
   _updatedAt: string;
   _rev: string;
   orderRank?: string;
+  language: string;
   title: string;
   description?: string;
   slug: string;
@@ -2040,10 +2263,62 @@ export type QueryBlogSlugPageDataResult = {
   ogTitle?: string;
   ogDescription?: string;
   pageBuilder: null;
+  _translations: Array<{
+    _id: string;
+    _type: "blog";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "blogIndex";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "faq";
+    language: string;
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _type: "footer";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "homePage";
+    language: string;
+    slug: string;
+    title: string | null;
+  } | {
+    _id: string;
+    _type: "navbar";
+    language: string;
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _type: "page";
+    language: string;
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _type: "settings";
+    language: string;
+    slug: null;
+    title: null;
+  } | null> | null;
 } | null;
 // Variable: queryBlogPaths
-// Query: *[_type == "blog" && defined(slug.current)].slug.current
-export type QueryBlogPathsResult = Array<string>;
+// Query: *[_type == "blog" && defined(slug.current) && language == $locale]{    "slug": slug.current,    language  }
+export type QueryBlogPathsResult = Array<{
+  slug: string;
+  language: string;
+}>;
 // Variable: queryHomePageOGData
 // Query: *[_type == "homePage" && _id == $id][0]{      _id,  _type,  "title": select(    defined(ogTitle) => ogTitle,    defined(seoTitle) => seoTitle,    title  ),  "description": select(    defined(ogDescription) => ogDescription,    defined(seoDescription) => seoDescription,    description  ),  "image": image.asset->url + "?w=566&h=566&dpr=2&fit=max",  "dominantColor": image.asset->metadata.palette.dominant.background,  "seoImage": seoImage.asset->url + "?w=1200&h=630&dpr=2&fit=max",   "logo": *[_type == "settings"][0].logo.asset->url + "?w=80&h=40&dpr=3&fit=max&q=100",  "date": coalesce(date, _createdAt)  }
 export type QueryHomePageOGDataResult = {
@@ -2143,9 +2418,10 @@ export type QueryFooterDataResult = {
   }> | null;
 } | null;
 // Variable: queryNavbarData
-// Query: *[_type == "navbar" && _id == "navbar"][0]{    _id,    columns[]{      _key,      _type == "navbarColumn" => {        "type": "column",        title,        links[]{          _key,          name,          icon,          description,          "openInNewTab": url.openInNewTab,          "href": select(            url.type == "internal" => url.internal->slug.current,            url.type == "external" => url.external,            url.href          )        }      },      _type == "navbarLink" => {        "type": "link",        name,        description,        "openInNewTab": url.openInNewTab,        "href": select(          url.type == "internal" => url.internal->slug.current,          url.type == "external" => url.external,          url.href        )      }    },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  }
+// Query: *[_type == "navbar" && _id == "navbar" && language == $locale][0]{    _id,    language,    columns[]{      _key,      _type == "navbarColumn" => {        "type": "column",        title,        links[]{          _key,          name,          icon,          description,          "openInNewTab": url.openInNewTab,          "href": select(            url.type == "internal" => url.internal->slug.current,            url.type == "external" => url.external,            url.href          )        }      },      _type == "navbarLink" => {        "type": "link",        name,        description,        "openInNewTab": url.openInNewTab,        "href": select(          url.type == "internal" => url.internal->slug.current,          url.type == "external" => url.external,          url.href        )      }    },      buttons[]{    text,    variant,    _key,    _type,    "openInNewTab": url.openInNewTab,    "href": select(      url.type == "internal" => url.internal->slug.current,      url.type == "external" => url.external,      url.href    ),  },  }
 export type QueryNavbarDataResult = {
   _id: string;
+  language: string;
   columns: Array<{
     _key: string;
     type: "link";
@@ -2176,14 +2452,16 @@ export type QueryNavbarDataResult = {
   }> | null;
 } | null;
 // Variable: querySitemapData
-// Query: {  "slugPages": *[_type == "page" && defined(slug.current)]{    "slug": slug.current,    "lastModified": _updatedAt  },  "blogPages": *[_type == "blog" && defined(slug.current)]{    "slug": slug.current,    "lastModified": _updatedAt  }}
+// Query: {  "slugPages": *[_type == "page" && defined(slug.current)]{    "slug": slug.current,    language,    "lastModified": _updatedAt  },  "blogPages": *[_type == "blog" && defined(slug.current)]{    "slug": slug.current,    language,    "lastModified": _updatedAt  }}
 export type QuerySitemapDataResult = {
   slugPages: Array<{
     slug: string;
+    language: string;
     lastModified: string;
   }>;
   blogPages: Array<{
     slug: string;
+    language: string;
     lastModified: string;
   }>;
 };
@@ -2246,19 +2524,19 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"page\" && defined(image)][0]{\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n\n  }.image\n": QueryImageTypeResult;
-    "*[_type == \"homePage\" && _id == \"homePage\"][0]{\n    ...,\n    _id,\n    _type,\n    \"slug\": slug.current,\n    title,\n    description,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n\n  }": QueryHomePageDataResult;
-    "\n  *[_type == \"page\" && slug.current == $slug][0]{\n    ...,\n    \"slug\": slug.current,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n\n  }\n  ": QuerySlugPageDataResult;
-    "\n  *[_type == \"page\" && defined(slug.current)].slug.current\n": QuerySlugPagePathsResult;
-    "\n  *[_type == \"blogIndex\"][0]{\n    ...,\n    _id,\n    _type,\n    title,\n    description,\n    \"displayFeaturedBlogs\" : displayFeaturedBlogs == \"yes\",\n    \"featuredBlogsCount\" : featuredBlogsCount,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n,\n    \"slug\": slug.current,\n    \"blogs\": *[_type == \"blog\" && (seoHideFromLists != true)] | order(orderRank asc){\n      \n  _type,\n  _id,\n  title,\n  description,\n  \"slug\":slug.current,\n  orderRank,\n  \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n  publishedAt,\n  \n  authors[0]->{\n    _id,\n    name,\n    position,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n\n  }\n\n\n    }\n  }\n": QueryBlogIndexPageDataResult;
-    "\n  *[_type == \"blog\" && slug.current == $slug][0]{\n    ...,\n    \"slug\": slug.current,\n    \n  authors[0]->{\n    _id,\n    name,\n    position,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n\n  }\n,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n\n  }\n": QueryBlogSlugPageDataResult;
-    "\n  *[_type == \"blog\" && defined(slug.current)].slug.current\n": QueryBlogPathsResult;
+    "*[_type == \"homePage\" && language == $locale][0]{\n    ...,\n    _id,\n    _type,\n    language,\n    \"slug\": slug.current,\n    title,\n    description,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n,\n    \n  \"_translations\": *[\n    _type == \"translation.metadata\" && references(^._id)\n  ][0].translations[].value->{\n    _id,\n    _type,\n    language,\n    \"slug\": slug.current,\n    title\n  }\n\n  }": QueryHomePageDataResult;
+    "\n  *[_type == \"page\" && slug.current == $slug && language == $locale][0]{\n    ...,\n    \"slug\": slug.current,\n    language,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n,\n    \n  \"_translations\": *[\n    _type == \"translation.metadata\" && references(^._id)\n  ][0].translations[].value->{\n    _id,\n    _type,\n    language,\n    \"slug\": slug.current,\n    title\n  }\n\n  }\n  ": QuerySlugPageDataResult;
+    "\n  *[_type == \"page\" && defined(slug.current) && language == $locale]{\n    \"slug\": slug.current,\n    language\n  }\n": QuerySlugPagePathsResult;
+    "\n  *[_type == \"blogIndex\" && language == $locale][0]{\n    ...,\n    _id,\n    _type,\n    language,\n    title,\n    description,\n    \"displayFeaturedBlogs\" : displayFeaturedBlogs == \"yes\",\n    \"featuredBlogsCount\" : featuredBlogsCount,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n,\n    \"slug\": slug.current,\n    \n  \"_translations\": *[\n    _type == \"translation.metadata\" && references(^._id)\n  ][0].translations[].value->{\n    _id,\n    _type,\n    language,\n    \"slug\": slug.current,\n    title\n  }\n,\n    \"blogs\": *[_type == \"blog\" && language == $locale && (seoHideFromLists != true)] | order(orderRank asc){\n      \n  _type,\n  _id,\n  title,\n  description,\n  \"slug\":slug.current,\n  orderRank,\n  \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n  publishedAt,\n  \n  authors[0]->{\n    _id,\n    name,\n    position,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n\n  }\n\n\n    }\n  }\n": QueryBlogIndexPageDataResult;
+    "\n  *[_type == \"blog\" && slug.current == $slug && language == $locale][0]{\n    ...,\n    \"slug\": slug.current,\n    language,\n    \n  authors[0]->{\n    _id,\n    name,\n    position,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n\n  }\n,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  pageBuilder[]{\n    ...,\n    _type,\n    \n  _type == \"cta\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n,\n    \n  _type == \"hero\" => {\n    ...,\n    \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  }\n,\n    \n  _type == \"faqAccordion\" => {\n    ...,\n    \n  \"faqs\": array::compact(faqs[]->{\n    title,\n    _id,\n    _type,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n\n  })\n,\n    link{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      )\n    }\n  }\n,\n    \n  _type == \"featureCardsIcon\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    })\n  }\n,\n    \n  _type == \"subscribeNewsletter\" => {\n    ...,\n    \"subTitle\": subTitle[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    \"helperText\": helperText[]{\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    }\n  }\n,\n    \n  _type == \"imageLinkCards\" => {\n    ...,\n    \n  richText[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  }\n,\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n    \"cards\": array::compact(cards[]{\n      ...,\n      \"openInNewTab\": url.openInNewTab,\n      \"href\": select(\n        url.type == \"internal\" => url.internal->slug.current,\n        url.type == \"external\" => url.external,\n        url.href\n      ),\n      \n  image {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  }\n,\n    })\n  }\n\n  }\n,\n    \n  \"_translations\": *[\n    _type == \"translation.metadata\" && references(^._id)\n  ][0].translations[].value->{\n    _id,\n    _type,\n    language,\n    \"slug\": slug.current,\n    title\n  }\n\n  }\n": QueryBlogSlugPageDataResult;
+    "\n  *[_type == \"blog\" && defined(slug.current) && language == $locale]{\n    \"slug\": slug.current,\n    language\n  }\n": QueryBlogPathsResult;
     "\n  *[_type == \"homePage\" && _id == $id][0]{\n    \n  _id,\n  _type,\n  \"title\": select(\n    defined(ogTitle) => ogTitle,\n    defined(seoTitle) => seoTitle,\n    title\n  ),\n  \"description\": select(\n    defined(ogDescription) => ogDescription,\n    defined(seoDescription) => seoDescription,\n    description\n  ),\n  \"image\": image.asset->url + \"?w=566&h=566&dpr=2&fit=max\",\n  \"dominantColor\": image.asset->metadata.palette.dominant.background,\n  \"seoImage\": seoImage.asset->url + \"?w=1200&h=630&dpr=2&fit=max\", \n  \"logo\": *[_type == \"settings\"][0].logo.asset->url + \"?w=80&h=40&dpr=3&fit=max&q=100\",\n  \"date\": coalesce(date, _createdAt)\n\n  }\n  ": QueryHomePageOGDataResult;
     "\n  *[_type == \"page\" && _id == $id][0]{\n    \n  _id,\n  _type,\n  \"title\": select(\n    defined(ogTitle) => ogTitle,\n    defined(seoTitle) => seoTitle,\n    title\n  ),\n  \"description\": select(\n    defined(ogDescription) => ogDescription,\n    defined(seoDescription) => seoDescription,\n    description\n  ),\n  \"image\": image.asset->url + \"?w=566&h=566&dpr=2&fit=max\",\n  \"dominantColor\": image.asset->metadata.palette.dominant.background,\n  \"seoImage\": seoImage.asset->url + \"?w=1200&h=630&dpr=2&fit=max\", \n  \"logo\": *[_type == \"settings\"][0].logo.asset->url + \"?w=80&h=40&dpr=3&fit=max&q=100\",\n  \"date\": coalesce(date, _createdAt)\n\n  }\n": QuerySlugPageOGDataResult;
     "\n  *[_type == \"blog\" && _id == $id][0]{\n    \n  _id,\n  _type,\n  \"title\": select(\n    defined(ogTitle) => ogTitle,\n    defined(seoTitle) => seoTitle,\n    title\n  ),\n  \"description\": select(\n    defined(ogDescription) => ogDescription,\n    defined(seoDescription) => seoDescription,\n    description\n  ),\n  \"image\": image.asset->url + \"?w=566&h=566&dpr=2&fit=max\",\n  \"dominantColor\": image.asset->metadata.palette.dominant.background,\n  \"seoImage\": seoImage.asset->url + \"?w=1200&h=630&dpr=2&fit=max\", \n  \"logo\": *[_type == \"settings\"][0].logo.asset->url + \"?w=80&h=40&dpr=3&fit=max&q=100\",\n  \"date\": coalesce(date, _createdAt)\n\n  }\n": QueryBlogPageOGDataResult;
     "\n  *[ defined(slug.current) && _id == $id][0]{\n    \n  _id,\n  _type,\n  \"title\": select(\n    defined(ogTitle) => ogTitle,\n    defined(seoTitle) => seoTitle,\n    title\n  ),\n  \"description\": select(\n    defined(ogDescription) => ogDescription,\n    defined(seoDescription) => seoDescription,\n    description\n  ),\n  \"image\": image.asset->url + \"?w=566&h=566&dpr=2&fit=max\",\n  \"dominantColor\": image.asset->metadata.palette.dominant.background,\n  \"seoImage\": seoImage.asset->url + \"?w=1200&h=630&dpr=2&fit=max\", \n  \"logo\": *[_type == \"settings\"][0].logo.asset->url + \"?w=80&h=40&dpr=3&fit=max&q=100\",\n  \"date\": coalesce(date, _createdAt)\n\n  }\n": QueryGenericPageOGDataResult;
     "\n  *[_type == \"footer\" && _id == \"footer\"][0]{\n    _id,\n    subtitle,\n    columns[]{\n      _key,\n      title,\n      links[]{\n        _key,\n        name,\n        \"openInNewTab\": url.openInNewTab,\n        \"href\": select(\n          url.type == \"internal\" => url.internal->slug.current,\n          url.type == \"external\" => url.external,\n          url.href\n        ),\n      }\n    }\n  }\n": QueryFooterDataResult;
-    "\n  *[_type == \"navbar\" && _id == \"navbar\"][0]{\n    _id,\n    columns[]{\n      _key,\n      _type == \"navbarColumn\" => {\n        \"type\": \"column\",\n        title,\n        links[]{\n          _key,\n          name,\n          icon,\n          description,\n          \"openInNewTab\": url.openInNewTab,\n          \"href\": select(\n            url.type == \"internal\" => url.internal->slug.current,\n            url.type == \"external\" => url.external,\n            url.href\n          )\n        }\n      },\n      _type == \"navbarLink\" => {\n        \"type\": \"link\",\n        name,\n        description,\n        \"openInNewTab\": url.openInNewTab,\n        \"href\": select(\n          url.type == \"internal\" => url.internal->slug.current,\n          url.type == \"external\" => url.external,\n          url.href\n        )\n      }\n    },\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n": QueryNavbarDataResult;
-    "{\n  \"slugPages\": *[_type == \"page\" && defined(slug.current)]{\n    \"slug\": slug.current,\n    \"lastModified\": _updatedAt\n  },\n  \"blogPages\": *[_type == \"blog\" && defined(slug.current)]{\n    \"slug\": slug.current,\n    \"lastModified\": _updatedAt\n  }\n}": QuerySitemapDataResult;
+    "\n  *[_type == \"navbar\" && _id == \"navbar\" && language == $locale][0]{\n    _id,\n    language,\n    columns[]{\n      _key,\n      _type == \"navbarColumn\" => {\n        \"type\": \"column\",\n        title,\n        links[]{\n          _key,\n          name,\n          icon,\n          description,\n          \"openInNewTab\": url.openInNewTab,\n          \"href\": select(\n            url.type == \"internal\" => url.internal->slug.current,\n            url.type == \"external\" => url.external,\n            url.href\n          )\n        }\n      },\n      _type == \"navbarLink\" => {\n        \"type\": \"link\",\n        name,\n        description,\n        \"openInNewTab\": url.openInNewTab,\n        \"href\": select(\n          url.type == \"internal\" => url.internal->slug.current,\n          url.type == \"external\" => url.external,\n          url.href\n        )\n      }\n    },\n    \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \"openInNewTab\": url.openInNewTab,\n    \"href\": select(\n      url.type == \"internal\" => url.internal->slug.current,\n      url.type == \"external\" => url.external,\n      url.href\n    ),\n  }\n,\n  }\n": QueryNavbarDataResult;
+    "{\n  \"slugPages\": *[_type == \"page\" && defined(slug.current)]{\n    \"slug\": slug.current,\n    language,\n    \"lastModified\": _updatedAt\n  },\n  \"blogPages\": *[_type == \"blog\" && defined(slug.current)]{\n    \"slug\": slug.current,\n    language,\n    \"lastModified\": _updatedAt\n  }\n}": QuerySitemapDataResult;
     "\n  *[_type == \"settings\"][0]{\n    _id,\n    _type,\n    siteTitle,\n    logo {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n    },\n    siteDescription,\n    socialLinks{\n      linkedin,\n      facebook,\n      twitter,\n      instagram,\n      youtube\n    }\n  }\n": QueryGlobalSeoSettingsResult;
     "\n  *[_type == \"settings\"][0]{\n    _id,\n    _type,\n    siteTitle,\n    siteDescription,\n    \"logo\": logo.asset->url + \"?w=80&h=40&dpr=3&fit=max\",\n    \"socialLinks\": socialLinks,\n    \"contactEmail\": contactEmail,\n  }\n": QuerySettingsDataResult;
     "\n  *[_type == \"redirect\" && status == \"active\" && defined(source.current) && defined(destination.current)]{\n    \"source\":source.current, \n    \"destination\":destination.current, \n    \"permanent\" : permanent == \"true\"\n  }\n": QueryRedirectsResult;

@@ -1,6 +1,8 @@
 import { CogIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
+import { languageField } from "../common";
+
 const socialLinks = defineField({
   name: "socialLinks",
   title: "Social Media Links",
@@ -47,6 +49,7 @@ export const settings = defineType({
   description: "Global settings and configuration for your website",
   icon: CogIcon,
   fields: [
+    languageField,
     defineField({
       name: "label",
       type: "string",

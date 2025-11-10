@@ -14,6 +14,7 @@ import type {
 
 import { SanityButtons } from "./elements/sanity-buttons";
 import { SanityIcon } from "./elements/sanity-icon";
+import { LanguageSwitcher } from "./language-switcher";
 import { Logo } from "./logo";
 import { ModeToggle } from "./mode-toggle";
 
@@ -247,7 +248,8 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
 
               {/* Action buttons */}
               <div className="grid gap-3 border-t pt-4">
-                <div className="flex justify-center">
+                <div className="flex justify-center gap-3">
+                  <LanguageSwitcher />
                   <ModeToggle />
                 </div>
                 <SanityButtons
@@ -369,6 +371,7 @@ export function Navbar({
 
           {/* Desktop Actions */}
           <div className="hidden items-center gap-4 md:flex">
+            <LanguageSwitcher />
             <ModeToggle />
             <SanityButtons
               buttonClassName="rounded-lg"

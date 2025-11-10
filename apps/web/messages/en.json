@@ -4,17 +4,40 @@
     "backToHome": "Back to home",
     "loading": "Loading...",
     "error": "An error occurred",
-    "notFound": "Not found"
+    "notFound": "Not found",
+    "switchLanguage": "Switch language",
+    "pageContent": "Page content",
+    "blogPostImage": "Blog post image",
+    "authorImage": "Author image"
   },
   "navigation": {
     "home": "Home",
     "about": "About",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu",
+    "closeMenu": "Close menu"
   },
   "errors": {
     "pageNotFound": "Page not found",
     "somethingWentWrong": "Something went wrong",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "pageDoesNotExist": "The page you are looking for does not exist.",
+    "returnHome": "Return Home",
+    "failedToFetch": "Failed to fetch data"
+  },
+  "newsletter": {
+    "subscribe": "Subscribe to newsletter",
+    "subscribing": "Subscribing...",
+    "emailPlaceholder": "Enter your email address",
+    "emailRequired": "Email is required",
+    "thankYou": "Thank you for subscribing!"
+  },
+  "social": {
+    "followInstagram": "Follow us on Instagram",
+    "followFacebook": "Follow us on Facebook",
+    "followTwitter": "Follow us on Twitter",
+    "followLinkedIn": "Follow us on LinkedIn",
+    "subscribeYouTube": "Subscribe to our YouTube channel"
   }
 }
