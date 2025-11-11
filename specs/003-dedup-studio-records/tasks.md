@@ -45,12 +45,12 @@ This is a TurboRepo monorepo with apps/studio workspace:
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete. This establishes the shared configuration foundation that all user stories depend on.
 
-- [ ] T009 Update apps/web/src/i18n/routing.ts to import LOCALES and DEFAULT_LOCALE from @workspace/i18n-config
-- [ ] T010 Update apps/studio/sanity.config.ts to import SANITY_LANGUAGES from @workspace/i18n-config for documentInternationalization plugin
-- [ ] T011 [P] Create language filter utilities at apps/studio/components/language-filter.ts with fetchDocumentsByLanguage function and types
-- [ ] T012 Run pnpm --filter web typecheck to verify web app compiles
-- [ ] T013 Run pnpm --filter studio type to verify studio compiles and regenerate types
-- [ ] T014 Run pnpm build to verify all packages build successfully
+- [X] T009 Update apps/web/src/i18n/routing.ts to import LOCALES and DEFAULT_LOCALE from @workspace/i18n-config
+- [X] T010 Update apps/studio/sanity.config.ts to import SANITY_LANGUAGES from @workspace/i18n-config for documentInternationalization plugin
+- [X] T011 [P] Create language filter utilities at apps/studio/components/language-filter.ts with fetchDocumentsByLanguage function and types
+- [X] T012 Run pnpm --filter web typecheck to verify web app compiles
+- [X] T013 Run pnpm --filter studio type to verify studio compiles and regenerate types
+- [X] T014 Run pnpm build to verify all packages build successfully
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
