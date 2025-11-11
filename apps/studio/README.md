@@ -186,57 +186,68 @@ To make a new document type translatable:
    pnpm type
    ```
 
-## Migration: Adding Language to Existing Content
+## Migrations
 
-If you have existing content without language fields:
+### Adding Language Field to Existing Content
 
-### Option 1: Use Migration Script (Recommended)
+If you have existing content without language fields, use the Sanity migration system:
+
+#### Step 1: List Available Migrations
 
 ```bash
-# Run the migration script
-npx tsx scripts/add-language-field.ts
+sanity migration list
 ```
 
-This script:
-- Finds all documents without a `language` field
-- Sets `language: 'fr'` (default)
-- Commits changes in a transaction
+#### Step 2: Preview Changes (Dry Run)
 
-### Option 2: Manual Migration
+```bash
+sanity migration run add-language-field
+```
+
+This will show what changes will be made **without applying them**.
+
+#### Step 3: Apply Migration
+
+Once you're satisfied with the preview:
+
+```bash
+sanity migration run add-language-field --no-dry-run
+```
+
+This migration:
+- Finds all translatable documents without a `language` field
+- Sets `language: 'fr'` (default) on each document
+- Uses Sanity transactions for safe batch updates
+
+#### Migration Files
+
+Migrations are stored in `migrations/` directory:
+- `migrations/add-language-field/` - Adds language field to existing documents  
+- `migrations/create-english-version/` - Creates English duplicates of French documents
+
+#### Creating Custom Migrations
+
+To create a new migration:
+
+```bash
+sanity migration create
+```
+
+Follow the prompts to:
+1. Enter a human-friendly title
+2. Select document types to target
+3. Choose a template to start from
+
+See [Sanity Migration Documentation](https://www.sanity.io/docs/content-lake/schema-and-content-migrations) for more details.
+
+#### Manual Alternative
+
+For small datasets, you can manually add language fields:
 
 1. Open each document in Studio
 2. The plugin will prompt to set a language
 3. Select the appropriate language
 4. Save and publish
-
-### Migration Script Template
-
-```typescript
-// scripts/add-language-field.ts
-import {getCliClient} from 'sanity/cli';
-
-const client = getCliClient();
-
-async function addLanguageField() {
-  const types = ['page', 'blog', 'navbar', 'footer', 'settings'];
-  
-  const docs = await client.fetch(
-    `*[_type in $types && !defined(language)]`,
-    {types}
-  );
-
-  console.log(`Found ${docs.length} documents without language field`);
-
-  const transaction = docs.reduce((tx, doc) => {
-    return tx.patch(doc._id, {set: {language: 'fr'}});
-  }, client.transaction());
-
-  await transaction.commit();
-  console.log('✅ Language field added to all documents');
-}
-
-addLanguageField();
-```
 
 ## Best Practices
 
