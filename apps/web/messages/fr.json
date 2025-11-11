@@ -8,7 +8,26 @@
     "switchLanguage": "Changer de langue",
     "pageContent": "Contenu de la page",
     "blogPostImage": "Image de l'article",
-    "authorImage": "Photo de l'auteur"
+    "authorImage": "Photo de l'auteur",
+    "learnMore": "En savoir plus",
+    "viewAll": "Voir tout",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "close": "Fermer",
+    "open": "Ouvrir",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "update": "Mettre à jour",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non"
   },
   "navigation": {
     "home": "Accueil",
@@ -16,7 +35,9 @@
     "blog": "Blogue",
     "contact": "Contact",
     "menu": "Menu",
-    "closeMenu": "Fermer le menu"
+    "closeMenu": "Fermer le menu",
+    "skipToContent": "Aller au contenu principal",
+    "navigateTo": "Naviguer vers {page}"
   },
   "errors": {
     "pageNotFound": "Page non trouvée",
@@ -24,14 +45,18 @@
     "tryAgain": "Réessayer",
     "pageDoesNotExist": "La page que vous recherchez n'existe pas.",
     "returnHome": "Retour à l'accueil",
-    "failedToFetch": "Échec de la récupération des données"
+    "failedToFetch": "Échec de la récupération des données",
+    "unknownError": "Erreur inconnue",
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion."
   },
   "newsletter": {
     "subscribe": "S'abonner à l'infolettre",
     "subscribing": "Abonnement en cours...",
     "emailPlaceholder": "Entrez votre adresse courriel",
     "emailRequired": "L'adresse courriel est requise",
-    "thankYou": "Merci de vous être abonné!"
+    "thankYou": "Merci de vous être abonné!",
+    "invalidEmail": "Veuillez entrer une adresse courriel valide",
+    "subscriptionFailed": "L'abonnement a échoué. Veuillez réessayer."
   },
   "social": {
     "followInstagram": "Suivez-nous sur Instagram",
@@ -39,5 +64,54 @@
     "followTwitter": "Suivez-nous sur Twitter",
     "followLinkedIn": "Suivez-nous sur LinkedIn",
     "subscribeYouTube": "Abonnez-vous à notre chaîne YouTube"
+  },
+  "theme": {
+    "toggleTheme": "Basculer le thème",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système",
+    "changeTheme": "Changer le thème"
+  },
+  "preview": {
+    "viewingPreviewMode": "Affichage du site web en mode aperçu.",
+    "disablingDraftMode": "Désactivation du mode brouillon...",
+    "exit": "Quitter",
+    "draftMode": "Mode brouillon"
+  },
+  "blog": {
+    "noBlogPosts": "Aucun article de blogue disponible pour le moment.",
+    "publishedOn": "Publié le",
+    "by": "par",
+    "readTime": "min de lecture",
+    "author": "Auteur",
+    "category": "Catégorie",
+    "tags": "Étiquettes",
+    "relatedPosts": "Articles connexes",
+    "latestPosts": "Derniers articles",
+    "allPosts": "Tous les articles",
+    "backToBlog": "Retour au blogue"
+  },
+  "accessibility": {
+    "logoAlt": "Logo",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "externalLink": "Lien externe",
+    "opensInNewWindow": "S'ouvre dans une nouvelle fenêtre",
+    "currentPage": "Page actuelle",
+    "pageOf": "Page {current} sur {total}"
+  },
+  "time": {
+    "justNow": "À l'instant",
+    "minutesAgo": "Il y a {count} minutes",
+    "hoursAgo": "Il y a {count} heures",
+    "daysAgo": "Il y a {count} jours",
+    "weeksAgo": "Il y a {count} semaines",
+    "monthsAgo": "Il y a {count} mois",
+    "yearsAgo": "Il y a {count} ans"
+  },
+  "seo": {
+    "defaultTitle": "Accueil",
+    "defaultDescription": "Bienvenue sur notre site web",
+    "notFoundTitle": "Page non trouvée"
   }
 }

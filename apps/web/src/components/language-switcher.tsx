@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { LOCALES, type Locale, getLocaleName } from "@/i18n/routing";
+import { analytics } from "@/lib/analytics";
 import { useLocale } from "next-intl";
 import { useTransition } from "react";
 import { Button } from "@workspace/ui/components/button";
@@ -50,6 +51,13 @@ export function LanguageSwitcher() {
    */
   const handleLocaleChange = (newLocale: Locale) => {
     if (newLocale === currentLocale) return;
+
+    // Track language switch event
+    analytics.trackLanguageSwitch({
+      from: currentLocale,
+      to: newLocale,
+      pathname,
+    });
 
     startTransition(() => {
       router.replace(pathname, { locale: newLocale });

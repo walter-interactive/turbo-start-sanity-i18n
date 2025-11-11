@@ -1,4 +1,5 @@
 import { defineRouting } from "next-intl/routing";
+import { logger } from "@/lib/logger";
 
 /**
  * List of all supported locales
@@ -75,6 +76,16 @@ export function getValidLocale(locale: string | undefined): Locale {
   if (locale && isValidLocale(locale)) {
     return locale;
   }
+
+  // Log when falling back to default locale
+  if (locale) {
+    logger.warn("Invalid locale detected, falling back to default", {
+      requested: locale,
+      fallback: DEFAULT_LOCALE,
+      validLocales: LOCALES.join(", "),
+    });
+  }
+
   return DEFAULT_LOCALE;
 }
 
