@@ -2,7 +2,7 @@
 
 A modern, full-stack monorepo template built with Next.js App Router, Sanity CMS, Shadcn UI, and TurboRepo with comprehensive multi-language support.
 
-![Easiest way to build a webpage](https://raw.githubusercontent.com/robotostudio/turbo-start-sanity/main/turbo-start-sanity-og.png)
+![Next.js Monorepo with Sanity CMS + i18n](https://raw.githubusercontent.com/walter-interactive/turbo-start-sanity-i18n/main/turbo-start-sanity-og.png)
 
 ## Features
 
@@ -48,7 +48,7 @@ Run the command in your Terminal to initialize this template on your local compu
 See the documentation if you are [having issues with the CLI](https://www.sanity.io/help/cli-errors).
 
 ```shell
-npm create sanity@latest -- --template robotostudio/turbo-start-sanity
+npm create sanity@latest -- --template walter-interactive/turbo-start-sanity-i18n
 ```
 
 #### 2. Run Studio and Next.js app locally
@@ -136,9 +136,9 @@ Both language versions can be edited and published separately without affecting 
 
 Your Next.js frontend (`/web`) and Sanity Studio (`/studio`) are still only running on your local computer. It's time to deploy and get it into the hands of other content editors.
 
-> **⚠️ Important**: When initializing the template with the Sanity CLI, the `.github` folder may not be included or might be renamed to `github` (without the dot). If you don't see a `.github` folder in your project root, you'll need to manually create it and copy the GitHub Actions workflows from the [template repository](https://github.com/robotostudio/turbo-start-sanity/tree/main/.github) for the deployment automation to work.
+> **⚠️ Important**: When initializing the template with the Sanity CLI, the `.github` folder may not be included or might be renamed to `github` (without the dot). If you don't see a `.github` folder in your project root, you'll need to manually create it and copy the GitHub Actions workflows from the [template repository](https://github.com/walter-interactive/turbo-start-sanity-i18n/tree/main/.github) for the deployment automation to work.
 
-The template includes a GitHub Actions workflow [`deploy-sanity.yml`](https://raw.githubusercontent.com/robotostudio/turbo-start-sanity/main/.github/workflows/deploy-sanity.yml) that automatically deploys your Sanity Studio whenever changes are pushed to the `studio` directory.
+The template includes a GitHub Actions workflow [`deploy-sanity.yml`](https://raw.githubusercontent.com/walter-interactive/turbo-start-sanity-i18n/main/.github/workflows/deploy-sanity.yml) that automatically deploys your Sanity Studio whenever changes are pushed to the `studio` directory.
 
 > **Note**: To use the GitHub Actions workflow, make sure to configure the following secrets in your repository settings:
 >
