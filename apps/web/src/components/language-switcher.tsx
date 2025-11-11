@@ -1,10 +1,5 @@
 "use client";
 
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { LOCALES, type Locale, getLocaleName } from "@/i18n/routing";
-import { analytics } from "@/lib/analytics";
-import { useLocale } from "next-intl";
-import { useTransition } from "react";
 import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
@@ -13,6 +8,11 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
 import { Languages } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useTransition } from "react";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { getLocaleName, LOCALES, type Locale } from "@/i18n/routing";
+import { analytics } from "@/lib/analytics";
 
 /**
  * Language switcher component
@@ -68,10 +68,10 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
-          size="icon"
-          disabled={isPending}
           aria-label="Switch language"
+          disabled={isPending}
+          size="icon"
+          variant="outline"
         >
           <Languages className="size-4" />
           <span className="sr-only">Switch language</span>
@@ -83,14 +83,14 @@ export function LanguageSwitcher() {
 
           return (
             <DropdownMenuItem
+              className="cursor-pointer"
+              disabled={isActive || isPending}
               key={locale}
               onClick={() => handleLocaleChange(locale)}
-              disabled={isActive || isPending}
-              className="cursor-pointer"
             >
               <span className="flex items-center gap-2">
                 <span
-                  className="text-xs uppercase text-muted-foreground"
+                  className="text-muted-foreground text-xs uppercase"
                   lang={locale}
                 >
                   {locale}
@@ -99,7 +99,7 @@ export function LanguageSwitcher() {
                   {getLocaleName({ locale, native: true })}
                 </span>
                 {isActive && (
-                  <span className="ms-auto text-xs text-muted-foreground">
+                  <span className="ms-auto text-muted-foreground text-xs">
                     ✓
                   </span>
                 )}

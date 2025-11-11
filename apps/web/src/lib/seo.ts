@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import type { Locale } from "@/i18n/routing";
-import { LOCALES, DEFAULT_LOCALE } from "@/i18n/routing";
+import { DEFAULT_LOCALE, LOCALES } from "@/i18n/routing";
 import type { Maybe } from "@/types";
 import { capitalize, getBaseUrl } from "@/utils";
 

@@ -106,35 +106,35 @@ This is a monorepo project. All paths are relative to repository root:
 
 ### Build & Type Safety Verification
 
-- [ ] T025 Run `pnpm check-types` from repository root and verify TypeScript compilation succeeds (exit code 0)
-- [ ] T026 Run `pnpm lint` from repository root and verify all linting passes (exit code 0)
-- [ ] T027 Run `pnpm format` from repository root to auto-fix any formatting issues
-- [ ] T028 Run `pnpm build` from repository root and verify all workspaces (web, studio, ui) build successfully
+- [x] T025 Run `pnpm check-types` from repository root and verify TypeScript compilation succeeds (exit code 0)
+- [x] T026 Run `pnpm lint` from repository root and verify all linting passes (exit code 0)
+- [x] T027 Run `pnpm format` from repository root to auto-fix any formatting issues
+- [x] T028 Run `pnpm build` from repository root and verify all workspaces (web, studio, ui) build successfully
 
 ### Integration Testing
 
-- [ ] T029 Run `pnpm dev` and verify development servers start without errors
-- [ ] T030 Open `http://localhost:3000` in browser and verify page title shows "Next.js Sanity i18n Starter" (from SEO config)
-- [ ] T031 Check page source at `http://localhost:3000` for meta tags and verify description matches new SEO config
-- [ ] T032 Open `http://localhost:3333` (Sanity Studio) and verify it loads without errors
+- [x] T029 Run `pnpm dev` and verify development servers start without errors
+- [x] T030 Open `http://localhost:3000` in browser and verify page title shows "Next.js Sanity i18n Starter" (from SEO config)
+- [x] T031 Check page source at `http://localhost:3000` for meta tags and verify description matches new SEO config
+- [x] T032 Open `http://localhost:3333` (Sanity Studio) and verify it loads without errors
 
 ### Final Success Criteria Verification
 
-- [ ] T033 Verify **SC-001**: Repository search for "roboto"/"robotostudio" returns results only in `/README.md` Credits section
-- [ ] T034 Verify **SC-002**: All documentation files reference Walter Interactive as owner within first 3 paragraphs
-- [ ] T035 Verify **SC-003**: `/README.md` contains Credits section with link to robotostudio/turbo-start-sanity
-- [ ] T036 Verify **SC-004**: All package.json files contain Walter Interactive info (0% reference Roboto Studio) - already verified as clean
-- [ ] T037 Verify **SC-005**: Existing test suite (if any) passes with 100% success rate
-- [ ] T038 Verify **SC-006**: Build process completes successfully for all packages (web, studio, ui)
-- [ ] T039 Verify **SC-007**: No Roboto Studio branding in markdown headings/titles (excluding Credits)
-- [ ] T040 Verify **SC-008**: All documentation links point to walter-interactive repository (except Credits attribution)
+- [x] T033 Verify **SC-001**: Repository search for "roboto"/"robotostudio" returns results only in `/README.md` Credits section
+- [x] T034 Verify **SC-002**: All documentation files reference Walter Interactive as owner within first 3 paragraphs
+- [x] T035 Verify **SC-003**: `/README.md` contains Credits section with link to robotostudio/turbo-start-sanity
+- [x] T036 Verify **SC-004**: All package.json files contain Walter Interactive info (0% reference Roboto Studio) - already verified as clean
+- [x] T037 Verify **SC-005**: Existing test suite (if any) passes with 100% success rate
+- [x] T038 Verify **SC-006**: Build process completes successfully for all packages (web, studio, ui)
+- [x] T039 Verify **SC-007**: No Roboto Studio branding in markdown headings/titles (excluding Credits)
+- [x] T040 Verify **SC-008**: All documentation links point to walter-interactive repository (except Credits attribution)
 
 ### Manual Quality Review
 
-- [ ] T041 Review all changed files (`git diff`) for accuracy, consistency, and correct replacement values
-- [ ] T042 Verify no broken links in documentation files
-- [ ] T043 Confirm all changes align with `quickstart.md` implementation guide
-- [ ] T044 Run final repository-wide search: `rg -i "roboto" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode' | grep -v "README.md.*Credits"` and verify no unexpected results
+- [x] T041 Review all changed files (`git diff`) for accuracy, consistency, and correct replacement values
+- [x] T042 Verify no broken links in documentation files
+- [x] T043 Confirm all changes align with `quickstart.md` implementation guide
+- [x] T044 Run final repository-wide search: `rg -i "roboto" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode' | grep -v "README.md.*Credits"` and verify no unexpected results
 
 **Checkpoint**: All quality gates passed. Feature is ready for commit and PR.
 

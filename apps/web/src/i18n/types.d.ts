@@ -61,7 +61,7 @@
  * @see https://next-intl.dev/docs/workflows/typescript
  */
 
-import en from '../../messages/en.json';
+import en from "../../messages/en.json" with { type: "json" };
 
 type Messages = typeof en;
 

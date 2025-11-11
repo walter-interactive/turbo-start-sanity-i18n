@@ -1,9 +1,9 @@
 import { setRequestLocale } from "next-intl/server";
 import { PageBuilder } from "@/components/pagebuilder";
+import type { Locale } from "@/i18n/routing";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryHomePageData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
-import { Locale } from "@/i18n/routing";
 
 async function fetchHomePageData(locale: Locale) {
   return await sanityFetch({
