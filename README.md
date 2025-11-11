@@ -178,3 +178,11 @@ You have the freedom to deploy your Next.js app to your hosting provider of choi
 Now that you've deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
 
 They will be able to access the deployed Studio, where you can collaborate together on creating content.
+
+## Credits
+
+This template is built upon the excellent work by [Roboto Studio](https://github.com/robotostudio) and their [turbo-start-sanity](https://github.com/robotostudio/turbo-start-sanity) template. We've extended it with comprehensive multi-language support (French/English) using next-intl and Sanity's document internationalization plugin.
+
+**Original Template**: [robotostudio/turbo-start-sanity](https://github.com/robotostudio/turbo-start-sanity)
+
+Thank you to the Roboto Studio team for creating such a solid foundation for Next.js + Sanity projects!
