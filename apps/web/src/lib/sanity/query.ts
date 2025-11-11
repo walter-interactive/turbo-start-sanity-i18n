@@ -334,7 +334,7 @@ export const queryFooterData = defineQuery(`
 `);
 
 export const queryNavbarData = defineQuery(`
-  *[_type == "navbar" && _id == "navbar" && language == $locale][0]{
+  *[_type == "navbar" && language == $locale][0]{
     _id,
     language,
     columns[]{
