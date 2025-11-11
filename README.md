@@ -1,6 +1,6 @@
 # Next.js Monorepo with Sanity CMS
 
-A modern, full-stack monorepo template built with Next.js App Router, Sanity CMS, Shadcn UI, and TurboRepo.
+A modern, full-stack monorepo template built with Next.js App Router, Sanity CMS, Shadcn UI, and TurboRepo with comprehensive multi-language support.
 
 ![Easiest way to build a webpage](https://raw.githubusercontent.com/robotostudio/turbo-start-sanity/main/turbo-start-sanity-og.png)
 
@@ -21,6 +21,9 @@ A modern, full-stack monorepo template built with Next.js App Router, Sanity CMS
 - Blog system with rich text editor
 - Table of contents generation
 - Responsive layouts
+- **Multi-language support with next-intl (French/English)**
+- **Locale-aware routing and navigation**
+- **Automatic language detection and preference persistence**
 
 ### Content Management (Studio)
 
@@ -30,6 +33,9 @@ A modern, full-stack monorepo template built with Next.js App Router, Sanity CMS
 - Structured content with schemas
 - Live preview capabilities
 - Asset management
+- **Document-level internationalization plugin**
+- **Translation workflow with language badges**
+- **Independent publishing per language**
 
 ## Getting Started
 
@@ -87,6 +93,42 @@ This command imports seed content into your Sanity dataset.
 #### 4. Extending the Sanity schema
 
 The schemas for all document types are defined in the `studio/schemaTypes/documents` directory. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
+
+## Multi-Language Support
+
+This template includes comprehensive internationalization (i18n) support out of the box.
+
+### Supported Languages
+
+- **French (fr)** - Default language (Quebec compliance)
+- **English (en)** - Secondary language
+
+### Features
+
+- **Subdirectory routing**: `/fr/` for French, `/en/` for English
+- **Automatic locale detection**: From URL, cookie, or browser preference
+- **Language switcher**: Built-in component in navigation bar
+- **Document-level translations**: Independent content versions per language
+- **SEO optimization**: hreflang tags, language-specific metadata, localized sitemaps
+- **Type-safe translations**: TypeScript support for translation keys
+
+### For Developers
+
+See detailed i18n implementation guides:
+- **Frontend**: [`apps/web/README.md`](apps/web/README.md)
+- **CMS**: [`apps/studio/README.md`](apps/studio/README.md)
+- **Specification**: [`specs/001-i18n-localization/`](specs/001-i18n-localization/)
+
+### For Content Editors
+
+To create translated content:
+1. Create content in French (default language)
+2. Publish the French version
+3. Click "Create translation" in the document menu
+4. Select English and translate the content
+5. Publish the English version independently
+
+Both language versions can be edited and published separately without affecting each other.
 
 ### Deploying your application and inviting editors
 
