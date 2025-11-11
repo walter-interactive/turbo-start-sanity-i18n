@@ -2,8 +2,6 @@
 
 A modern, full-stack monorepo template built with Next.js App Router, Sanity CMS, Shadcn UI, and TurboRepo with comprehensive multi-language support for bilingual applications.
 
-![Next.js Monorepo with Sanity CMS + i18n](https://raw.githubusercontent.com/walter-interactive/turbo-start-sanity-i18n/main/turbo-start-sanity-og.png)
-
 ## Features
 
 ### Monorepo Structure

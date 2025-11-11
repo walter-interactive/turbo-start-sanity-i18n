@@ -65,18 +65,18 @@ This is a monorepo project. All paths are relative to repository root:
 
 ### Implementation for User Story 2
 
-- [ ] T013 [US2] Update `title` in `/apps/web/src/lib/seo.ts` from "Roboto Studio Demo" to "Next.js Sanity i18n Starter"
-- [ ] T014 [US2] Update `description` in `/apps/web/src/lib/seo.ts` to "A modern full-stack monorepo template with Next.js, Sanity CMS, and comprehensive i18n support"
-- [ ] T015 [US2] Update `twitterHandle` in `/apps/web/src/lib/seo.ts` from "@studioroboto" to empty string ""
-- [ ] T016 [US2] Update `keywords` array in `/apps/web/src/lib/seo.ts` to ["nextjs", "sanity", "i18n", "monorepo", "typescript", "template", "react", "tailwind"]
+- [x] T013 [US2] Update `title` in `/apps/web/src/lib/seo.ts` from "Roboto Studio Demo" to "Next.js Sanity i18n Starter"
+- [x] T014 [US2] Update `description` in `/apps/web/src/lib/seo.ts` to "A modern full-stack monorepo template with Next.js, Sanity CMS, and comprehensive i18n support"
+- [x] T015 [US2] Update `twitterHandle` in `/apps/web/src/lib/seo.ts` from "@studioroboto" to empty string ""
+- [x] T016 [US2] Update `keywords` array in `/apps/web/src/lib/seo.ts` to ["nextjs", "sanity", "i18n", "monorepo", "typescript", "template", "react", "tailwind"]
 
 ### Verification for User Story 2
 
-- [ ] T017 [US2] Run `rg -i "roboto" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode'` and verify only `/README.md` Credits section appears
-- [ ] T018 [US2] Run `rg -i "robotostudio" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode'` and verify only `/README.md` Credits section appears
-- [ ] T019 [US2] Run `rg -i "studioroboto" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode'` and verify no results
-- [ ] T020 [US2] Run `rg -i "roboto" --glob "package.json" --iglob '!node_modules'` and verify no results (package.json files are clean)
-- [ ] T021 [US2] Verify `/apps/web/src/lib/seo.ts` has all updated values with correct TypeScript syntax
+- [x] T017 [US2] Run `rg -i "roboto" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode'` and verify only `/README.md` Credits section appears
+- [x] T018 [US2] Run `rg -i "robotostudio" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode'` and verify only `/README.md` Credits section appears
+- [x] T019 [US2] Run `rg -i "studioroboto" --iglob '!node_modules' --iglob '!.git' --iglob '!pnpm-lock.yaml' --iglob '!specs' --iglob '!.opencode'` and verify no results
+- [x] T020 [US2] Run `rg -i "roboto" --glob "package.json" --iglob '!node_modules'` and verify no results (package.json files are clean)
+- [x] T021 [US2] Verify `/apps/web/src/lib/seo.ts` has all updated values with correct TypeScript syntax
 
 **Checkpoint**: At this point, codebase search returns Roboto Studio references only in README.md Credits section. User Story 2 is complete and independently verifiable.
 
@@ -90,9 +90,9 @@ This is a monorepo project. All paths are relative to repository root:
 
 ### Verification for User Story 3
 
-- [ ] T022 [US3] Manually inspect `/turbo-start-sanity-og.png` for any Roboto Studio logos or watermarks (research indicates it's already neutral)
-- [ ] T023 [US3] Search for other image files: `find . -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.svg" \) -not -path "*/node_modules/*" -not -path "*/.git/*"` and review each
-- [ ] T024 [US3] Verify all images referenced in `/README.md` are either neutral or reflect Walter Interactive branding
+- [x] T022 [US3] Manually inspect `/turbo-start-sanity-og.png` for any Roboto Studio logos or watermarks (research indicates it's already neutral)
+- [x] T023 [US3] Search for other image files: `find . -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.svg" \) -not -path "*/node_modules/*" -not -path "*/.git/*"` and review each
+- [x] T024 [US3] Verify all images referenced in `/README.md` are either neutral or reflect Walter Interactive branding
 
 **Checkpoint**: At this point, all visual assets have been reviewed and confirmed to be neutral or branded appropriately. User Story 3 is complete.
 

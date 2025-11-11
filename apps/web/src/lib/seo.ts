@@ -34,10 +34,20 @@ type OgImageParams = {
 
 // Default site configuration
 const siteConfig: SiteConfig = {
-  title: "Roboto Studio Demo",
-  description: "Roboto Studio Demo",
-  twitterHandle: "@studioroboto",
-  keywords: ["roboto", "studio", "demo", "sanity", "next", "react", "template"],
+  title: "Next.js Sanity i18n Starter",
+  description:
+    "A modern full-stack monorepo template with Next.js, Sanity CMS, and comprehensive i18n support",
+  twitterHandle: "",
+  keywords: [
+    "nextjs",
+    "sanity",
+    "i18n",
+    "monorepo",
+    "typescript",
+    "template",
+    "react",
+    "tailwind",
+  ],
 };
 
 function generateOgImageUrl(params: OgImageParams = {}): string {
