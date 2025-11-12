@@ -343,3 +343,56 @@ The orphaned translation badge feature **cannot be reliably implemented** using 
    - Create separate utility script
    - Define scanning schedule
    - Update editor workflow documentation
+
+---
+
+## Resolution
+
+**Date Resolved**: 2025-11-12  
+**Decision**: Option 1 (Complete Removal) - Implemented via [Spec 004](../004-remove-orphaned-badge/spec.md)
+
+### Implementation Summary
+
+The orphaned translation badge feature has been **completely removed** from the codebase due to the 60-80% false positive rate and architectural limitations identified in this investigation.
+
+**Actions Taken**:
+1. ✅ Created dedicated feature spec: `specs/004-remove-orphaned-badge/spec.md`
+2. ✅ Removed `isOrphaned` logic from `apps/studio/schemaTypes/documents/page.ts`
+3. ✅ Removed `isOrphaned` logic from `apps/studio/schemaTypes/documents/blog.ts`
+4. ✅ Removed `isOrphaned` logic from `apps/studio/schemaTypes/documents/faq.ts`
+5. ✅ Deleted unused component: `apps/studio/components/orphaned-translation-badge.tsx`
+6. ✅ Updated FR-010 in spec 003 to note removal
+7. ✅ Documented completion notes with before/after subtitle examples
+
+### Results
+
+**Code Changes**:
+- 3 schema files cleaned of orphaned detection logic
+- 1 unused component file deleted (65 lines)
+- ~95 total lines of code removed
+- 3 `DEFAULT_LOCALE` imports cleaned up
+
+**Quality Verification**:
+- ✅ Type checking: PASSED (0 errors)
+- ✅ Build: PASSED (clean build)
+- ✅ Linting: PASSED (0 violations)
+- ✅ Dev server: PASSED (starts without errors)
+- ✅ Reference search: PASSED (0 production code references to `isOrphaned` or `OrphanedBadge`)
+
+**User Impact**:
+- ✅ 100% elimination of false positive warnings
+- ✅ ~26 character reduction in document preview subtitles
+- ✅ Cleaner, more professional document list interface
+- ✅ Consistent preview format across all languages
+
+### Future Considerations
+
+If accurate orphaned translation detection becomes a business requirement, refer to **Option 2** (Custom Sanity Plugin) or **Option 3** (Validation Tool) from this investigation. The `isDocumentOrphaned()` utility function in `apps/studio/components/language-filter.ts` demonstrates the correct async approach for future implementation.
+
+**Related Documentation**:
+- Feature Spec: [specs/004-remove-orphaned-badge/spec.md](../004-remove-orphaned-badge/spec.md)
+- Implementation Plan: [specs/004-remove-orphaned-badge/plan.md](../004-remove-orphaned-badge/plan.md)
+- Research Findings: [specs/004-remove-orphaned-badge/research.md](../004-remove-orphaned-badge/research.md)
+- Completion Notes: [specs/004-remove-orphaned-badge/completion-notes.md](../004-remove-orphaned-badge/completion-notes.md)
+
+**Status**: ✅ **RESOLVED - Feature removed per investigation recommendation**
