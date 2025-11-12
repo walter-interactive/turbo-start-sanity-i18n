@@ -1,5 +1,5 @@
-import createMiddleware from "next-intl/middleware";
 import type { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { logger } from "./lib/logger";
 
@@ -37,8 +37,7 @@ export default function middleware(request: NextRequest) {
     // Check if a redirect occurred
     if (
       response.status === 307 ||
-      (response.status === 308 &&
-        pathname !== response.headers.get("location"))
+      (response.status === 308 && pathname !== response.headers.get("location"))
     ) {
       const redirectTo = response.headers.get("location");
       logger.info("Locale redirect applied", {

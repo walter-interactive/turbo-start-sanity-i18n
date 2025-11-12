@@ -285,7 +285,7 @@ export async function CombinedJsonLd({
   return (
     <>
       {includeWebsite && cleanSettings && (
-        <WebSiteJsonLd settings={cleanSettings} locale={locale} />
+        <WebSiteJsonLd locale={locale} settings={cleanSettings} />
       )}
       {includeOrganization && cleanSettings && (
         <OrganizationJsonLd settings={cleanSettings} />

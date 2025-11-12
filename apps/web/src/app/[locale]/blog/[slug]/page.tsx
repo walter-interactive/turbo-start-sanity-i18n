@@ -1,5 +1,5 @@
-import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { RichText } from "@/components/elements/rich-text";
 import { SanityImage } from "@/components/elements/sanity-image";
 import { TableOfContent } from "@/components/elements/table-of-content";

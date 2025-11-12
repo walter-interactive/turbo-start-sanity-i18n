@@ -1,5 +1,5 @@
-import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
 import { PageBuilder } from "@/components/pagebuilder";
 import type { Locale } from "@/i18n/routing";
