@@ -1,4 +1,3 @@
-import { DEFAULT_LOCALE } from "@workspace/i18n-config";
 import { MessageCircle } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
@@ -32,18 +31,14 @@ export const faq = defineType({
   preview: {
     select: {
       title: "title",
-      language: "language",
       richText: "richText",
     },
-    prepare: ({ title, language, richText }) => {
-      const isOrphaned = language !== DEFAULT_LOCALE;
+    prepare: ({ title, richText }) => {
       const subtitle = parseRichTextToString(richText, 20);
 
       return {
         title: `❓ ${title || "Untitled Question"}`,
-        subtitle: isOrphaned
-          ? `⚠️ Orphaned translation | ${subtitle}`
-          : subtitle,
+        subtitle,
       };
     },
   },

@@ -60,7 +60,7 @@ As a content editor, I need to see which documents have translations and which l
 
 ### Edge Cases
 
-- What happens when a document exists only in a non-default language (orphaned translation)?
+- ~~What happens when a document exists only in a non-default language (orphaned translation)?~~ **[REMOVED 2025-11-12]** - Orphaned translation detection removed, see spec 004
 - What happens when the default language configuration is changed system-wide?
 - How are documents without a language field handled in the filtering?
 - What happens when a user creates a new document - which language does it default to?
@@ -81,7 +81,7 @@ As a content editor, I need to see which documents have translations and which l
 - **FR-007**: Studio MUST display the list de-duplication behavior consistently across all document types that support i18n (pages, blogs, FAQs, etc.)
 - **FR-008**: Users MUST be able to open a document from the list view and land on the default language version
 - **FR-009**: Studio MUST preserve existing translation workflow functionality (creating, editing, deleting translations)
-- **FR-010**: Studio MUST display orphaned translations (documents that exist only in non-default languages) in document lists with a visible warning badge or indicator to alert editors of the missing default language version
+- **FR-010**: ~~Studio MUST display orphaned translations (documents that exist only in non-default languages) in document lists with a visible warning badge or indicator to alert editors of the missing default language version~~ **[REMOVED 2025-11-12]** - This requirement has been removed due to 60-80% false positive rate. See [spec 004-remove-orphaned-badge](../004-remove-orphaned-badge/spec.md) for details on the removal and investigation findings.
 
 ### Key Entities
 

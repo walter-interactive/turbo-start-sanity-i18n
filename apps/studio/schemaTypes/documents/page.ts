@@ -1,5 +1,4 @@
 import { DocumentIcon } from "@sanity/icons";
-import { DEFAULT_LOCALE } from "@workspace/i18n-config";
 import { defineField, defineType } from "sanity";
 
 import { GROUP, GROUPS } from "../../utils/constant";
@@ -69,13 +68,11 @@ export const page = defineType({
     select: {
       title: "title",
       slug: "slug.current",
-      language: "language",
       media: "image",
       isPrivate: "seoNoIndex",
       hasPageBuilder: "pageBuilder",
     },
-    prepare: ({ title, slug, language, media, isPrivate, hasPageBuilder }) => {
-      const isOrphaned = language !== DEFAULT_LOCALE;
+    prepare: ({ title, slug, media, isPrivate, hasPageBuilder }) => {
       const statusEmoji = isPrivate ? "🔒" : "🌎";
       const builderEmoji = hasPageBuilder?.length
         ? `🧱 ${hasPageBuilder.length}`
@@ -83,9 +80,7 @@ export const page = defineType({
 
       return {
         title: `${title || "Untitled Page"}`,
-        subtitle: isOrphaned
-          ? `⚠️ Orphaned translation | ${statusEmoji} ${builderEmoji} | 🔗 ${slug || "no-slug"}`
-          : `${statusEmoji} ${builderEmoji} | 🔗 ${slug || "no-slug"}`,
+        subtitle: `${statusEmoji} ${builderEmoji} | 🔗 ${slug || "no-slug"}`,
         media,
       };
     },

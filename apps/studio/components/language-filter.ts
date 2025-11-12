@@ -110,49 +110,6 @@ export async function fetchDocumentsByLanguage(
 }
 
 /**
- * Check if a document is orphaned (lacks default language version)
- *
- * @param client - Sanity client instance
- * @param documentId - ID of document to check
- * @param documentLanguage - Language of the document
- * @returns Promise resolving to true if orphaned
- *
- * @example
- * const isOrphaned = await isDocumentOrphaned(client, "page-en-123", "en");
- * if (isOrphaned) {
- *   console.warn("Document lacks default language version");
- * }
- */
-export async function isDocumentOrphaned(
-  client: SanityClient,
-  documentId: string,
-  documentLanguage: Locale
-): Promise<boolean> {
-  // If document is in default language, it cannot be orphaned
-  if (documentLanguage === DEFAULT_LOCALE) {
-    return false;
-  }
-
-  try {
-    // Check if translation metadata exists with a default language version
-    const defaultVersionRef = await client.fetch<string | null>(
-      `*[_type == "translation.metadata" && $documentId in translations[].value._ref][0]
-        .translations[_key == $defaultLanguage][0].value._ref`,
-      { documentId, defaultLanguage: DEFAULT_LOCALE }
-    );
-
-    // If no default version exists, document is orphaned
-    return defaultVersionRef === null;
-  } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    throw new Error(
-      `Unable to check orphaned status for document ${documentId}: ${errorMessage}`
-    );
-  }
-}
-
-/**
  * Create GROQ parameters object for language filtering
  *
  * @param schemaType - Document type
