@@ -277,9 +277,9 @@ const processFolderItem = (config: FolderProcessConfig): ListItemBuilder => {
   const childFolderItems =
     Object.keys(folder.children).length > 0
       ? createListItemsFromStructure(folder.children, {
-          depth: depth + 1,
-          parentPath: `${key}-`,
-        })
+        depth: depth + 1,
+        parentPath: `${key}-`,
+      })
       : [];
 
   // Prepare list items with proper ordering
