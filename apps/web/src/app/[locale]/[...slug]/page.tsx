@@ -1,5 +1,5 @@
-import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { PageBuilder } from "@/components/pagebuilder";
 import type { Locale } from "@/i18n/routing";
 import { client } from "@/lib/sanity/client";

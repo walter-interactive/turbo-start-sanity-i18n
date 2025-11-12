@@ -1,12 +1,12 @@
 import "@workspace/ui/globals.css";
 
-import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { VisualEditing } from "next-sanity";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { preconnect } from "react-dom";
 import { FooterServer, FooterSkeleton } from "@/components/footer";

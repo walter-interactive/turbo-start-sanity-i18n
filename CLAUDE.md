@@ -7,6 +7,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Sanity Content Lake (cloud-hosted, already configured) (003-dedup-studio-records)
 - TypeScript 5.x (strictmode enabled per monorepo standards) (004-remove-orphaned-badge)
 - Sanity Content Lake (cloud-hosted, no changes required) (004-remove-orphaned-badge)
+- TypeScript/JavaScript (Node.js 20+) + N/A (content/metadata changes only) (002-remove-roboto-branding)
+- N/A (no data persistence involved) (002-remove-roboto-branding)
 
 - TypeScript 5.x (Next.js 15.x App Router, Node.js 18+) + next-intl (frontend i18n), @sanity/document-internationalization (CMS plugin), next-sanity (data fetching), groq (queries) (001-i18n-localization)
 
@@ -29,6 +31,7 @@ TypeScript 5.x (Next.js 15.x App Router, Node.js 18+): Follow standard conventio
 ## Recent Changes
 - 004-remove-orphaned-badge: Added TypeScript 5.x (strictmode enabled per monorepo standards)
 - 003-dedup-studio-records: Added TypeScript 5.x (strict mode), Node.js 18+
+- 002-remove-roboto-branding: Added TypeScript/JavaScript (Node.js 20+) + N/A (content/metadata changes only)
 
 - 001-i18n-localization: Added TypeScript 5.x (Next.js 15.x App Router, Node.js 18+) + next-intl (frontend i18n), @sanity/document-internationalization (CMS plugin), next-sanity (data fetching), groq (queries)
 
