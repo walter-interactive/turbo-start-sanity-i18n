@@ -2,6 +2,7 @@ import {
   orderRankField,
   orderRankOrdering,
 } from "@sanity/orderable-document-list";
+import { DEFAULT_LOCALE } from "@workspace/i18n-config";
 import { FileTextIcon } from "lucide-react";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
@@ -117,6 +118,7 @@ export const blog = defineType({
   preview: {
     select: {
       title: "title",
+      language: "language",
       media: "image",
       isPrivate: "seoNoIndex",
       isHidden: "seoHideFromLists",
@@ -126,6 +128,7 @@ export const blog = defineType({
     },
     prepare: ({
       title,
+      language,
       media,
       isPrivate,
       isHidden,
@@ -133,6 +136,8 @@ export const blog = defineType({
       slug,
       publishDate,
     }) => {
+      const isOrphaned = language !== DEFAULT_LOCALE;
+
       // Status indicators
       let visibility = "🌎 Public";
       if (isPrivate) {
@@ -150,7 +155,9 @@ export const blog = defineType({
       return {
         title: title || "Untitled Blog",
         media,
-        subtitle: `🔗 ${slug} | ${visibility} | ${authorInfo} | ${dateInfo}`,
+        subtitle: isOrphaned
+          ? `⚠️ Orphaned translation | 🔗 ${slug} | ${visibility} | ${authorInfo} | ${dateInfo}`
+          : `🔗 ${slug} | ${visibility} | ${authorInfo} | ${dateInfo}`,
       };
     },
   },

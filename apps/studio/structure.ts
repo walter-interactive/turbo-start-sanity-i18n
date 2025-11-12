@@ -17,6 +17,7 @@ import type {
   StructureBuilder,
   StructureResolverContext,
 } from "sanity/structure";
+import { DEFAULT_LOCALE } from "@workspace/i18n-config";
 
 import { createSlugBasedStructure } from "./components/nested-pages-structure";
 import type { SchemaType, SingletonType } from "./schemaTypes";
@@ -117,12 +118,17 @@ export const structure = (
         list: { type: "blog", title: "Blogs", icon: FileText },
         context,
       }),
-      createList({
-        S,
-        type: "faq",
-        title: "FAQs",
-        icon: MessageCircle,
-      }),
+      S.listItem()
+        .title("FAQs")
+        .icon(MessageCircle)
+        .child(
+          S.documentList()
+            .title("FAQs")
+            .filter(
+              "_type == $type && (!defined(language) || language == $language)"
+            )
+            .params({ type: "faq", language: DEFAULT_LOCALE })
+        ),
       createList({ S, type: "author", title: "Authors", icon: User }),
       createList({
         S,

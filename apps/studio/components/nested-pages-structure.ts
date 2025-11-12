@@ -3,6 +3,7 @@ import { DocumentIcon, FolderIcon } from "@sanity/icons";
 import { friendlyWords } from "friendlier-words";
 import { getPublishedId } from "sanity";
 import type { ListItemBuilder, StructureBuilder } from "sanity/structure";
+import { DEFAULT_LOCALE, type Locale } from "@workspace/i18n-config";
 import { getTitleCase } from "../utils/helper";
 
 // Types for better type safety
@@ -31,16 +32,18 @@ type SanityListItem = ListItemBuilder | ReturnType<StructureBuilder["divider"]>;
 // Helper function to fetch documents with error handling
 const fetchDocuments = async (
   client: SanityClient,
-  schemaType: string
+  schemaType: string,
+  language: Locale = DEFAULT_LOCALE
 ): Promise<DocumentData[]> => {
   try {
-    const documents = await client.fetch(`
-      *[_type == "${schemaType}" && defined(slug.current)] {
+    const documents = await client.fetch(
+      `*[_type == $schemaType && defined(slug.current) && (!defined(language) || language == $language)] {
         _id,
         title,
         "slug": slug.current
-      }
-    `);
+      }`,
+      { schemaType, language }
+    );
 
     if (!Array.isArray(documents)) {
       throw new Error("Invalid documents response");
@@ -363,7 +366,11 @@ export const createSlugBasedStructure = (
           throw new Error("Unable to get Sanity client");
         }
         // 2. Fetch and process documents
-        const documents = await fetchDocuments(client, schemaType);
+        const documents = await fetchDocuments(
+          client,
+          schemaType,
+          DEFAULT_LOCALE
+        );
         const uniqueDocuments = deduplicateDocuments(documents);
 
         // 3. Build folder structure
