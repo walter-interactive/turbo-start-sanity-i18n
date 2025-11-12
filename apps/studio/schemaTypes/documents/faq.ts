@@ -34,8 +34,7 @@ export const faq = defineType({
       richText: "richText",
     },
     prepare: ({ title, richText }) => {
-      // Create a playful subtitle with emojis
-      const subtitle = `${parseRichTextToString(richText, 20)}`;
+      const subtitle = parseRichTextToString(richText, 20);
 
       return {
         title: `❓ ${title || "Untitled Question"}`,

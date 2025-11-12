@@ -7,6 +7,7 @@ import { structureTool } from "sanity/structure";
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { iconPicker } from "sanity-plugin-icon-picker";
 import { media } from "sanity-plugin-media";
+import { SANITY_LANGUAGES } from "@workspace/i18n-config";
 
 import { Logo } from "./components/logo";
 import { locations } from "./location";
@@ -50,10 +51,7 @@ export default defineConfig({
     iconPicker(),
     assist(),
     documentInternationalization({
-      supportedLanguages: [
-        { id: "fr", title: "Français" },
-        { id: "en", title: "English" },
-      ],
+      supportedLanguages: SANITY_LANGUAGES,
       schemaTypes: [
         "page",
         "blog",

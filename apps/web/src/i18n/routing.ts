@@ -1,23 +1,21 @@
 import { defineRouting } from "next-intl/routing";
 import { logger } from "@/lib/logger";
+import {
+  LOCALES,
+  DEFAULT_LOCALE,
+  LOCALE_METADATA,
+  type Locale,
+  isValidLocale as isValidLocaleBase,
+  getLocaleName as getLocaleNameBase,
+  getStaticLocaleParams as getStaticLocaleParamsBase,
+} from "@workspace/i18n-config";
 
 /**
- * List of all supported locales
- * MUST match Sanity plugin configuration in apps/studio
- *
- * Note: French is first for Quebec compliance (Bill 101)
+ * Re-export core configuration from shared package
+ * This maintains backward compatibility for existing imports
  */
-export const LOCALES = ["fr", "en"] as const;
-
-/**
- * Default locale (Quebec compliance)
- */
-export const DEFAULT_LOCALE = LOCALES[0];
-
-/**
- * Locale type derived from locales array
- */
-export type Locale = (typeof LOCALES)[number];
+export { LOCALES, DEFAULT_LOCALE };
+export type { Locale };
 
 /**
  * Central routing configuration for the application
@@ -51,21 +49,13 @@ export type Pathname =
 
 /**
  * Type guard to check if a string is a valid locale
- *
- * @param locale - String to validate as a locale
- * @returns True if the locale is valid
- * @example
- * if (isValidLocale(userInput)) {
- *   // TypeScript knows userInput is 'fr' | 'en'
- *   const t = await getTranslations({locale: userInput})
- * }
+ * Re-exported from shared config for convenience
  */
-export function isValidLocale(locale: string): locale is Locale {
-  return LOCALES.includes(locale as Locale);
-}
+export const isValidLocale = isValidLocaleBase;
 
 /**
  * Get locale from string with fallback to default locale
+ * Enhanced version with logging for web app
  *
  * @param locale - Optional locale string to validate
  * @returns Valid locale or default locale
@@ -91,57 +81,18 @@ export function getValidLocale(locale: string | undefined): Locale {
 
 /**
  * Locale metadata for UI display
+ * Re-exported from shared config for backward compatibility
  */
-export const localeMetadata: Record<
-  Locale,
-  {
-    name: string;
-    nativeName: string;
-    direction: "ltr" | "rtl";
-  }
-> = {
-  fr: {
-    name: "French",
-    nativeName: "Français",
-    direction: "ltr",
-  },
-  en: {
-    name: "English",
-    nativeName: "English",
-    direction: "ltr",
-  },
-};
+export const localeMetadata = LOCALE_METADATA;
 
 /**
  * Get display name for a locale
- *
- * @param params - Configuration object
- * @param params.locale - ISO locale code to get name for
- * @param params.native - Whether to return native name (default: true)
- * @returns Display name for the locale
- * @example
- * getLocaleName({locale: 'fr'}) // 'Français'
- * getLocaleName({locale: 'fr', native: false}) // 'French'
+ * Re-exported from shared config for convenience
  */
-export function getLocaleName(params: {
-  locale: Locale;
-  native?: boolean;
-}): string {
-  const { locale, native = true } = params;
-  return native
-    ? localeMetadata[locale].nativeName
-    : localeMetadata[locale].name;
-}
+export const getLocaleName = getLocaleNameBase;
 
 /**
  * Generate static params for all locales
- *
- * @returns Array of locale params for generateStaticParams
- * @example
- * export function generateStaticParams() {
- *   return getStaticLocaleParams();
- * }
+ * Re-exported from shared config for convenience
  */
-export function getStaticLocaleParams() {
-  return LOCALES.map((locale) => ({ locale }));
-}
+export const getStaticLocaleParams = getStaticLocaleParamsBase;
