@@ -13,6 +13,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (documentation-only, no data changes) (005-studio-docs-cleanup)
 - TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), next-intl (i18n routing), next-sanity (Sanity client), React 19.x, @sanity/document-internationalization (translation metadata) (006-fix-language-switcher)
 - Sanity Content Lake (cloud-hosted CMS with translation metadata) (006-fix-language-switcher)
+- TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), Sanity Studio 4.4.1, React 19.x, next-sanity (Sanity client), @sanity/document-internationalization 4.1.0 (007-colocate-pagebuilder-modules)
+- Sanity Content Lake (cloud-hosted CMS, no changes required) (007-colocate-pagebuilder-modules)
 
 - TypeScript 5.x (Next.js 15.x App Router, Node.js 18+) + next-intl (frontend i18n), @sanity/document-internationalization (CMS plugin), next-sanity (data fetching), groq (queries) (001-i18n-localization)
 
@@ -33,9 +35,9 @@ npm test && npm run lint
 TypeScript 5.x (Next.js 15.x App Router, Node.js 18+): Follow standard conventions
 
 ## Recent Changes
+- 007-colocate-pagebuilder-modules: Added TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), Sanity Studio 4.4.1, React 19.x, next-sanity (Sanity client), @sanity/document-internationalization 4.1.0
 - 006-fix-language-switcher: Added TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), next-intl (i18n routing), next-sanity (Sanity client), React 19.x, @sanity/document-internationalization (translation metadata)
 - 005-studio-docs-cleanup: Added TypeScript 5.9.2, Node.js 20+ + Sanity Studio 4.4.1, React 19.1, @sanity/document-internationalization 4.1.0, @sanity/orderable-document-list 1.4.0
-- 004-remove-orphaned-badge: Added TypeScript 5.x (strictmode enabled per monorepo standards)
 
 
 <!-- MANUAL ADDITIONS START -->
@@ -141,6 +143,146 @@ pnpm --filter studio build
 pnpm --filter studio dev
 # (Check for errors, then Ctrl+C)
 ```
+
+---
+
+## Page Builder Block Organization (Feature 007-colocate-pagebuilder-modules)
+
+**Implemented**: 2025-11-13
+**Documentation**: `specs/007-colocate-pagebuilder-modules/quickstart.md`
+
+### Shared Package Architecture
+
+Page builder block schemas and GROQ fragments are organized in a shared workspace package to follow monorepo best practices and avoid cross-workspace import anti-patterns.
+
+**Package Structure**:
+```
+packages/sanity-blocks/          # Shared package: @workspace/sanity-blocks
+├── package.json                 # Package configuration
+├── tsconfig.json
+└── src/
+    ├── hero-section/
+    │   ├── hero-section.schema.ts     # Sanity schema definition
+    │   └── hero-section.fragment.ts   # GROQ query fragment
+    ├── cta/
+    │   ├── cta.schema.ts
+    │   └── cta.fragment.ts
+    └── index.ts                  # Barrel exports (schemas, fragments, allBlockSchemas[])
+```
+
+**Component Structure**:
+```
+apps/web/src/blocks/
+├── HeroSection/
+│   └── HeroSection.tsx          # React component (web-specific UI)
+├── Cta/
+│   └── Cta.tsx
+└── index.ts                      # Component exports
+```
+
+### File Naming Conventions
+
+| File Type | Location | Naming Pattern | Example |
+|-----------|----------|----------------|---------|
+| Schema | `packages/sanity-blocks/src/[block-name]/` | `[block-name].schema.ts` | `hero-section.schema.ts` |
+| Fragment | `packages/sanity-blocks/src/[block-name]/` | `[block-name].fragment.ts` | `hero-section.fragment.ts` |
+| Component | `apps/web/src/blocks/[BlockName]/` | `[BlockName].tsx` | `HeroSection.tsx` |
+
+**Export Naming**:
+- Schemas: `export const heroSectionSchema = defineType({ name: "heroSection", ... })`
+- Fragments: `export const heroSectionFragment = /* groq */ \`...\``
+- Components: `export const HeroSection: FC<Props> = ({ ... }) => { ... }`
+
+### Import Patterns
+
+**Studio** (importing schemas):
+```typescript
+// apps/studio/schemaTypes/blocks/index.ts
+import { allBlockSchemas } from '@workspace/sanity-blocks'
+// or named imports:
+import { heroSectionSchema, ctaSchema } from '@workspace/sanity-blocks'
+
+export const pageBuilderBlocks = allBlockSchemas
+```
+
+**Web** (importing fragments):
+```typescript
+// apps/web/src/lib/sanity/fragments/pageBuilder/index.ts
+import {
+  heroSectionFragment,
+  ctaFragment,
+  faqAccordionFragment,
+} from '@workspace/sanity-blocks'
+
+export const pageBuilderFragment = /* groq */ `
+  pageBuilder[]{
+    ...,
+    _type,
+    ${heroSectionFragment},
+    ${ctaFragment},
+    ${faqAccordionFragment}
+  }
+`
+```
+
+**Web** (importing components):
+```typescript
+// apps/web/src/components/pagebuilder.tsx
+import { HeroSection } from '@/blocks/HeroSection/HeroSection'
+import { Cta } from '@/blocks/Cta/Cta'
+
+const BLOCK_COMPONENTS = {
+  heroSection: HeroSection,  // key matches schema "name" field
+  cta: Cta,
+} as const
+```
+
+### Query Organization
+
+Queries are organized by document type for better discoverability:
+
+```
+apps/web/src/lib/sanity/
+├── fragments/
+│   ├── atomic/index.ts          # imageFields, customLinkFragment, markDefsFragment
+│   ├── reusable/index.ts        # imageFragment, buttonsFragment, richTextFragment
+│   └── pageBuilder/index.ts     # Aggregates block fragments from @workspace/sanity-blocks
+└── queries/
+    ├── home.ts                  # queryHomePageData
+    ├── page.ts                  # querySlugPageData, queryAllLocalizedPages
+    ├── blog.ts                  # queryBlogIndexPageData, queryBlogSlugPageData
+    ├── navbar.ts                # queryNavbarData
+    ├── footer.ts                # queryFooterData
+    ├── settings.ts              # querySettingsData
+    └── index.ts                 # Re-exports all queries
+```
+
+### Adding a New Block (Quick Reference)
+
+1. Create schema and fragment in `packages/sanity-blocks/src/[block-name]/`
+2. Export from `packages/sanity-blocks/src/index.ts`
+3. Create component in `apps/web/src/blocks/[BlockName]/`
+4. Register component in `apps/web/src/components/pagebuilder.tsx`
+5. Add fragment to `apps/web/src/lib/sanity/fragments/pageBuilder/index.ts`
+6. Regenerate types: `pnpm --filter studio type`
+7. Verify: `pnpm check-types && pnpm build`
+
+**See**: `specs/007-colocate-pagebuilder-modules/quickstart.md` for detailed guide with examples.
+
+### Key Benefits
+
+- **Clear Ownership**: Schemas and fragments co-located by block
+- **Monorepo Best Practices**: Proper dependency management via `@workspace/sanity-blocks`
+- **Fast Discovery**: Find all files for a block in < 5 seconds
+- **Type Safety**: Maintained through auto-generated types
+- **Scalable**: Proven pattern with 32 blocks in reference project (conciliainc.com)
+
+### Important Notes
+
+- Both `apps/studio` and `apps/web` depend on `@workspace/sanity-blocks` in their package.json
+- Run `pnpm --filter studio type` after any schema changes to regenerate types
+- Fragment files are optional for simple blocks (default GROQ spread is sufficient)
+- Component variants (e.g., `ContainedHeroSection.tsx`) live in the same directory as main component
 
 ---
 
