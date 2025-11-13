@@ -316,10 +316,10 @@ export const GROQ_FRAGMENTS = {
   `,
 
   /** Language filter (parameterized) */
-  LANGUAGE_FILTER: `language == $language`,
+  LANGUAGE_FILTER: "language == $language",
 
   /** Language filter with legacy fallback */
-  LANGUAGE_FILTER_WITH_LEGACY: `(!defined(language) || language == $language)`,
+  LANGUAGE_FILTER_WITH_LEGACY: "(!defined(language) || language == $language)",
 
   /** Translation metadata lookup */
   TRANSLATION_METADATA: `

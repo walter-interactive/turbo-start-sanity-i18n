@@ -1,13 +1,13 @@
 import { assist } from "@sanity/assist";
 import { documentInternationalization } from "@sanity/document-internationalization";
 import { visionTool } from "@sanity/vision";
+import { SANITY_LANGUAGES } from "@workspace/i18n-config";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { iconPicker } from "sanity-plugin-icon-picker";
 import { media } from "sanity-plugin-media";
-import { SANITY_LANGUAGES } from "@workspace/i18n-config";
 
 import { Logo } from "./components/logo";
 import { locations } from "./location";
@@ -280,7 +280,11 @@ export default defineConfig({
     newDocumentOptions: (prev, { creationContext }) => {
       const { type } = creationContext;
       if (type === "global") {
-        return prev.filter(doc => ['author', 'page-fr', 'blog-fr', 'faq-fr', 'redirect'].includes(doc.templateId))
+        return prev.filter((doc) =>
+          ["author", "page-fr", "blog-fr", "faq-fr", "redirect"].includes(
+            doc.templateId
+          )
+        );
       }
       return prev;
     },

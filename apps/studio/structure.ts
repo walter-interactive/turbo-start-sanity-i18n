@@ -32,6 +32,7 @@
  */
 
 import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
+import { DEFAULT_LOCALE } from "@workspace/i18n-config";
 import {
   BookMarked,
   CogIcon,
@@ -52,7 +53,6 @@ import type {
   StructureBuilder,
   StructureResolverContext,
 } from "sanity/structure";
-import { DEFAULT_LOCALE } from "@workspace/i18n-config";
 
 import type { SchemaType, SingletonType } from "./schemaTypes";
 import { getTitleCase } from "./utils/helper";
@@ -349,7 +349,9 @@ export const structure = (
             .filter("_type == $type && language == $lang")
             .params({ type: "page", lang: DEFAULT_LOCALE })
             // Only allow creating French pages via "+ Create" button
-            .initialValueTemplates([S.initialValueTemplateItem((`page-${DEFAULT_LOCALE}`))])
+            .initialValueTemplates([
+              S.initialValueTemplateItem(`page-${DEFAULT_LOCALE}`),
+            ])
         ),
 
       // ========================================================================
@@ -382,7 +384,9 @@ export const structure = (
             .filter("_type == $type && language == $lang")
             .params({ type: "faq", lang: DEFAULT_LOCALE })
             // Only allow creating French FAQs via "+ Create" button
-            .initialValueTemplates([S.initialValueTemplateItem((`faq-${DEFAULT_LOCALE}`))])
+            .initialValueTemplates([
+              S.initialValueTemplateItem(`faq-${DEFAULT_LOCALE}`),
+            ])
         ),
 
       // ========================================================================

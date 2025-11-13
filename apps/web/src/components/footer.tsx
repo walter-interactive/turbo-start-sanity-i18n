@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import type { Locale } from "@/i18n/routing";
+import { getInternalLinkHref } from "@/lib/sanity/link-helpers";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryFooterData, queryGlobalSeoSettings } from "@/lib/sanity/query";
 import type {
@@ -23,9 +25,10 @@ type SocialLinksProps = {
 type FooterProps = {
   data: NonNullable<QueryFooterDataResult>;
   settingsData: NonNullable<QueryGlobalSeoSettingsResult>;
+  locale: Locale;
 };
 
-export async function FooterServer() {
+export async function FooterServer({ locale }: { locale: Locale }) {
   const [response, settingsResponse] = await Promise.all([
     sanityFetch({
       query: queryFooterData,
@@ -38,7 +41,13 @@ export async function FooterServer() {
   if (!(response?.data && settingsResponse?.data)) {
     return <FooterSkeleton />;
   }
-  return <Footer data={response.data} settingsData={settingsResponse.data} />;
+  return (
+    <Footer
+      data={response.data}
+      settingsData={settingsResponse.data}
+      locale={locale}
+    />
+  );
 }
 
 function SocialLinks({ data }: SocialLinksProps) {
@@ -146,7 +155,7 @@ export function FooterSkeleton() {
   );
 }
 
-function Footer({ data, settingsData }: FooterProps) {
+function Footer({ data, settingsData, locale }: FooterProps) {
   const { subtitle, columns } = data;
   const { siteTitle, logo, socialLinks } = settingsData;
   const year = new Date().getFullYear();
@@ -176,24 +185,36 @@ function Footer({ data, settingsData }: FooterProps) {
                     <h3 className="mb-6 font-semibold">{column?.title}</h3>
                     {column?.links && column?.links?.length > 0 && (
                       <ul className="space-y-4 text-muted-foreground text-sm dark:text-zinc-400">
-                        {column?.links?.map((link, columnIndex) => (
-                          <li
-                            className="font-medium hover:text-primary"
-                            key={`${link?._key}-${columnIndex}-column-${column?._key}`}
-                          >
-                            <Link
-                              href={link.href ?? "#"}
-                              rel={
-                                link.openInNewTab
-                                  ? "noopener noreferrer"
-                                  : undefined
-                              }
-                              target={link.openInNewTab ? "_blank" : undefined}
+                        {column?.links?.map((link, columnIndex) => {
+                          const finalHref = link.internalType
+                            ? getInternalLinkHref(
+                                link.href,
+                                link.internalType,
+                                locale
+                              )
+                            : (link.href ?? "#");
+
+                          return (
+                            <li
+                              className="font-medium hover:text-primary"
+                              key={`${link?._key}-${columnIndex}-column-${column?._key}`}
                             >
-                              {link.name}
-                            </Link>
-                          </li>
-                        ))}
+                              <Link
+                                href={finalHref}
+                                rel={
+                                  link.openInNewTab
+                                    ? "noopener noreferrer"
+                                    : undefined
+                                }
+                                target={
+                                  link.openInNewTab ? "_blank" : undefined
+                                }
+                              >
+                                {link.name}
+                              </Link>
+                            </li>
+                          );
+                        })}
                       </ul>
                     )}
                   </div>

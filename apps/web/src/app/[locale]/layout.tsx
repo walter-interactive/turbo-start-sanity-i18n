@@ -1,5 +1,6 @@
 import "@workspace/ui/globals.css";
 
+import { DEFAULT_LOCALE } from "@workspace/i18n-config";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { draftMode } from "next/headers";
@@ -14,10 +15,14 @@ import { CombinedJsonLd } from "@/components/json-ld";
 import { Navbar } from "@/components/navbar";
 import { PreviewBar } from "@/components/preview-bar";
 import { Providers } from "@/components/providers";
+import { SlugTranslationProvider } from "@/contexts/slug-translation-context";
 import type { Locale } from "@/i18n/routing";
 import { getStaticLocaleParams, isValidLocale } from "@/i18n/routing";
 import { getNavigationData } from "@/lib/navigation";
-import { SanityLive } from "@/lib/sanity/live";
+import { SanityLive, sanityFetch } from "@/lib/sanity/live";
+import type { SanityLocalizedDocument } from "@/lib/sanity/locale-mapper";
+import { createLocaleMapping } from "@/lib/sanity/locale-mapper";
+import { queryAllLocalizedPages } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 
 const fontSans = Geist({
@@ -29,6 +34,27 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
+
+/**
+ * Fetch all localized documents for slug translation mapping
+ *
+ * Queries Sanity for all internationalized documents (page, blog, homePage, blogIndex)
+ * in the default locale. The results include translation metadata for all languages.
+ *
+ * @returns Array of localized documents with translation metadata
+ *
+ * @remarks
+ * This function is called once per request in the root layout to build the
+ * locale mapping for language switching. Results are cached by Next.js.
+ */
+async function fetchAllLocalizedPages(): Promise<SanityLocalizedDocument[]> {
+  const result = await sanityFetch({
+    query: queryAllLocalizedPages,
+    params: { locale: DEFAULT_LOCALE },
+  });
+
+  return result.data;
+}
 
 /**
  * Generate metadata for the root layout
@@ -79,6 +105,10 @@ export default async function RootLayout({
   // Get translations for client components
   const messages = await getMessages();
 
+  // Fetch all localized pages and create slug translation mapping
+  const localizedPages = await fetchAllLocalizedPages();
+  const localeMapping = createLocaleMapping(localizedPages);
+
   preconnect("https://cdn.sanity.io");
   const nav = await getNavigationData(locale);
 
@@ -88,28 +118,30 @@ export default async function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          <Providers>
-            <Navbar
-              navbarData={nav.navbarData}
-              settingsData={nav.settingsData}
-            />
-            {children}
-            <Suspense fallback={<FooterSkeleton />}>
-              <FooterServer />
-            </Suspense>
-            <SanityLive />
-            <CombinedJsonLd
-              includeOrganization
-              includeWebsite
-              locale={locale}
-            />
-            {(await draftMode()).isEnabled && (
-              <>
-                <PreviewBar />
-                <VisualEditing />
-              </>
-            )}
-          </Providers>
+          <SlugTranslationProvider localeMapping={localeMapping}>
+            <Providers>
+              <Navbar
+                navbarData={nav.navbarData}
+                settingsData={nav.settingsData}
+              />
+              {children}
+              <Suspense fallback={<FooterSkeleton />}>
+                <FooterServer locale={locale} />
+              </Suspense>
+              <SanityLive />
+              <CombinedJsonLd
+                includeOrganization
+                includeWebsite
+                locale={locale}
+              />
+              {(await draftMode()).isEnabled && (
+                <>
+                  <PreviewBar />
+                  <VisualEditing />
+                </>
+              )}
+            </Providers>
+          </SlugTranslationProvider>
         </NextIntlClientProvider>
       </body>
     </html>

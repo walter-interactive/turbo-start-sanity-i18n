@@ -167,6 +167,7 @@ export const blog = defineType({
       slug: "slug.current",
       author: "authors.0.name",
       publishDate: "publishedAt",
+      lang: "language"
     },
     prepare: ({
       title,
@@ -176,25 +177,26 @@ export const blog = defineType({
       author,
       slug,
       publishDate,
+      lang
     }) => {
       // Status indicators
-      let visibility = "🌎 Public";
+      let visibility = "Public";
       if (isPrivate) {
-        visibility = "🔒 Private";
+        visibility = "Private";
       } else if (isHidden) {
-        visibility = "🙈 Hidden";
+        visibility = "Hidden";
       }
 
       // Author and date
-      const authorInfo = author ? `✍️ ${author}` : "👻 No author";
+      const authorInfo = author ? `by: ${author}` : "No author";
       const dateInfo = publishDate
-        ? `📅 ${new Date(publishDate).toLocaleDateString()}`
+        ? `${new Date(publishDate).toLocaleDateString()}`
         : "⏳ Draft";
 
       return {
         title: title || "Untitled Blog",
         media,
-        subtitle: `🔗 ${slug} | ${visibility} | ${authorInfo} | ${dateInfo}`,
+        subtitle: `${lang.toUpperCase()} | ${visibility} | ${authorInfo} | ${dateInfo}`,
       };
     },
   },

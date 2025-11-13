@@ -2,11 +2,14 @@
 
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, type LucideIcon } from "lucide-react";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
 
+import { getValidLocale } from "@/i18n/routing";
+import { getInternalLinkHref } from "@/lib/sanity/link-helpers";
 import type {
   QueryGlobalSeoSettingsResult,
   QueryNavbarDataResult,
@@ -28,15 +31,14 @@ type NavColumn = NonNullable<
   NonNullable<QueryNavbarDataResult>["columns"]
 >[number];
 
-type ColumnLink = Extract<NavColumn, { type: "column" }>["links"] extends Array<
-  infer T
->
-  ? T
-  : never;
+type ColumnLink = NonNullable<
+  Extract<NavColumn, { type: "column" }>["links"]
+>[number];
 
 type MenuLinkProps = {
   name: string;
   href: string;
+  internalType?: string | null;
   description?: string;
   icon?: any;
   onClick?: () => void;
@@ -51,11 +53,26 @@ const fetcher = async (url: string): Promise<NavigationData> => {
   return response.json();
 };
 
-function MenuLink({ name, href, description, icon, onClick }: MenuLinkProps) {
+function MenuLink({
+  name,
+  href,
+  internalType,
+  description,
+  icon,
+  onClick,
+}: MenuLinkProps) {
+  const localeString = useLocale();
+  const locale = getValidLocale(localeString);
+
+  // Construct proper path for internal links
+  const finalHref = internalType
+    ? getInternalLinkHref(href, internalType, locale)
+    : href || "#";
+
   return (
     <Link
       className="group flex items-start gap-3 rounded-lg p-3 transition-colors hover:bg-accent"
-      href={href || "#"}
+      href={finalHref}
       onClick={onClick}
     >
       {icon && (
@@ -118,6 +135,7 @@ function DesktopColumnDropdown({
               <MenuLink
                 description={link.description || ""}
                 href={link.href || ""}
+                internalType={link.internalType}
                 icon={link.icon}
                 key={link._key}
                 name={link.name || ""}
@@ -135,10 +153,18 @@ function DesktopColumnLink({
 }: {
   column: Extract<NavColumn, { type: "link" }>;
 }) {
+  const localeString = useLocale();
+  const locale = getValidLocale(localeString);
+
+  // Construct proper path for internal links
+  const finalHref = column.internalType
+    ? getInternalLinkHref(column.href, column.internalType, locale)
+    : column.href || "#";
+
   return (
     <Link
       className="px-3 py-2 font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
-      href={column.href || "#"}
+      href={finalHref}
     >
       {column.name}
     </Link>
@@ -148,6 +174,8 @@ function DesktopColumnLink({
 function MobileMenu({ navbarData, settingsData }: NavigationData) {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const localeString = useLocale();
+  const locale = getValidLocale(localeString);
 
   function toggleDropdown(key: string) {
     setOpenDropdown(openDropdown === key ? null : key);
@@ -195,10 +223,18 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
               <div className="grid gap-4">
                 {columns?.map((column) => {
                   if (column.type === "link") {
+                    const finalHref = column.internalType
+                      ? getInternalLinkHref(
+                        column.href,
+                        column.internalType,
+                        locale
+                      )
+                      : column.href || "#";
+
                     return (
                       <Link
                         className="flex items-center py-2 font-medium text-sm transition-colors hover:text-primary"
-                        href={column.href || "#"}
+                        href={finalHref}
                         key={column._key}
                         onClick={closeMenu}
                       >
@@ -230,6 +266,7 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
                               <MenuLink
                                 description={link.description || ""}
                                 href={link.href || ""}
+                                internalType={link.internalType}
                                 icon={link.icon}
                                 key={link._key}
                                 name={link.name || ""}

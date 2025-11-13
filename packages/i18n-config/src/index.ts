@@ -186,3 +186,98 @@ export function getLocaleName(params: {
 export function getStaticLocaleParams(): Array<{ locale: Locale }> {
   return LOCALES.map((locale) => ({ locale }));
 }
+
+// ============================================================================
+// PATHNAME CONFIGURATION
+// ============================================================================
+
+/**
+ * Localized pathname mappings for next-intl routing
+ *
+ * This is the SINGLE SOURCE OF TRUTH for all pathname translations.
+ * Defines how routes map between languages (e.g., /blog → /blogue for French).
+ *
+ * Used by:
+ * - apps/web/src/i18n/routing.ts (next-intl routing configuration)
+ * - apps/web/src/lib/sanity/locale-mapper.ts (pathname pattern generation)
+ * - apps/web/src/components/language-switcher.tsx (navigation)
+ *
+ * @example
+ * import { PATHNAMES } from '@workspace/i18n-config';
+ *
+ * // Access pathname mappings
+ * console.log(PATHNAMES['/blog']); // { en: '/blog', fr: '/blogue' }
+ */
+export const PATHNAMES = {
+  // Homepage
+  "/": {
+    en: "/",
+    fr: "/",
+  },
+  // Blog index
+  "/blog": {
+    en: "/blog",
+    fr: "/blogue",
+  },
+  // Blog posts (dynamic route)
+  "/blog/[slug]": {
+    en: "/blog/[slug]",
+    fr: "/blogue/[slug]",
+  },
+  // Regular pages (no prefix)
+  "/[slug]": {
+    en: "/[slug]",
+    fr: "/[slug]",
+  },
+} as const;
+
+/**
+ * Type for pathname keys
+ * Derived from PATHNAMES object keys
+ */
+export type PathnameKey = keyof typeof PATHNAMES;
+
+/**
+ * Sanity document types that support internationalization
+ * Must match document types defined in Sanity Studio schemas
+ */
+export type DocumentType = "page" | "blog" | "homePage" | "blogIndex";
+
+/**
+ * Map Sanity document types to pathname patterns
+ *
+ * This mapping enables dynamic pathname generation from document types
+ * without hardcoding routes in multiple places.
+ *
+ * @example
+ * import { DOCUMENT_TYPE_TO_PATHNAME } from '@workspace/i18n-config';
+ *
+ * const pathname = DOCUMENT_TYPE_TO_PATHNAME['blog']; // '/blog/[slug]'
+ */
+export const DOCUMENT_TYPE_TO_PATHNAME: Record<DocumentType, PathnameKey> = {
+  homePage: "/",
+  blogIndex: "/blog",
+  blog: "/blog/[slug]",
+  page: "/[slug]",
+} as const;
+
+/**
+ * Get pathname pattern for a document type
+ *
+ * Helper function to retrieve the pathname pattern for a given Sanity
+ * document type. Uses the centralized mapping to ensure consistency.
+ *
+ * @param docType - Sanity document type
+ * @returns Pathname pattern from routing config
+ *
+ * @example
+ * import { getPathnameForDocType } from '@workspace/i18n-config';
+ *
+ * getPathnameForDocType('blog')      // '/blog/[slug]'
+ * getPathnameForDocType('page')      // '/[slug]'
+ * getPathnameForDocType('homePage')  // '/'
+ * getPathnameForDocType('blogIndex') // '/blog'
+ */
+export function getPathnameForDocType(docType: DocumentType): PathnameKey {
+  return DOCUMENT_TYPE_TO_PATHNAME[docType];
+}

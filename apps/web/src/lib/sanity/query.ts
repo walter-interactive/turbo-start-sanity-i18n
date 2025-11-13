@@ -30,6 +30,10 @@ const customLinkFragment = /* groq */ `
       type == "external" => external,
       "#"
     ),
+    "internalType": select(
+      type == "internal" => internal->_type,
+      null
+    ),
   }
 `;
 
@@ -87,6 +91,10 @@ const buttonsFragment = /* groq */ `
       url.type == "external" => url.external,
       url.href
     ),
+    "internalType": select(
+      url.type == "internal" => url.internal->_type,
+      null
+    ),
   }
 `;
 
@@ -110,6 +118,10 @@ const imageLinkCardsBlock = /* groq */ `
         url.type == "internal" => url.internal->slug.current,
         url.type == "external" => url.external,
         url.href
+      ),
+      "internalType": select(
+        url.type == "internal" => url.internal->_type,
+        null
       ),
       ${imageFragment},
     })
@@ -145,6 +157,10 @@ const faqAccordionBlock = /* groq */ `
         url.type == "internal" => url.internal->slug.current,
         url.type == "external" => url.external,
         url.href
+      ),
+      "internalType": select(
+        url.type == "internal" => url.internal->_type,
+        null
       )
     }
   }
@@ -328,6 +344,10 @@ export const queryFooterData = defineQuery(`
           url.type == "external" => url.external,
           url.href
         ),
+        "internalType": select(
+          url.type == "internal" => url.internal->_type,
+          null
+        ),
       }
     }
   }
@@ -352,6 +372,10 @@ export const queryNavbarData = defineQuery(`
             url.type == "internal" => url.internal->slug.current,
             url.type == "external" => url.external,
             url.href
+          ),
+          "internalType": select(
+            url.type == "internal" => url.internal->_type,
+            null
           )
         }
       },
@@ -364,6 +388,10 @@ export const queryNavbarData = defineQuery(`
           url.type == "internal" => url.internal->slug.current,
           url.type == "external" => url.external,
           url.href
+        ),
+        "internalType": select(
+          url.type == "internal" => url.internal->_type,
+          null
         )
       }
     },
@@ -419,5 +447,35 @@ export const queryRedirects = defineQuery(`
     "source":source.current, 
     "destination":destination.current, 
     "permanent" : permanent == "true"
+  }
+`);
+
+/**
+ * Query all localized documents with their translation metadata
+ *
+ * Fetches all documents that support internationalization (page, blog, homePage, blogIndex)
+ * filtered by the specified locale. This query is used to build the locale mapping
+ * for language switcher navigation.
+ *
+ * @param locale - The locale to filter documents by (typically DEFAULT_LOCALE)
+ * @returns Array of documents with their translations included
+ *
+ * @example
+ * const documents = await sanityFetch({
+ *   query: queryAllLocalizedPages,
+ *   params: { locale: DEFAULT_LOCALE }
+ * });
+ */
+export const queryAllLocalizedPages = defineQuery(`
+  *[
+    _type in ["page", "blog", "homePage", "blogIndex"] &&
+    language == $locale
+  ]{
+    _id,
+    _type,
+    language,
+    "slug": slug.current,
+    title,
+    ${translationsFragment}
   }
 `);

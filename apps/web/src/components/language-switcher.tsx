@@ -8,71 +8,61 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
 import { Languages } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
-import { useTransition } from "react";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { useSlugTranslation } from "@/contexts/slug-translation-context";
+import { Link } from "@/i18n/navigation";
 import { getLocaleName, LOCALES, type Locale } from "@/i18n/routing";
 import { analytics } from "@/lib/analytics";
 
 /**
  * Language switcher component
  *
- * Allows users to switch between available locales while maintaining
- * the current page path. Uses next-intl navigation APIs for locale-aware
- * routing with proper cookie/preference management.
- *
- * @example
- * import { LanguageSwitcher } from '@/components/language-switcher'
- *
- * export function Header() {
- *   return (
- *     <header>
- *       <nav>
- *         <LanguageSwitcher />
- *       </nav>
- *     </header>
- *   )
- * }
+ * Simple dropdown with links to each locale. If translation exists, navigates to
+ * the translated slug. If not, uses current locale's slug (will show 404).
  */
 export function LanguageSwitcher() {
   const pathname = usePathname();
-  const router = useRouter();
   const currentLocale = useLocale() as Locale;
-  const [isPending, startTransition] = useTransition();
+  const { getTranslations } = useSlugTranslation();
+
+  const translations = getTranslations(pathname);
 
   /**
-   * Handle locale change
-   *
-   * Uses router.replace() instead of router.push() to avoid polluting
-   * browser history with language switches. The transition wrapper
-   * provides loading state during navigation.
-   *
-   * @param newLocale - Target locale to switch to
+   * Build href for a locale
+   * Uses translation for target locale if exists, otherwise falls back to current locale's slug
    */
-  const handleLocaleChange = (newLocale: Locale) => {
-    if (newLocale === currentLocale) return;
+  const getHrefForLocale = (locale: Locale) => {
+    // Try target locale first, fallback to current locale
+    const translation = translations?.[locale] ?? translations?.[currentLocale];
 
-    // Track language switch event
+    if (!translation) {
+      return "/"; // No translations at all, go to homepage
+    }
+
+    const slug = translation.slug.replace(/^\//, "");
+
+    if (translation._type === "homePage") return "/";
+    if (translation._type === "blogIndex") return "/blog";
+    if (translation._type === "blog") {
+      return { pathname: "/blog/[slug]" as const, params: { slug } };
+    }
+    return { pathname: "/[slug]" as const, params: { slug } };
+  };
+
+  const handleLanguageClick = (targetLocale: Locale) => {
+    if (targetLocale === currentLocale) return;
     analytics.trackLanguageSwitch({
       from: currentLocale,
-      to: newLocale,
+      to: targetLocale,
       pathname,
-    });
-
-    startTransition(() => {
-      router.replace(pathname, { locale: newLocale });
     });
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          aria-label="Switch language"
-          disabled={isPending}
-          size="icon"
-          variant="outline"
-        >
+        <Button aria-label="Switch language" size="icon" variant="outline">
           <Languages className="size-4" />
           <span className="sr-only">Switch language</span>
         </Button>
@@ -80,31 +70,47 @@ export function LanguageSwitcher() {
       <DropdownMenuContent align="end">
         {LOCALES.map((locale) => {
           const isActive = locale === currentLocale;
+          const hasTranslation = !!translations?.[locale];
 
           return (
-            <DropdownMenuItem
-              className="cursor-pointer"
-              disabled={isActive || isPending}
+            <Link
+              href={getHrefForLocale(locale)}
               key={locale}
-              onClick={() => handleLocaleChange(locale)}
+              locale={locale}
+              onClick={() => handleLanguageClick(locale)}
             >
-              <span className="flex items-center gap-2">
-                <span
-                  className="text-muted-foreground text-xs uppercase"
-                  lang={locale}
-                >
-                  {locale}
-                </span>
-                <span lang={locale}>
-                  {getLocaleName({ locale, native: true })}
-                </span>
-                {isActive && (
-                  <span className="ms-auto text-muted-foreground text-xs">
-                    ✓
+              <DropdownMenuItem
+                asChild
+                className="cursor-pointer"
+                disabled={isActive}
+              >
+                <span>
+                  <span className="flex items-center gap-2">
+                    <span
+                      className={
+                        hasTranslation
+                          ? "text-xs uppercase"
+                          : "text-muted-foreground text-xs uppercase"
+                      }
+                      lang={locale}
+                    >
+                      {locale}
+                    </span>
+                    <span
+                      className={hasTranslation ? "" : "text-muted-foreground"}
+                      lang={locale}
+                    >
+                      {getLocaleName({ locale, native: true })}
+                    </span>
+                    {isActive && (
+                      <span className="ms-auto text-muted-foreground text-xs">
+                        ✓
+                      </span>
+                    )}
                   </span>
-                )}
-              </span>
-            </DropdownMenuItem>
+                </span>
+              </DropdownMenuItem>
+            </Link>
           );
         })}
       </DropdownMenuContent>

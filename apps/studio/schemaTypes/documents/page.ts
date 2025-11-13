@@ -108,13 +108,12 @@ export const page = defineType({
       media: "image",
       isPrivate: "seoNoIndex",
       hasPageBuilder: "pageBuilder",
+      lang: "language"
     },
-    prepare: ({ title, slug, media, isPrivate, hasPageBuilder }) => {
-      return {
-        title: `${title || "Untitled Page"}`,
-        subtitle: `${slug || "no-slug"}`,
-        media,
-      };
-    },
+    prepare: ({ title, slug, media, isPrivate, hasPageBuilder, lang }) => ({
+      title: `${title || "Untitled Page"}`,
+      subtitle: `${lang.toUpperCase()} | ${slug || "no-slug"}`,
+      media,
+    }),
   },
 });

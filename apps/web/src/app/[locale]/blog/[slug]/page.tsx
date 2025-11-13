@@ -17,7 +17,7 @@ async function fetchBlogSlugPageData(
 ) {
   return await sanityFetch({
     query: queryBlogSlugPageData,
-    params: { slug: `/blog/${slug}`, locale },
+    params: { slug: `/${slug}`, locale },
     stega,
   });
 }

@@ -98,21 +98,34 @@ const DOCUMENT_TYPE_CONFIGS: Record<string, SlugValidationOptions> = {
   },
   blog: {
     documentType: "Blog post",
-    requiredPrefix: "/blog/",
     requireSlash: true,
-    segmentCount: 2,
+    segmentCount: 1,
     sanityDocumentType: "blog",
-    forbiddenPatterns: [/^\/author/, /^\/admin/],
+    forbiddenPatterns: [/^\/author/, /^\/admin/, /^\/blog\//],
     customValidators: [
       (slug: string) => {
-        const segments = slug.split("/").filter(Boolean);
-        if (
-          segments.length === 2 &&
-          segments[1].length < MIN_BLOG_SLUG_LENGTH
-        ) {
-          return ["Blog post slug must be at least 3 characters"];
+        const errors: string[] = [];
+
+        // Enforce leading slash requirement
+        if (!slug.startsWith("/")) {
+          errors.push("Blog post slug must start with '/' (e.g., '/my-post')");
         }
-        return [];
+
+        // Remove leading slash to check content
+        const slugContent = slug.slice(1);
+
+        if (slugContent.length < MIN_BLOG_SLUG_LENGTH) {
+          errors.push("Blog post slug must be at least 3 characters after '/'");
+        }
+
+        // Enforce flat structure - no nested paths allowed
+        if (slugContent.includes("/")) {
+          errors.push(
+            "Blog post slugs must be flat (no slashes after leading slash). Use '/my-post', not '/category/my-post'"
+          );
+        }
+
+        return errors;
       },
     ],
   },
@@ -534,7 +547,7 @@ export function generateSlugFromTitle(
       return `/author/${cleanTitle}`;
 
     case "blog":
-      return `/blog/${cleanTitle}`;
+      return `/${cleanTitle}`;
 
     case "page":
       // For pages, preserve existing path structure if it exists

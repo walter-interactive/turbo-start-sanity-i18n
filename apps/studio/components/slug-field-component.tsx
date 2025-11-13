@@ -52,6 +52,40 @@ import { ErrorStates } from "./url-slug/error-states";
 
 const presentationOriginUrl = process.env.SANITY_STUDIO_PRESENTATION_URL;
 
+/**
+ * Map document type to pathname base
+ * Used for constructing locale-aware URL previews
+ */
+function getPathnameForDocType(docType: string): string {
+  switch (docType) {
+    case "blog":
+      return "blog";
+    case "blogIndex":
+      return "blog";
+    case "page":
+      return "";
+    case "homePage":
+      return "";
+    default:
+      return "";
+  }
+}
+
+/**
+ * Get localized path prefix (e.g., 'blog' → 'blogue' for French)
+ * Handles document type translations for different locales
+ */
+function getLocalizedPathPrefix(docType: string, locale: string): string {
+  const pathname = getPathnameForDocType(docType);
+
+  // French blog uses 'blogue'
+  if (pathname === "blog" && locale === "fr") {
+    return "blogue";
+  }
+
+  return pathname;
+}
+
 // Styled components
 const CopyButton = styled(Button)`
   cursor: pointer;
@@ -213,12 +247,24 @@ export function PathnameFieldComponent(props: ObjectFieldProps<SlugValue>) {
   // Memoize computed values for performance
   const localizedPathname = useMemo(() => {
     try {
-      // Simple path generation - just use the slug as the path
-      return currentSlug.startsWith("/") ? currentSlug : `/${currentSlug}`;
+      // Get document language from context (default to 'en')
+      const documentLanguage = (document?.language as string) || "en";
+      const localePrefix = documentLanguage === "en" ? "en" : documentLanguage;
+
+      // Get localized document type prefix (e.g., 'blog' → 'blogue' for French)
+      const documentType = document?._type || "";
+      const pathPrefix = getLocalizedPathPrefix(documentType, documentLanguage);
+
+      // Remove leading slash from slug for URL construction
+      const slug = currentSlug.replace(/^\//, "");
+
+      // Build full URL path with locale and localized document type prefix
+      const parts = [localePrefix, pathPrefix, slug].filter(Boolean);
+      return `/${parts.join("/")}`;
     } catch {
       return currentSlug || "/";
     }
-  }, [currentSlug]);
+  }, [currentSlug, document?._type, document?.language]);
 
   const fullUrl = useMemo(
     () => `${presentationOriginUrl ?? ""}${localizedPathname}`,

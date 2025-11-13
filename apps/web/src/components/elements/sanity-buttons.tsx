@@ -1,8 +1,11 @@
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
+import { getValidLocale } from "@/i18n/routing";
+import { getInternalLinkHref } from "@/lib/sanity/link-helpers";
 import type { SanityButtonProps } from "@/types";
 
 type SanityButtonsProps = {
@@ -15,14 +18,24 @@ type SanityButtonsProps = {
 function SanityButton({
   text,
   href,
+  internalType,
   variant = "default",
   openInNewTab,
   className,
   ...props
-}: SanityButtonProps & ComponentProps<typeof Button>) {
+}: SanityButtonProps &
+  ComponentProps<typeof Button> & { internalType?: string | null }) {
+  const localeString = useLocale();
+  const locale = getValidLocale(localeString);
+
   if (!href) {
     return <Button>Link Broken</Button>;
   }
+
+  // If this is an internal link, construct the proper localized path
+  const finalHref = internalType
+    ? getInternalLinkHref(href, internalType, locale)
+    : href || "#";
 
   return (
     <Button
@@ -33,7 +46,7 @@ function SanityButton({
     >
       <Link
         aria-label={`Navigate to ${text}`}
-        href={href || "#"}
+        href={finalHref}
         target={openInNewTab ? "_blank" : "_self"}
         title={`Click to visit ${text}`}
       >

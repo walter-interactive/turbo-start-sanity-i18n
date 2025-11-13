@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
 
@@ -106,7 +106,12 @@ function BlogContent({
   return (
     <div className="group relative">
       <HeadingTag className={headingClasses}>
-        <Link href={slug ?? "#"}>
+        <Link
+          href={{
+            pathname: "/blog/[slug]",
+            params: { slug: slug?.substring(1) || "#" },
+          }}
+        >
           <span className="absolute inset-0" />
           {title}
         </Link>

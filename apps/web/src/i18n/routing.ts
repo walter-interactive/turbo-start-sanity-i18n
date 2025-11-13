@@ -1,14 +1,15 @@
-import { defineRouting } from "next-intl/routing";
-import { logger } from "@/lib/logger";
 import {
-  LOCALES,
   DEFAULT_LOCALE,
-  LOCALE_METADATA,
-  type Locale,
-  isValidLocale as isValidLocaleBase,
   getLocaleName as getLocaleNameBase,
   getStaticLocaleParams as getStaticLocaleParamsBase,
+  isValidLocale as isValidLocaleBase,
+  LOCALE_METADATA,
+  LOCALES,
+  type Locale,
+  PATHNAMES,
 } from "@workspace/i18n-config";
+import { defineRouting } from "next-intl/routing";
+import { logger } from "@/lib/logger";
 
 /**
  * Re-export core configuration from shared package
@@ -16,6 +17,12 @@ import {
  */
 export { LOCALES, DEFAULT_LOCALE };
 export type { Locale };
+
+/**
+ * Re-export pathnames from shared config
+ * Maintains single source of truth for pathname mappings
+ */
+export const pathnames = PATHNAMES;
 
 /**
  * Central routing configuration for the application
@@ -33,6 +40,11 @@ export const routing = defineRouting({
    * Always show locale in URL for clear SEO signals
    */
   localePrefix: "always" as const,
+  /**
+   * Localized pathname mappings for different routes
+   * Enables language-specific URLs (e.g., /blog → /blogue for French)
+   */
+  pathnames,
 });
 
 /**

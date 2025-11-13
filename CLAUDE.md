@@ -11,6 +11,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - N/A (no data persistence involved) (002-remove-roboto-branding)
 - TypeScript 5.9.2, Node.js 20+ + Sanity Studio 4.4.1, React 19.1, @sanity/document-internationalization 4.1.0, @sanity/orderable-document-list 1.4.0 (005-studio-docs-cleanup)
 - N/A (documentation-only, no data changes) (005-studio-docs-cleanup)
+- TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), next-intl (i18n routing), next-sanity (Sanity client), React 19.x, @sanity/document-internationalization (translation metadata) (006-fix-language-switcher)
+- Sanity Content Lake (cloud-hosted CMS with translation metadata) (006-fix-language-switcher)
 
 - TypeScript 5.x (Next.js 15.x App Router, Node.js 18+) + next-intl (frontend i18n), @sanity/document-internationalization (CMS plugin), next-sanity (data fetching), groq (queries) (001-i18n-localization)
 
@@ -31,9 +33,9 @@ npm test && npm run lint
 TypeScript 5.x (Next.js 15.x App Router, Node.js 18+): Follow standard conventions
 
 ## Recent Changes
+- 006-fix-language-switcher: Added TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), next-intl (i18n routing), next-sanity (Sanity client), React 19.x, @sanity/document-internationalization (translation metadata)
 - 005-studio-docs-cleanup: Added TypeScript 5.9.2, Node.js 20+ + Sanity Studio 4.4.1, React 19.1, @sanity/document-internationalization 4.1.0, @sanity/orderable-document-list 1.4.0
 - 004-remove-orphaned-badge: Added TypeScript 5.x (strictmode enabled per monorepo standards)
-- 003-dedup-studio-records: Added TypeScript 5.x (strict mode), Node.js 18+
 
 
 <!-- MANUAL ADDITIONS START -->
