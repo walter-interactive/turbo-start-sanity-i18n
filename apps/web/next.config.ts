@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { client } from "@/lib/sanity/client";
-import { queryRedirects } from "@/lib/sanity/query";
+import { queryRedirects } from "@/lib/sanity/redirect-query";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@workspace/ui"],
+  transpilePackages: ["@workspace/ui", "@workspace/sanity"],
   experimental: {
     reactCompiler: true,
     inlineCss: true,

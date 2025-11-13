@@ -26,12 +26,12 @@
 
 **Purpose**: Create shared workspace package for schemas and fragments
 
-- [ ] T001 Create directory structure packages/sanity-blocks/src/
-- [ ] T002 Create packages/sanity-blocks/package.json with @workspace/sanity-blocks config and Sanity dependency (see research.md:L141-153 for structure: name "@workspace/sanity-blocks", private: true, main/types: "./src/index.ts", dependencies: {"sanity": "workspace:*"})
-- [ ] T003 Create packages/sanity-blocks/tsconfig.json with TypeScript config (should extend root tsconfig, include "src/**/*", enable ES modules with proper module resolution)
-- [ ] T004 Add @workspace/sanity-blocks dependency to apps/studio/package.json
-- [ ] T005 Add @workspace/sanity-blocks dependency to apps/web/package.json
-- [ ] T006 Run pnpm install to link workspace dependencies
+- [X] T001 Create directory structure packages/sanity-blocks/src/
+- [X] T002 Create packages/sanity-blocks/package.json with @workspace/sanity-blocks config and Sanity dependency (see research.md:L141-153 for structure: name "@workspace/sanity-blocks", private: true, main/types: "./src/index.ts", dependencies: {"sanity": "workspace:*"})
+- [X] T003 Create packages/sanity-blocks/tsconfig.json with TypeScript config (should extend root tsconfig, include "src/**/*", enable ES modules with proper module resolution)
+- [X] T004 Add @workspace/sanity-blocks dependency to apps/studio/package.json
+- [X] T005 Add @workspace/sanity-blocks dependency to apps/web/package.json
+- [X] T006 Run pnpm install to link workspace dependencies
 
 ---
 
@@ -41,11 +41,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 [P] Create directory apps/web/src/blocks/
-- [ ] T008 [P] Create directory apps/web/src/lib/sanity/fragments/atomic/
-- [ ] T009 [P] Create directory apps/web/src/lib/sanity/fragments/reusable/
-- [ ] T010 [P] Create directory apps/web/src/lib/sanity/fragments/pageBuilder/
-- [ ] T011 [P] Create directory apps/web/src/lib/sanity/queries/
+- [X] T007 [P] Create directory apps/web/src/blocks/
+- [X] T008 [P] Create directory apps/web/src/lib/sanity/fragments/atomic/
+- [X] T009 [P] Create directory apps/web/src/lib/sanity/fragments/reusable/
+- [X] T010 [P] Create directory apps/web/src/lib/sanity/fragments/pageBuilder/
+- [X] T011 [P] Create directory apps/web/src/lib/sanity/queries/
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 

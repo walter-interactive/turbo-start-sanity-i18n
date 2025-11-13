@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { translationsFragment } from "./i18n";
+import { heroSectionFragment } from "@workspace/sanity/blocks/hero-section";
 
 const imageFields = /* groq */ `
   "id": asset._ref,
@@ -128,15 +129,6 @@ const imageLinkCardsBlock = /* groq */ `
   }
 `;
 
-const heroBlock = /* groq */ `
-  _type == "hero" => {
-    ...,
-    ${imageFragment},
-    ${buttonsFragment},
-    ${richTextFragment}
-  }
-`;
-
 const faqFragment = /* groq */ `
   "faqs": array::compact(faqs[]->{
     title,
@@ -196,7 +188,7 @@ const pageBuilderFragment = /* groq */ `
     ...,
     _type,
     ${ctaBlock},
-    ${heroBlock},
+    ${heroSectionFragment},
     ${faqAccordionBlock},
     ${featureCardsIconBlock},
     ${subscribeNewsletterBlock},
@@ -439,14 +431,6 @@ export const querySettingsData = defineQuery(`
     "logo": logo.asset->url + "?w=80&h=40&dpr=3&fit=max",
     "socialLinks": socialLinks,
     "contactEmail": contactEmail,
-  }
-`);
-
-export const queryRedirects = defineQuery(`
-  *[_type == "redirect" && status == "active" && defined(source.current) && defined(destination.current)]{
-    "source":source.current, 
-    "destination":destination.current, 
-    "permanent" : permanent == "true"
   }
 `);
 
