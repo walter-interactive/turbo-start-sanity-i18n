@@ -73,14 +73,9 @@ export const page = defineType({
       hasPageBuilder: "pageBuilder",
     },
     prepare: ({ title, slug, media, isPrivate, hasPageBuilder }) => {
-      const statusEmoji = isPrivate ? "🔒" : "🌎";
-      const builderEmoji = hasPageBuilder?.length
-        ? `🧱 ${hasPageBuilder.length}`
-        : "🏗️";
-
       return {
         title: `${title || "Untitled Page"}`,
-        subtitle: `${statusEmoji} ${builderEmoji} | 🔗 ${slug || "no-slug"}`,
+        subtitle: `${slug || "no-slug"}`,
         media,
       };
     },

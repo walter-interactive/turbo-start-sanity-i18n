@@ -277,9 +277,9 @@ const processFolderItem = (config: FolderProcessConfig): ListItemBuilder => {
   const childFolderItems =
     Object.keys(folder.children).length > 0
       ? createListItemsFromStructure(folder.children, {
-        depth: depth + 1,
-        parentPath: `${key}-`,
-      })
+          depth: depth + 1,
+          parentPath: `${key}-`,
+        })
       : [];
 
   // Prepare list items with proper ordering
@@ -345,7 +345,16 @@ const combineItemsWithDividers = (
 };
 
 /**
- * Creates a dynamic folder structure based on document slugs/paths
+ * Creates a dynamic folder structure based on document slugs/paths.
+ *
+ * @deprecated Currently not in use - This feature doesn't integrate well with i18n
+ * (document-level translations) as it only shows documents from the default locale
+ * and doesn't provide a clear way to manage translation relationships in the nested
+ * structure. Kept in codebase for potential future client needs or non-i18n projects.
+ *
+ * @param S - Structure Builder instance
+ * @param schemaType - The schema type to create the structure for (e.g., "page")
+ * @returns A list item with nested folder structure based on document slugs
  */
 export const createSlugBasedStructure = (
   S: StructureBuilder,

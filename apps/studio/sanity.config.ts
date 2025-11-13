@@ -68,31 +68,53 @@ export default defineConfig({
     newDocumentOptions: (prev, { creationContext }) => {
       const { type } = creationContext;
       if (type === "global") {
-        return [];
+        return prev.filter(doc => ['author', 'page-fr', 'blog-fr', 'faq-fr', 'redirect'].includes(doc.templateId))
       }
       return prev;
     },
   },
   schema: {
     types: schemaTypes,
-    templates: [
-      {
-        id: "nested-page-template",
-        title: "Nested Page",
-        schemaType: "page",
-        value: (props: { slug?: string; title?: string }) => ({
-          ...(props.slug
-            ? { slug: { current: props.slug, _type: "slug" } }
-            : {}),
-          ...(props.title ? { title: props.title } : {}),
-        }),
-        parameters: [
-          {
-            name: "slug",
-            type: "string",
-          },
-        ],
-      },
-    ],
+    templates: (prev) => {
+      // List of schema types that use document internationalization
+      const i18nTypes = [
+        "page",
+        "blog",
+        "blogIndex",
+        "navbar",
+        "footer",
+        "settings",
+        "homePage",
+        "faq",
+      ];
+
+      // Filter out default templates for internationalized types
+      // This removes the "create without language" option
+      const filtered = prev.filter(
+        (template) => !i18nTypes.includes(template.id)
+      );
+
+      // Add custom templates
+      return [
+        ...filtered,
+        {
+          id: "nested-page-template",
+          title: "Nested Page",
+          schemaType: "page",
+          value: (props: { slug?: string; title?: string }) => ({
+            ...(props.slug
+              ? { slug: { current: props.slug, _type: "slug" } }
+              : {}),
+            ...(props.title ? { title: props.title } : {}),
+          }),
+          parameters: [
+            {
+              name: "slug",
+              type: "string",
+            },
+          ],
+        },
+      ];
+    },
   },
 });
