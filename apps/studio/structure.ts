@@ -184,6 +184,8 @@ export const structure = (
             .title("Pages")
             .filter("_type == $type && language == $lang")
             .params({ type: "page", lang: DEFAULT_LOCALE })
+            // Force users to create the default language first to avoid orphaned translation records
+            .initialValueTemplates([S.initialValueTemplateItem((`page-${DEFAULT_LOCALE}`))])
         ),
 
       /***** BLOGS *****/
@@ -203,6 +205,8 @@ export const structure = (
             .title("FAQs")
             .filter("_type == $type && language == $lang")
             .params({ type: "faq", lang: DEFAULT_LOCALE })
+            // Force users to create the default language first to avoid orphaned translation records
+            .initialValueTemplates([S.initialValueTemplateItem((`faq-${DEFAULT_LOCALE}`))])
         ),
 
       /***** AUTHORS *****/
