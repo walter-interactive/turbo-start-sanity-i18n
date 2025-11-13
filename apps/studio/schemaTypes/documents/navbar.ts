@@ -1,3 +1,42 @@
+/**
+ * Navbar (Site Navigation) Document Schema
+ *
+ * PURPOSE:
+ * Configures the main site navigation menu structure with support for multi-level
+ * navigation, column layouts, and action buttons. One navbar document exists per language.
+ *
+ * KEY FEATURES:
+ * - Flexible structure: Mix of navigation columns and individual links
+ * - Column groups: Organize links into labeled sections with icons and descriptions
+ * - Individual links: Standalone navigation items for simple menus
+ * - Action buttons: CTA buttons in navigation bar (e.g., "Sign Up", "Contact")
+ * - Label field: Internal CMS identifier (typically "Navbar")
+ *
+ * I18N SUPPORT: Yes - Fully translatable (French, English, Spanish)
+ * ORDERING: No - Singleton per language
+ * SINGLETON: Yes - One instance per language
+ *
+ * SPECIAL BEHAVIORS:
+ * - Mixed structure: Accepts both navbarColumn and navbarLink in columns array
+ * - Nested objects: Column and link types defined inline, not as separate schemas
+ * - URL preview: Shows truncated URLs (30 chars) with new tab indicator (↗)
+ * - Icon support: Column links can include icons from icon picker plugin
+ *
+ * NESTED TYPES:
+ * - navbarColumn: Group of links with optional title and descriptions
+ * - navbarColumnLink: Link with icon, name, description, and URL
+ * - navbarLink: Simple link with name and URL
+ *
+ * RELATED TYPES:
+ * - customUrl: Used for internal/external link configuration
+ * - iconField: Icon picker for visual navigation elements
+ * - buttonsField: Action buttons array
+ *
+ * USAGE LOCATIONS:
+ * - Studio sidebar: apps/studio/structure.ts (Navbar section)
+ * - Frontend: Header/navigation component queries navbar by language
+ */
+
 import { LayoutPanelLeft, Link, PanelTop } from "lucide-react";
 import { defineField, defineType } from "sanity";
 

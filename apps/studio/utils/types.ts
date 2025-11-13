@@ -1,3 +1,18 @@
+/**
+ * Studio Type Definitions
+ *
+ * Centralized TypeScript type definitions for Sanity Studio configuration,
+ * custom plugins, and content structures. These types provide type safety
+ * across the Studio codebase and enable IDE autocomplete.
+ *
+ * @remarks
+ * This file contains types for:
+ * - Presentation tool configuration (navigator, creatable pages)
+ * - Document tree structure (pages, folders, tree nodes)
+ * - Section/block schema definitions with variants
+ * - Custom pathname/slug configuration with i18n support
+ */
+
 import type {
   ObjectDefinition,
   ObjectOptions,
@@ -10,6 +25,12 @@ import type {
   PresentationPluginOptions,
 } from "sanity/presentation";
 
+/**
+ * Normalized page configuration for creation menu
+ *
+ * Used by presentation tool to define which document types can be created
+ * from the navigator interface.
+ */
 export type NormalizedCreatablePage = {
   title: string;
   type: string;

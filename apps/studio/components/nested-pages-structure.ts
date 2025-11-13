@@ -1,3 +1,42 @@
+/**
+ * Nested Pages Structure Component for Sanity Studio
+ *
+ * PURPOSE:
+ * Creates a hierarchical folder structure in Studio sidebar based on document slugs.
+ * Organizes pages by their URL path segments for intuitive navigation and management.
+ *
+ * DEPRECATION STATUS: DEPRECATED - Not actively used
+ *
+ * This feature was built to provide nested folder navigation in Studio but has been
+ * deprecated due to poor integration with the document-internationalization plugin:
+ *
+ * ISSUES WITH I18N:
+ * 1. Only shows default locale documents (French) in nested structure
+ * 2. Translations (English, Spanish) hidden from folder view
+ * 3. No visual indication of translation status in folders
+ * 4. "Create translation" action not accessible from nested view
+ * 5. Translation relationships not represented in folder hierarchy
+ *
+ * WHY KEPT IN CODEBASE:
+ * - Client may request nested navigation for future non-i18n projects
+ * - Can be adapted for single-language Studio setups
+ * - Demonstrates advanced Structure API usage patterns
+ * - May be useful for internal admin tools or custom content types
+ *
+ * ALTERNATIVE APPROACH:
+ * Current implementation uses flat document lists filtered by language with
+ * built-in translation management via document-internationalization plugin.
+ *
+ * KEY FEATURES (if re-enabled):
+ * - Automatic folder creation from slug segments (e.g., /blog/post-1 creates "blog" folder)
+ * - Drag-and-drop document organization within folders
+ * - Nested folder support (unlimited depth)
+ * - Main page detection (e.g., /blog is the main page for "blog" folder)
+ * - "Add page" action in folder menus with auto-prefixed slugs
+ *
+ * @deprecated Use flat document lists with language filtering instead
+ */
+
 import type { SanityClient } from "@sanity/client";
 import { DocumentIcon, FolderIcon } from "@sanity/icons";
 import { friendlyWords } from "friendlier-words";

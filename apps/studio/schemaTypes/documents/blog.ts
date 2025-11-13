@@ -1,3 +1,47 @@
+/**
+ * Blog Post Document Schema
+ *
+ * PURPOSE:
+ * Represents individual blog posts with author attribution, rich text content,
+ * and manual ordering support. Used for the main blog section of the website.
+ * Blog posts are displayed on a blog index page and have their own detail pages.
+ *
+ * KEY FEATURES:
+ * - Rich text editor with custom marks (links, highlights) and blocks
+ * - Author reference for attribution (links to author document)
+ * - SEO fields (meta description, OG image, keywords)
+ * - Open Graph fields for social media sharing
+ * - Custom slug validation to prevent duplicates per language
+ * - Manual ordering via drag-and-drop in Studio (orderableDocumentList plugin)
+ * - Published date field for chronological display
+ *
+ * I18N SUPPORT: Yes - Fully translatable (French, English, Spanish)
+ * ORDERING: Yes - Uses orderableDocumentList plugin for manual drag-and-drop ordering
+ * SINGLETON: No - Multiple blog posts allowed
+ *
+ * SPECIAL BEHAVIORS:
+ * - orderRank field quirk: Only updates on dragged document, NOT translations
+ *   Frontend queries must use: order(coalesce(__i18n_base->orderRank, orderRank))
+ *   (see structure.ts:106-132 remarks for detailed explanation)
+ * - Slug validation: Must be unique per language, cannot use reserved paths
+ *   (see utils/slug-validation.ts for implementation)
+ * - Template filtering: Only `blog-fr` template shown by default in global menu
+ *   (see sanity.config.ts:264-270 for newDocumentOptions filter)
+ * - Author reference: Cannot create new authors inline (disableNew: true)
+ * - Preview with emoji indicators: Shows visibility status, author, and date
+ *
+ * RELATED TYPES:
+ * - blogIndex (document): Landing page for blog section
+ * - author (document): Referenced for author attribution
+ * - richText (definition): Used for body field with custom formatting
+ * - seo fields (utility): Reusable SEO metadata fields
+ * - og fields (utility): Reusable Open Graph social sharing fields
+ *
+ * USAGE LOCATIONS:
+ * - Studio sidebar: apps/studio/structure.ts:364-369 (Blog section with orderable items)
+ * - Frontend queries: apps/web likely queries by language + orderRank for blog listing
+ */
+
 import {
   orderRankField,
   orderRankOrdering,

@@ -1,3 +1,38 @@
+/**
+ * Footer Document Schema
+ *
+ * PURPOSE:
+ * Configures the site footer with subtitle text and multi-column link organization.
+ * One footer document exists per language for localized content.
+ *
+ * KEY FEATURES:
+ * - Subtitle: Text displayed beneath the logo in footer
+ * - Column layout: Organize links into labeled sections
+ * - Flexible structure: Multiple columns with multiple links per column
+ * - Label field: Internal CMS identifier (typically "Footer")
+ *
+ * I18N SUPPORT: Yes - Fully translatable (French, English, Spanish)
+ * ORDERING: No - Singleton per language
+ * SINGLETON: Yes - One instance per language
+ *
+ * SPECIAL BEHAVIORS:
+ * - Nested objects: footerColumn and footerColumnLink defined inline
+ * - URL preview: Shows truncated URLs (30 chars) with new tab indicator (↗)
+ * - Simple structure: Less complex than navbar (no icons or descriptions)
+ *
+ * NESTED TYPES:
+ * - footerColumn: Group of links with a title
+ * - footerColumnLink: Link with name and URL
+ *
+ * RELATED TYPES:
+ * - customUrl: Used for internal/external link configuration
+ * - languageField: Language selection for i18n support
+ *
+ * USAGE LOCATIONS:
+ * - Studio sidebar: apps/studio/structure.ts (Footer section)
+ * - Frontend: Footer component queries footer by language
+ */
+
 import { LayoutPanelLeft, Link, PanelBottom } from "lucide-react";
 import { defineField, defineType } from "sanity";
 

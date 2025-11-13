@@ -1,3 +1,30 @@
+/**
+ * Feature Cards with Icon Block Schema
+ *
+ * PURPOSE:
+ * Displays a grid of feature cards, each with an icon, title, and rich text description.
+ * Used to showcase product features, service offerings, or key benefits in a visually
+ * organized layout.
+ *
+ * KEY FEATURES:
+ * - Header section: Optional eyebrow, title, and rich text intro
+ * - Icon picker: Uses sanity-plugin-icon-picker for visual icons
+ * - Nested cards: Array of card objects with icon, title, and description
+ * - Flexible layout: Frontend determines grid columns (typically 2-4 columns)
+ *
+ * I18N SUPPORT: No - This is a page builder block, not a standalone document
+ * ORDERING: No - Positioned within pageBuilder array
+ * SINGLETON: No - Multiple instances allowed per page
+ *
+ * SPECIAL BEHAVIORS:
+ * - Icon preview: Shows icon visual in Studio preview using preview() helper
+ * - Nested object structure: featureCardIcon is defined inline, not as separate schema
+ *
+ * USAGE LOCATIONS:
+ * - Available in pageBuilder array for any page/document type
+ * - Commonly used on landing pages, product pages, and service pages
+ */
+
 import { LayoutGrid } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { preview } from "sanity-plugin-icon-picker";

@@ -1,3 +1,37 @@
+/**
+ * Settings Document Schema
+ *
+ * PURPOSE:
+ * Global website configuration including site identity, branding, contact information,
+ * and social media links. One settings document exists per language for localized content.
+ *
+ * KEY FEATURES:
+ * - Site identity: Title, description, and logo
+ * - Contact information: Primary email address
+ * - Social media: Links to LinkedIn, Facebook, Twitter, Instagram, YouTube
+ * - Label field: Internal CMS identifier (typically "Settings")
+ * - Validation: Required fields for title, description, and label
+ *
+ * I18N SUPPORT: Yes - Fully translatable (French, English, Spanish)
+ * ORDERING: No - Singleton per language
+ * SINGLETON: Yes - One instance per language
+ *
+ * SPECIAL BEHAVIORS:
+ * - Description validation: Must be 50-160 characters for SEO compliance
+ * - Email validation: Uses Sanity's built-in email validation rule
+ * - Logo hotspot: Image field supports focal point selection for cropping
+ * - Social links: Nested object with optional fields for flexibility
+ *
+ * RELATED TYPES:
+ * - languageField: Language selection for i18n support
+ * - socialLinks: Nested object definition for social media URLs
+ *
+ * USAGE LOCATIONS:
+ * - Studio sidebar: apps/studio/structure.ts (Settings section)
+ * - Frontend: Likely used in header/footer components for site branding
+ * - SEO: Site title and description used for default metadata
+ */
+
 import { CogIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 

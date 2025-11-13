@@ -1,3 +1,38 @@
+/**
+ * Custom Slug Field Component for Sanity Studio
+ *
+ * PURPOSE:
+ * Provides an enhanced slug/pathname input field with real-time validation,
+ * auto-generation from title, URL preview, and copy functionality. Replaces
+ * Sanity's default slug input with better UX and validation feedback.
+ *
+ * KEY FEATURES:
+ * - Auto-generation: Generate slug from document title with "Generate" button
+ * - Real-time validation: Shows errors/warnings as user types
+ * - URL preview: Displays full URL with copy button
+ * - Document type aware: Uses document type for validation rules
+ * - Monospace input: Better readability for URL paths
+ *
+ * VALIDATION:
+ * - Uses useSlugValidation hook for centralized validation logic
+ * - Document type specific rules (e.g., home page must be "/")
+ * - Prevents duplicate slugs per language (when integrated with backend)
+ * - Format validation (lowercase, hyphens, no spaces, etc.)
+ *
+ * USAGE:
+ * - Assigned to slug fields via documentSlugField() in common.ts
+ * - Used in page, blog, home-page, and other document schemas
+ * - Requires document to have title field for auto-generation
+ *
+ * SUBCOMPONENTS:
+ * - FieldHeader: Title and description display
+ * - SlugInputField: Monospace text input with change handling
+ * - SlugGenerateButton: Auto-generation button with disabled state
+ * - UrlPreviewSection: Full URL display with copy button
+ * - HelpText: Static usage instructions
+ * - ErrorStates: Validation errors and warnings display
+ */
+
 import { CopyIcon } from "@sanity/icons";
 import { Box, Button, Flex, Stack, Text, TextInput } from "@sanity/ui";
 import type { ChangeEvent } from "react";

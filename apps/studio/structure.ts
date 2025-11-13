@@ -1,3 +1,36 @@
+/**
+ * Studio Structure Configuration
+ *
+ * This file defines the custom sidebar navigation structure for Sanity Studio.
+ * It controls how content types are organized, filtered, and displayed in the
+ * Studio UI, replacing the default alphabetical list with a curated content hierarchy.
+ *
+ * HOW IT WORKS:
+ * - Exports a `structure()` function that Sanity calls to build the sidebar
+ * - Referenced in sanity.config.ts via the `structure` option in the `structure` plugin
+ * - Uses helper functions (createSingleTon, createList, createIndexListWithOrderableItems)
+ *   to generate consistent list items with proper filtering and i18n support
+ *
+ * KEY PATTERNS:
+ * - Language filtering: All translatable content filtered to DEFAULT_LOCALE (French)
+ *   to avoid showing duplicate entries for every language variant
+ * - Force default language creation: initialValueTemplates restricted to French templates
+ *   to prevent orphaned translations (translations without a base document)
+ * - Singleton documents: Use createSingleTon for single-instance documents (homepage, settings)
+ * - List documents: Use createList for simple multi-instance documents (authors, redirects)
+ * - Orderable lists: Use createIndexListWithOrderableItems for content with landing pages
+ *   and drag-and-drop ordering (blogs with blogIndex)
+ *
+ * WHEN TO MODIFY:
+ * - Adding new content type: Add appropriate list item using helper functions
+ * - Changing sidebar organization: Rearrange items or add new sections
+ * - Adding new translatable type: Ensure language filter and template filtering are applied
+ * - Adding orderable content: Use createIndexListWithOrderableItems helper
+ *
+ * @see sanity.config.ts - Where this structure is registered
+ * @see schemaTypes.ts - Type definitions for SchemaType and SingletonType
+ */
+
 import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import {
   BookMarked,
@@ -36,6 +69,51 @@ type CreateSingleTon = {
   S: StructureBuilder;
 } & Base<SingletonType>;
 
+/**
+ * Creates a sidebar list item for a singleton document
+ *
+ * Singleton documents are content types that should only have one instance globally
+ * (e.g., homepage, navbar, footer, global settings). This helper creates a list item
+ * that opens the singleton document directly without showing a document list.
+ *
+ * @param S - Sanity structure builder instance (passed from structure() function)
+ * @param type - Schema type name for the singleton document (must be in SingletonType union)
+ * @param title - Display title for sidebar item (defaults to title-cased schema type name)
+ * @param icon - Lucide icon component for sidebar item (defaults to File icon)
+ * @returns Sanity list item that opens the singleton document when clicked
+ *
+ * @example
+ * ```typescript
+ * // Create homepage singleton with custom title and icon
+ * createSingleTon({
+ *   S,
+ *   type: "homePage",
+ *   title: "Homepage",
+ *   icon: HomeIcon
+ * })
+ *
+ * // Create singleton with auto-generated title (would display as "Nav Bar")
+ * createSingleTon({
+ *   S,
+ *   type: "navbar",
+ *   icon: PanelBottom
+ * })
+ * ```
+ *
+ * @remarks
+ * WHEN TO USE THIS HELPER:
+ * - For content types that should only exist once (homepage, settings, config)
+ * - When you want users to click directly into a document without seeing a list
+ * - For global configuration documents
+ *
+ * WHEN NOT TO USE:
+ * - For content types that allow multiple instances (use createList instead)
+ * - For orderable content with an index page (use createIndexListWithOrderableItems instead)
+ * - For translatable singletons that need language filtering (this helper doesn't apply filters)
+ *
+ * NOTE: The documentId is set to the schema type name, ensuring only one document
+ * of this type can exist. Sanity will reuse the same document ID for all edits.
+ */
 const createSingleTon = ({ S, type, title, icon }: CreateSingleTon) => {
   const newTitle = title ?? getTitleCase(type);
   return S.listItem()
@@ -48,11 +126,62 @@ type CreateList = {
   S: StructureBuilder;
 } & Base;
 
-// This function creates a list item for a type. It takes a StructureBuilder instance (S),
-// a type, an icon, and a title as parameters. It generates a title for the type if not provided,
-// and uses a default icon if not provided. It then returns a list item with the generated or
-// provided title and icon.
-
+/**
+ * Creates a sidebar list item for a document type with multiple instances
+ *
+ * This helper generates a list item that opens a standard document list view when clicked,
+ * showing all documents of the specified type. Use this for content types that allow
+ * multiple instances but don't need special filtering, ordering, or language constraints.
+ *
+ * @param S - Sanity structure builder instance (passed from structure() function)
+ * @param type - Schema type name for the document type (must be in SchemaType union)
+ * @param title - Display title for sidebar item (defaults to title-cased schema type name)
+ * @param icon - Lucide icon component for sidebar item (defaults to File icon)
+ * @param id - Optional custom ID for the list item (defaults to schema type name)
+ * @returns Sanity document type list item showing all documents of this type
+ *
+ * @example
+ * ```typescript
+ * // Create authors list with custom title and icon
+ * createList({
+ *   S,
+ *   type: "author",
+ *   title: "Authors",
+ *   icon: User
+ * })
+ *
+ * // Create list with auto-generated title (would display as "Redirect")
+ * createList({
+ *   S,
+ *   type: "redirect",
+ *   icon: TrendingUpDown
+ * })
+ *
+ * // Create list with custom ID (useful for multiple views of same type)
+ * createList({
+ *   S,
+ *   type: "blog",
+ *   title: "Draft Blogs",
+ *   id: "blog-drafts",
+ *   icon: FileText
+ * })
+ * ```
+ *
+ * @remarks
+ * WHEN TO USE THIS HELPER:
+ * - For simple multi-instance content types (authors, redirects, tags)
+ * - When you don't need language filtering or special ordering
+ * - For non-translatable content types
+ *
+ * WHEN NOT TO USE:
+ * - For singleton documents (use createSingleTon instead)
+ * - For translatable content that needs language filtering (use manual documentTypeList with filter)
+ * - For orderable content with an index page (use createIndexListWithOrderableItems instead)
+ *
+ * IMPORTANT: This helper does NOT apply any filters. If you need to filter by language
+ * or other fields, you must manually create a documentTypeList with .filter() and .params()
+ * (see PAGES and FAQs sections below for examples).
+ */
 const createList = ({ S, type, icon, title, id }: CreateList) => {
   const newTitle = title ?? getTitleCase(type);
   return S.documentTypeListItem(type)
@@ -163,6 +292,25 @@ const createIndexListWithOrderableItems = ({
     );
 };
 
+/**
+ * Main structure resolver function for Sanity Studio sidebar
+ *
+ * This function is called by Sanity to build the custom sidebar navigation structure.
+ * It defines the hierarchy of content types, their filtering rules, and how they appear
+ * in the Studio UI.
+ *
+ * @param S - Sanity StructureBuilder instance for creating list items and documents
+ * @param context - StructureResolverContext containing Studio state and configuration
+ * @returns Complete sidebar structure with all content sections
+ *
+ * @remarks
+ * This function is referenced in sanity.config.ts:
+ * ```typescript
+ * structure(S, context) {
+ *   return structure(S, context);
+ * }
+ * ```
+ */
 export const structure = (
   S: StructureBuilder,
   context: StructureResolverContext
@@ -170,25 +318,49 @@ export const structure = (
   S.list()
     .title("Content")
     .items([
-      /***** HOMEPAGE *****/
+      // ========================================================================
+      // HOMEPAGE - Singleton document for main landing page
+      // ========================================================================
+      // Uses createSingleTon since only one homepage exists globally
       createSingleTon({ S, type: "homePage", icon: HomeIcon }),
 
       S.divider(),
 
-      /***** PAGES *****/
+      // ========================================================================
+      // PAGES - Translatable multi-instance pages (About, Contact, etc.)
+      // ========================================================================
+      // LANGUAGE FILTERING PATTERN:
+      // - Filter to DEFAULT_LOCALE (French) to avoid showing 3x entries (fr/en/es)
+      // - Users create translations via "Translate" action in document menu
+      // - This keeps sidebar clean and prevents confusion about which entry to edit
+      //
+      // FORCE DEFAULT LANGUAGE CREATION:
+      // - initialValueTemplates filtered to only `page-fr` template
+      // - Prevents users from creating English/Spanish pages first
+      // - Avoids orphaned translations (translations without a base French document)
+      // - Base French document must exist before translations can be created
       S.listItem()
         .title("Pages")
         .icon(FileIcon)
         .child(
           S.documentTypeList("page")
             .title("Pages")
+            // Show only French pages (filter: language == "fr")
             .filter("_type == $type && language == $lang")
             .params({ type: "page", lang: DEFAULT_LOCALE })
-            // Force users to create the default language first to avoid orphaned translation records
+            // Only allow creating French pages via "+ Create" button
             .initialValueTemplates([S.initialValueTemplateItem((`page-${DEFAULT_LOCALE}`))])
         ),
 
-      /***** BLOGS *****/
+      // ========================================================================
+      // BLOGS - Orderable blog posts with blogIndex landing page
+      // ========================================================================
+      // Uses createIndexListWithOrderableItems for two-level structure:
+      // 1. Blog Index (singleton landing page for /blog route)
+      // 2. Blog Posts (orderable list with drag-and-drop reordering)
+      //
+      // ORDERING QUIRK: orderRank field only updates on dragged document, not translations
+      // See createIndexListWithOrderableItems JSDoc for frontend query workaround
       createIndexListWithOrderableItems({
         S,
         index: { type: "blogIndex", icon: BookMarked },
@@ -196,23 +368,35 @@ export const structure = (
         context,
       }),
 
-      /***** FAQs *****/
+      // ========================================================================
+      // FAQs - Translatable frequently asked questions
+      // ========================================================================
+      // Same pattern as PAGES: language filtering + force default language creation
       S.listItem()
         .title("FAQs")
         .icon(MessageCircle)
         .child(
           S.documentTypeList("faq")
             .title("FAQs")
+            // Show only French FAQs (filter: language == "fr")
             .filter("_type == $type && language == $lang")
             .params({ type: "faq", lang: DEFAULT_LOCALE })
-            // Force users to create the default language first to avoid orphaned translation records
+            // Only allow creating French FAQs via "+ Create" button
             .initialValueTemplates([S.initialValueTemplateItem((`faq-${DEFAULT_LOCALE}`))])
         ),
 
-      /***** AUTHORS *****/
+      // ========================================================================
+      // AUTHORS - Non-translatable author profiles
+      // ========================================================================
+      // Uses createList since authors don't need language filtering or ordering
+      // Authors are shared across all language versions of content
       createList({ S, type: "author", title: "Authors", icon: User }),
 
-      /***** REDIRECTS *****/
+      // ========================================================================
+      // REDIRECTS - URL redirects for SEO/migration
+      // ========================================================================
+      // Uses createList since redirects are simple multi-instance documents
+      // No language filtering needed (redirects work across all languages)
       createList({
         S,
         type: "redirect",
@@ -222,7 +406,15 @@ export const structure = (
 
       S.divider(),
 
-      /***** SITE CONFIG *****/
+      // ========================================================================
+      // SITE CONFIG - Global settings grouped in nested list
+      // ========================================================================
+      // Creates a collapsible section with three singleton configuration documents:
+      // - Navigation: Top navbar links and menu structure
+      // - Footer: Footer links, copyright, social media
+      // - Global Settings: Site-wide metadata (site name, SEO defaults, analytics)
+      //
+      // All three use createSingleTon since only one instance of each exists globally
       S.listItem()
         .title("Site Configuration")
         .icon(Settings2)

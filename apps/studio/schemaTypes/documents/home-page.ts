@@ -1,3 +1,37 @@
+/**
+ * Home Page Document Schema
+ *
+ * PURPOSE:
+ * Defines the main landing page (/) for the website with flexible page builder content,
+ * SEO fields, and Open Graph metadata. Only one home page exists per language.
+ *
+ * KEY FEATURES:
+ * - Title and description: Main heading and meta description
+ * - Page builder: Flexible content composition using drag-and-drop blocks
+ * - SEO fields: Meta description, keywords, robots directives (excluding noIndex/hideFromLists)
+ * - Open Graph: Social sharing metadata for Facebook, Twitter, etc.
+ * - Custom slug: Must be exactly "/" (enforced by validation)
+ * - Field groups: Organized into Main Content, SEO, and Open Graph tabs
+ *
+ * I18N SUPPORT: Yes - Fully translatable (French, English, Spanish)
+ * ORDERING: No - Singleton per language (only one home page per language)
+ * SINGLETON: Yes - One instance per language
+ *
+ * SPECIAL BEHAVIORS:
+ * - Slug validation: Home page slug must be exactly "/" (see documentSlugField)
+ * - Meta description validation: Warns if < 140 or > 160 characters for SEO
+ * - SEO field filtering: Excludes seoNoIndex and seoHideFromLists (not applicable to home)
+ * - Field groups: Uses GROUPS constant for consistent tab organization
+ *
+ * RELATED TYPES:
+ * - pageBuilder: Defines available content blocks (hero, CTA, etc.)
+ * - languageField: Language selection for i18n support
+ *
+ * USAGE LOCATIONS:
+ * - Studio sidebar: apps/studio/structure.ts (Home section)
+ * - Frontend queries: apps/web likely queries by language for / route
+ */
+
 import { HomeIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
