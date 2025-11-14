@@ -1,0 +1,247 @@
+/**
+ * GROQ Fragment Contracts - Atoms
+ *
+ * This file defines GROQ query fragments for atomic schema types.
+ * These fragments are used by blocks and pages to query nested atom data.
+ *
+ * Package: @walter/sanity-atoms
+ * Export: packages/sanity-atoms/src/fragments.ts
+ */
+
+// ============================================================================
+// customUrlFragment
+// ============================================================================
+// Queries customUrl object with internal/external link data
+// Used by: button, faqAccordion, imageLinkCards
+
+export const customUrlFragment = /* groq */ `
+  "url": {
+    type,
+    openInNewTab,
+    external,
+    href,
+    "internal": internal->{
+      _type,
+      "slug": slug.current
+    }
+  }
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "url": {
+ *     "type": "external",
+ *     "openInNewTab": true,
+ *     "external": "https://example.com",
+ *     "href": "#",
+ *     "internal": null
+ *   }
+ * }
+ *
+ * OR (internal link):
+ * {
+ *   "url": {
+ *     "type": "internal",
+ *     "openInNewTab": false,
+ *     "external": null,
+ *     "href": "#",
+ *     "internal": {
+ *       "_type": "page",
+ *       "slug": "about"
+ *     }
+ *   }
+ * }
+ */
+
+
+// ============================================================================
+// buttonFragment
+// ============================================================================
+// Queries individual button with variant, text, and URL
+// Used by: buttonsFragment, blocks with single button fields
+
+export const buttonFragment = /* groq */ `
+  variant,
+  text,
+  ${customUrlFragment}
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "variant": "default",
+ *   "text": "Learn More",
+ *   "url": {
+ *     "type": "external",
+ *     "openInNewTab": false,
+ *     "external": "https://example.com/learn",
+ *     "href": "#",
+ *     "internal": null
+ *   }
+ * }
+ */
+
+
+// ============================================================================
+// buttonsFragment
+// ============================================================================
+// Queries array of buttons (existing in sanity-atoms)
+// Used by: imageLinkCards, hero, cta blocks
+
+export const buttonsFragment = /* groq */ `
+  "buttons": buttons[]{
+    ${buttonFragment}
+  }
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "buttons": [
+ *     {
+ *       "variant": "default",
+ *       "text": "Get Started",
+ *       "url": { ... }
+ *     },
+ *     {
+ *       "variant": "outline",
+ *       "text": "Learn More",
+ *       "url": { ... }
+ *     }
+ *   ]
+ * }
+ */
+
+
+// ============================================================================
+// richTextFragment
+// ============================================================================
+// Queries Portable Text rich text content (existing in sanity-atoms)
+// Used by: All blocks with richText fields
+
+export const richTextFragment = /* groq */ `
+  "richText": richText[]{
+    ...,
+    _type == "image" => {
+      "asset": asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      caption
+    },
+    markDefs[]{
+      ...,
+      _type == "customLink" => {
+        ${customUrlFragment}
+      }
+    }
+  }
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "richText": [
+ *     {
+ *       "_type": "block",
+ *       "style": "normal",
+ *       "children": [
+ *         {
+ *           "_type": "span",
+ *           "text": "This is rich text with ",
+ *           "marks": []
+ *         },
+ *         {
+ *           "_type": "span",
+ *           "text": "a link",
+ *           "marks": ["link-1"]
+ *         }
+ *       ],
+ *       "markDefs": [
+ *         {
+ *           "_key": "link-1",
+ *           "_type": "customLink",
+ *           "url": {
+ *             "type": "internal",
+ *             "internal": { "_type": "page", "slug": "about" }
+ *           }
+ *         }
+ *       ]
+ *     },
+ *     {
+ *       "_type": "image",
+ *       "asset": {
+ *         "_id": "image-abc123",
+ *         "url": "https://cdn.sanity.io/images/...",
+ *         "metadata": {
+ *           "lqip": "data:image/png;base64,...",
+ *           "dimensions": {
+ *             "width": 1920,
+ *             "height": 1080,
+ *             "aspectRatio": 1.7778
+ *           }
+ *         }
+ *       },
+ *       "caption": "Example image"
+ *     }
+ *   ]
+ * }
+ */
+
+
+// ============================================================================
+// imageFragment
+// ============================================================================
+// Queries image asset with metadata (existing in sanity-atoms)
+// Used by: Blocks with image fields
+
+export const imageFragment = /* groq */ `
+  "asset": asset->{
+    _id,
+    url,
+    metadata {
+      lqip,
+      dimensions {
+        width,
+        height,
+        aspectRatio
+      }
+    }
+  },
+  hotspot,
+  crop
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "asset": {
+ *     "_id": "image-abc123",
+ *     "url": "https://cdn.sanity.io/images/...",
+ *     "metadata": {
+ *       "lqip": "data:image/png;base64,...",
+ *       "dimensions": {
+ *         "width": 1920,
+ *         "height": 1080,
+ *         "aspectRatio": 1.7778
+ *       }
+ *     }
+ *   },
+ *   "hotspot": {
+ *     "x": 0.5,
+ *     "y": 0.5,
+ *     "height": 1,
+ *     "width": 1
+ *   },
+ *   "crop": null
+ * }
+ */

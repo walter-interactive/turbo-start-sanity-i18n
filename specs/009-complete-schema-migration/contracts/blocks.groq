@@ -1,0 +1,359 @@
+/**
+ * GROQ Fragment Contracts - Blocks
+ *
+ * This file defines GROQ query fragments for page builder block schemas.
+ * These fragments compose atom fragments to query complete block data.
+ *
+ * Package: @walter/sanity-blocks
+ * Export: packages/sanity-blocks/src/fragments.ts
+ */
+
+// Import atom fragments (referenced in fragments below)
+import {
+  customUrlFragment,
+  buttonsFragment,
+  richTextFragment,
+  imageFragment
+} from '@walter/sanity-atoms/fragments'
+
+
+// ============================================================================
+// faqAccordionFragment
+// ============================================================================
+// Queries FAQ accordion block with header, link, and FAQ references
+
+export const faqAccordionFragment = /* groq */ `
+  _type == "faqAccordion" => {
+    eyebrow,
+    title,
+    subtitle,
+    "link": link {
+      title,
+      description,
+      ${customUrlFragment}
+    },
+    "faqs": faqs[]->{
+      _id,
+      question,
+      answer
+    }
+  },
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "_type": "faqAccordion",
+ *   "eyebrow": "Got Questions?",
+ *   "title": "Frequently Asked Questions",
+ *   "subtitle": "Find answers to common questions below",
+ *   "link": {
+ *     "title": "Contact Support",
+ *     "description": "Can't find what you're looking for?",
+ *     "url": {
+ *       "type": "external",
+ *       "external": "mailto:support@example.com",
+ *       "openInNewTab": false
+ *     }
+ *   },
+ *   "faqs": [
+ *     {
+ *       "_id": "faq-123",
+ *       "question": "How does it work?",
+ *       "answer": "It's simple! Just follow these steps..."
+ *     },
+ *     {
+ *       "_id": "faq-456",
+ *       "question": "What are the pricing options?",
+ *       "answer": "We offer flexible pricing..."
+ *     }
+ *   ]
+ * }
+ */
+
+
+// ============================================================================
+// featureCardsIconFragment
+// ============================================================================
+// Queries feature cards block with icon picker cards
+
+export const featureCardsIconFragment = /* groq */ `
+  _type == "featureCardsIcon" => {
+    eyebrow,
+    title,
+    ${richTextFragment},
+    "cards": cards[]{
+      icon,
+      title,
+      ${richTextFragment}
+    }
+  },
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "_type": "featureCardsIcon",
+ *   "eyebrow": "Features",
+ *   "title": "Why Choose Us",
+ *   "richText": [
+ *     {
+ *       "_type": "block",
+ *       "children": [{ "text": "Discover our amazing features" }]
+ *     }
+ *   ],
+ *   "cards": [
+ *     {
+ *       "icon": {
+ *         "provider": "fi",
+ *         "name": "FiCheck",
+ *         "svg": "<svg>...</svg>"
+ *       },
+ *       "title": "Fast Performance",
+ *       "richText": [
+ *         {
+ *           "_type": "block",
+ *           "children": [{ "text": "Lightning fast speeds guaranteed" }]
+ *         }
+ *       ]
+ *     },
+ *     {
+ *       "icon": {
+ *         "provider": "fi",
+ *         "name": "FiShield",
+ *         "svg": "<svg>...</svg>"
+ *       },
+ *       "title": "Secure by Default",
+ *       "richText": [
+ *         {
+ *           "_type": "block",
+ *           "children": [{ "text": "Enterprise-grade security" }]
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ *
+ * NOTE: Icon object structure from sanity-plugin-icon-picker with storeSvg: true
+ * The SVG string can be rendered directly in the frontend.
+ */
+
+
+// ============================================================================
+// imageLinkCardsFragment
+// ============================================================================
+// Queries image link cards block with card array, buttons, and rich text
+
+export const imageLinkCardsFragment = /* groq */ `
+  _type == "imageLinkCards" => {
+    eyebrow,
+    title,
+    ${richTextFragment},
+    ${buttonsFragment},
+    "cards": cards[]{
+      title,
+      description,
+      "image": image {
+        ${imageFragment}
+      },
+      ${customUrlFragment}
+    }
+  },
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "_type": "imageLinkCards",
+ *   "eyebrow": "Resources",
+ *   "title": "Explore Our Content",
+ *   "richText": [
+ *     {
+ *       "_type": "block",
+ *       "children": [{ "text": "Browse our collection of resources" }]
+ *     }
+ *   ],
+ *   "buttons": [
+ *     {
+ *       "variant": "default",
+ *       "text": "View All",
+ *       "url": { "type": "internal", "internal": { "slug": "resources" } }
+ *     }
+ *   ],
+ *   "cards": [
+ *     {
+ *       "title": "Getting Started Guide",
+ *       "description": "Learn the basics in 5 minutes",
+ *       "image": {
+ *         "asset": {
+ *           "_id": "image-123",
+ *           "url": "https://cdn.sanity.io/images/...",
+ *           "metadata": {
+ *             "lqip": "data:image/png;base64,...",
+ *             "dimensions": { "width": 800, "height": 600, "aspectRatio": 1.33 }
+ *           }
+ *         },
+ *         "hotspot": null,
+ *         "crop": null
+ *       },
+ *       "url": {
+ *         "type": "internal",
+ *         "internal": { "_type": "page", "slug": "getting-started" }
+ *       }
+ *     },
+ *     {
+ *       "title": "Video Tutorial",
+ *       "description": "Watch our step-by-step tutorial",
+ *       "image": { ... },
+ *       "url": {
+ *         "type": "external",
+ *         "external": "https://youtube.com/watch?v=...",
+ *         "openInNewTab": true
+ *       }
+ *     }
+ *   ]
+ * }
+ */
+
+
+// ============================================================================
+// subscribeNewsletterFragment
+// ============================================================================
+// Queries newsletter subscription block with multiple rich text fields
+
+export const subscribeNewsletterFragment = /* groq */ `
+  _type == "subscribeNewsletter" => {
+    title,
+    "subTitle": subTitle[]{
+      ...,
+      markDefs[]{
+        ...,
+        _type == "customLink" => {
+          ${customUrlFragment}
+        }
+      }
+    },
+    "helperText": helperText[]{
+      ...,
+      markDefs[]{
+        ...,
+        _type == "customLink" => {
+          ${customUrlFragment}
+        }
+      }
+    }
+  },
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "_type": "subscribeNewsletter",
+ *   "title": "Stay Updated",
+ *   "subTitle": [
+ *     {
+ *       "_type": "block",
+ *       "style": "normal",
+ *       "children": [
+ *         {
+ *           "_type": "span",
+ *           "text": "Get the latest news and updates delivered to your inbox"
+ *         }
+ *       ]
+ *     }
+ *   ],
+ *   "helperText": [
+ *     {
+ *       "_type": "block",
+ *       "children": [
+ *         {
+ *           "_type": "span",
+ *           "text": "By subscribing, you agree to our "
+ *         },
+ *         {
+ *           "_type": "span",
+ *           "text": "Privacy Policy",
+ *           "marks": ["link-1"]
+ *         }
+ *       ],
+ *       "markDefs": [
+ *         {
+ *           "_key": "link-1",
+ *           "_type": "customLink",
+ *           "url": {
+ *             "type": "internal",
+ *             "internal": { "_type": "page", "slug": "privacy" }
+ *           }
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ *
+ * NOTE: subTitle and helperText use customRichText with custom field names.
+ * They support text formatting and links, but not images (["block"] only).
+ */
+
+
+// ============================================================================
+// pageBuilderFragment (Usage Example)
+// ============================================================================
+// Aggregates all block fragments for pageBuilder array queries
+
+export const pageBuilderFragment = /* groq */ `
+  pageBuilder[]{
+    ...,
+    _type,
+    ${faqAccordionFragment},
+    ${featureCardsIconFragment},
+    ${imageLinkCardsFragment},
+    ${subscribeNewsletterFragment}
+  }
+`
+
+/**
+ * Sample Query Result:
+ * {
+ *   "pageBuilder": [
+ *     {
+ *       "_type": "hero",
+ *       // ... hero block data
+ *     },
+ *     {
+ *       "_type": "faqAccordion",
+ *       "eyebrow": "Got Questions?",
+ *       // ... faq accordion data
+ *     },
+ *     {
+ *       "_type": "subscribeNewsletter",
+ *       "title": "Stay Updated",
+ *       // ... newsletter block data
+ *     }
+ *   ]
+ * }
+ *
+ * NOTE: The `_type` field is critical for frontend block rendering.
+ * Each block type maps to a React component in the frontend.
+ */
+
+
+// ============================================================================
+// Fragment Testing Query
+// ============================================================================
+// Use this query to test fragment correctness in Sanity Vision
+
+const testQuery = /* groq */ `
+  *[_type == "page" && slug.current == "test"][0]{
+    title,
+    ${pageBuilderFragment}
+  }
+`
+
+/**
+ * Testing Steps:
+ * 1. Open Sanity Studio Vision tab
+ * 2. Paste the testQuery above
+ * 3. Replace "test" with actual page slug
+ * 4. Verify all block data is returned with no undefined fields
+ * 5. Check nested fields (buttons, customUrl, richText) are fully populated
+ */
