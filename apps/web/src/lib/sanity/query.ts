@@ -1,6 +1,10 @@
 import { defineQuery } from "next-sanity";
 import { translationsFragment } from "./i18n";
-import { heroSectionFragment } from "@workspace/sanity/blocks/hero-section";
+import {
+  heroSectionFragment,
+  ctaBlock,
+  faqSectionFragment
+} from "@workspace/sanity/fragments";
 
 const imageFields = /* groq */ `
   "id": asset._ref,
@@ -100,13 +104,6 @@ const buttonsFragment = /* groq */ `
 `;
 
 // Page builder block fragments
-const ctaBlock = /* groq */ `
-  _type == "cta" => {
-    ...,
-    ${richTextFragment},
-    ${buttonsFragment},
-  }
-`;
 const imageLinkCardsBlock = /* groq */ `
   _type == "imageLinkCards" => {
     ...,
@@ -126,35 +123,6 @@ const imageLinkCardsBlock = /* groq */ `
       ),
       ${imageFragment},
     })
-  }
-`;
-
-const faqFragment = /* groq */ `
-  "faqs": array::compact(faqs[]->{
-    title,
-    _id,
-    _type,
-    ${richTextFragment}
-  })
-`;
-
-const faqAccordionBlock = /* groq */ `
-  _type == "faqAccordion" => {
-    ...,
-    ${faqFragment},
-    link{
-      ...,
-      "openInNewTab": url.openInNewTab,
-      "href": select(
-        url.type == "internal" => url.internal->slug.current,
-        url.type == "external" => url.external,
-        url.href
-      ),
-      "internalType": select(
-        url.type == "internal" => url.internal->_type,
-        null
-      )
-    }
   }
 `;
 
@@ -189,7 +157,7 @@ const pageBuilderFragment = /* groq */ `
     _type,
     ${ctaBlock},
     ${heroSectionFragment},
-    ${faqAccordionBlock},
+    ${faqSectionFragment},
     ${featureCardsIconBlock},
     ${subscribeNewsletterBlock},
     ${imageLinkCardsBlock}

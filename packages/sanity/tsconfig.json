@@ -3,10 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "bundler",
-    "module": "ESNext",
-    "paths": {
-      "@workspace/sanity/*": ["./src/*"]
-    }
+    "module": "ESNext"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

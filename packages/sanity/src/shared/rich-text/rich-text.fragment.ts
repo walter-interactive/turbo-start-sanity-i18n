@@ -1,4 +1,4 @@
-import { imageFields } from "@workspace/sanity/shared/image";
+import { imageFields } from "../image/image.fragment";
 
 const customLinkFragment = /* groq */ `
   ...customLink{

@@ -24,8 +24,8 @@
 import { PhoneIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
-import { buttonsFieldSchema } from "@workspace/sanity/shared/buttons";
-import { customRichText } from "@workspace/sanity/shared/rich-text";
+import { buttonsFieldSchema } from "../../shared/buttons/buttons.schema";
+import { customRichText } from "../../shared/rich-text/rich-text.schema";
 
 export const cta = defineType({
   name: "cta",
