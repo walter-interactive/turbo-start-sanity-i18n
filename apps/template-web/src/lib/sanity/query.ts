@@ -6,11 +6,35 @@ import {
   faqSectionFragment,
 } from "@walter/sanity-blocks/fragments";
 import {
-  imageFields,
-  imageFragment,
+  // imageFields,
+  // imageFragment,
   buttonsFragment,
   richTextFragment,
 } from "@walter/sanity-atoms/fragments";
+
+
+// test
+export const imageFields = /* groq */ `
+  "id": asset._ref,
+  "preview": asset->metadata.lqip,
+  hotspot {
+    x,
+    y
+  },
+  crop {
+    bottom,
+    left,
+    right,
+    top
+  }
+`;
+
+// Base fragments for reusable query parts
+export const imageFragment = /* groq */ `
+  image {
+    ${imageFields}
+  }
+`;
 
 // Local fragments still needed for unmigrated blocks
 const customLinkFragment = /* groq */ `

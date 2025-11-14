@@ -930,21 +930,7 @@ export type SanityAssetSourceData = {
 
 export type AllSanitySchemaTypes = SubscribeNewsletter | ImageLinkCards | FaqAccordion | FeatureCardsIcon | Cta | Hero | PageBuilder | Button | RichText | Redirect | Author | TranslationMetadata | InternationalizedArrayReferenceValue | Faq | HomePage | Settings | Footer | Navbar | BlogIndex | Blog | Page | CustomUrl | InternationalizedArrayReference | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | IconPicker | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ../studio/node_modules/sanity-plugin-media/src/modules/tags/index.ts
-// Variable: query
-// Query: {            "items": *[              _type == "media.tag"              && !(_id in path("drafts.**"))            ] {              _createdAt,              _updatedAt,              _id,              _rev,              _type,              name            } | order(name.current asc),          }
-export type QueryResult = {
-  items: Array<{
-    _createdAt: string;
-    _updatedAt: string;
-    _id: string;
-    _rev: string;
-    _type: "media.tag";
-    name: Slug | null;
-  }>;
-};
-
-// Source: ../web/src/lib/sanity/redirect-query.ts
+// Source: ../template-web/src/lib/sanity/redirect-query.ts
 // Variable: queryRedirects
 // Query: *[_type == "redirect" && status == "active" && defined(source.current) && defined(destination.current)]{    "source":source.current,     "destination":destination.current,     "permanent" : permanent == "true"  }
 export type QueryRedirectsResult = Array<{
@@ -957,7 +943,6 @@ export type QueryRedirectsResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n          {\n            \"items\": *[\n              _type == \"media.tag\"\n              && !(_id in path(\"drafts.**\"))\n            ] {\n              _createdAt,\n              _updatedAt,\n              _id,\n              _rev,\n              _type,\n              name\n            } | order(name.current asc),\n          }\n        ": QueryResult;
     "\n  *[_type == \"redirect\" && status == \"active\" && defined(source.current) && defined(destination.current)]{\n    \"source\":source.current, \n    \"destination\":destination.current, \n    \"permanent\" : permanent == \"true\"\n  }\n": QueryRedirectsResult;
   }
 }

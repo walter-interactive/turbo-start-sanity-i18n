@@ -9,4 +9,5 @@
  */
 
 export { buttonsFieldSchema } from "./buttons.schema";
-export { richText, customRichText, memberTypes } from "./richText.schema";
+export { richText, customRichText, memberTypes } from "./rich-text.schema";
+export { customUrlSchema } from "./custom-url.schema";

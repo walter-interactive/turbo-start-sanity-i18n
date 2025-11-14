@@ -10,9 +10,9 @@
  */
 
 // Import block fragments
-import { heroSectionFragment } from "./heroSection.fragment";
+import { heroSectionFragment } from "./hero-section.fragment";
 import { ctaBlock } from "./cta.fragment";
-import { faqSectionFragment } from "./faqAccordion.fragment";
+import { faqSectionFragment } from "./faq-accordion.fragment";
 
 // Re-export block fragments for individual imports
 export { heroSectionFragment, ctaBlock, faqSectionFragment };

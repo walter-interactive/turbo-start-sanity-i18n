@@ -8,11 +8,6 @@
  * import { buttonsFragment, imageFragment, richTextFragment } from '@walter/sanity-atoms/fragments'
  */
 
-// Re-export buttons fragment
 export { buttonsFragment } from "./buttons.fragment";
-
-// Re-export image fragments
 export { imageFields, imageFragment } from "./image.fragment";
-
-// Re-export rich text fragment
-export { richTextFragment } from "./richText.fragment";
+export { richTextFragment } from "./rich-text.fragment";

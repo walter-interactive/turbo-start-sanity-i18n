@@ -6,9 +6,9 @@
  */
 
 // Import block schemas
-import { heroSectionSchema } from "./heroSection.schema";
+import { heroSectionSchema } from "./hero-section.schema";
 import { ctaSchema } from "./cta.schema";
-// Note: faqAccordion schema file exists but is empty (0 bytes) - not imported
+// Note: faq-accordion schema file exists but is empty (0 bytes) - not imported
 
 // Re-export block schemas for individual imports
 export { heroSectionSchema, ctaSchema };
