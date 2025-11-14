@@ -30,8 +30,21 @@
  */
 
 import { defineArrayMember, defineType } from "sanity";
+import { ctaSchema } from "@walter/sanity-blocks/schemas/cta";
+import { faqAccordionSchema } from "@walter/sanity-blocks/schemas/faq-accordion";
+import { featureCardsIconSchema } from "@walter/sanity-blocks/schemas/feature-cards-icon";
+import { heroSectionSchema } from "@walter/sanity-blocks/schemas/hero-section";
+import { imageLinkCardsSchema } from "@walter/sanity-blocks/schemas/image-link-cards";
+import { subscribeNewsletterSchema } from "@walter/sanity-blocks/schemas/subscribe-newsletter";
 
-import { pageBuilderBlocks } from "../blocks";
+const pageBuilderBlocks = [
+  heroSectionSchema,
+  ctaSchema,
+  featureCardsIconSchema,
+  faqAccordionSchema,
+  imageLinkCardsSchema,
+  subscribeNewsletterSchema,
+];
 
 export const pagebuilderBlockTypes = pageBuilderBlocks.map(({ name }) => ({
   type: name,
