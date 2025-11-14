@@ -21,6 +21,12 @@ Migrate all remaining Sanity schema definitions (atoms: button, customUrl; block
 **Constraints**: Sanity Studio 4.x preview.prepare() synchronous-only (cannot use async operations), workspace protocol dependencies, strict TypeScript mode enabled
 **Scale/Scope**: 2 atom schemas (button, customUrl), 4 block schemas (faqAccordion, featureCardsIcon, imageLinkCards, subscribeNewsletter), ~8-12 files to migrate/create
 
+**Infrastructure from Spec 008** (already in place):
+- ✅ TypeScript wildcard path mappings configured in both root and studio tsconfig.json (FR-007 is verification, not creation)
+- ✅ Package.json wildcard exports configured: `"./schemas/*": "./src/*.schema.ts"` and `"./fragments/*": "./src/*.fragment.ts"`
+- ✅ `customRichText` helper function already exported from `packages/sanity-atoms/src/rich-text.schema.ts` (FR-014 is verification, not creation)
+- ✅ `buttonsFieldSchema` already extracted to `packages/sanity-atoms/src/buttons.schema.ts`
+
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
@@ -121,6 +127,8 @@ apps/template-studio/
 ```
 
 **Structure Decision**: Monorepo workspace package structure. Atoms are primitive reusable types with no dependencies, stored in `@walter/sanity-atoms`. Blocks are complex page builder components that depend on atoms, stored in `@walter/sanity-blocks`. Template-studio consumes both packages via workspace protocol dependencies. This follows the established pattern from spec 007/008.
+
+**Utility Extraction Decision** (from spec clarifications): Apply the **3+ usage criterion** - extract utility functions to shared packages ONLY if 3 or more schemas use the SAME function signature and implementation; otherwise inline the utility in each schema. This balances code reuse (DRY principle) with avoiding premature abstraction. Examples: `buttonsFieldSchema` (3+ usages) → extracted to sanity-atoms; `iconField` (1 usage) → inlined in featureCardsIcon; `capitalize`, `isValidUrl` (<3 usages) → inlined where needed.
 
 ## Complexity Tracking
 

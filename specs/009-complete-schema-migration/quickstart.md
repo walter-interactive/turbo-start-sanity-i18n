@@ -17,8 +17,6 @@ This guide walks through migrating Sanity schema definitions from `apps/template
 - [ ] Create `button` fragment in `packages/sanity-atoms/src/button.fragment.ts`
 - [ ] Migrate `customUrl` schema to `packages/sanity-atoms/src/customUrl.schema.ts`
 - [ ] Create `customUrl` fragment in `packages/sanity-atoms/src/customUrl.fragment.ts`
-- [ ] Update `packages/sanity-atoms/src/schemas.ts` exports
-- [ ] Update `packages/sanity-atoms/src/fragments.ts` exports
 
 **Blocks (Priority 2)**
 - [ ] Complete `packages/sanity-blocks/src/faqAccordion.schema.ts`
@@ -26,8 +24,6 @@ This guide walks through migrating Sanity schema definitions from `apps/template
 - [ ] Migrate `imageLinkCards` schema to packages
 - [ ] Migrate `subscribeNewsletter` schema to packages
 - [ ] Create fragments for all 4 blocks
-- [ ] Update `packages/sanity-blocks/src/schemas.ts` exports
-- [ ] Update `packages/sanity-blocks/src/fragments.ts` exports
 
 **Template-Studio Cleanup (Priority 3)**
 - [ ] Update `apps/template-studio/schemaTypes/definitions/index.ts`
@@ -91,7 +87,7 @@ export const buttonSchema = defineType({ ... })
 **Target**: `packages/sanity-atoms/src/button.fragment.ts`
 
 ```typescript
-import { customUrlFragment } from "./customUrl.fragment";
+import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
 
 export const buttonFragment = /* groq */ `
   variant,
@@ -99,6 +95,8 @@ export const buttonFragment = /* groq */ `
   ${customUrlFragment}
 `;
 ```
+
+**Note**: Use direct imports with wildcard pattern, not relative paths.
 
 #### 1.3 Migrate `customUrl` Schema
 
@@ -170,23 +168,34 @@ export const customUrlFragment = /* groq */ `
 `;
 ```
 
-#### 1.5 Update Atom Package Exports
+#### 1.5 Configure Wildcard Exports
 
-**File**: `packages/sanity-atoms/src/schemas.ts`
+**File**: `packages/sanity-atoms/package.json`
 
-```typescript
-// Add to existing exports
-export { buttonSchema } from "./button.schema";
-export { customUrlSchema } from "./customUrl.schema";
+```json
+{
+  "exports": {
+    "./schemas/*": "./src/*.schema.ts",
+    "./fragments/*": "./src/*.fragment.ts"
+  }
+}
 ```
 
-**File**: `packages/sanity-atoms/src/fragments.ts`
+**File**: Root `tsconfig.json` + `apps/template-studio/tsconfig.json`
 
-```typescript
-// Add to existing exports
-export { buttonFragment } from "./button.fragment";
-export { customUrlFragment } from "./customUrl.fragment";
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@walter/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"],
+      "@walter/sanity-atoms/fragments/*": ["./packages/sanity-atoms/src/*.fragment.ts"]
+    }
+  }
+}
 ```
+
+**⚠️ IMPORTANT**: Do NOT create `schemas.ts` or `fragments.ts` barrel files. Use direct imports only.
 
 #### 1.6 Verify Atom Migration
 
@@ -209,14 +218,14 @@ pnpm --filter @walter/sanity-atoms check-types
 
 **Changes Required**:
 1. Copy entire file content
-2. Update import to use package:
+2. Update import to use direct package import:
 
 ```typescript
 // Before
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import { customRichText } from "@walter/sanity-atoms/schemas";
+import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 ```
 
 3. Rename export:
@@ -262,13 +271,13 @@ fields: [
 ]
 ```
 
-3. Update imports:
+3. Update import to use direct package import:
 ```typescript
 // Before
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import { customRichText } from "@walter/sanity-atoms/schemas";
+import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 ```
 
 4. Rename export:
@@ -283,7 +292,7 @@ export const featureCardsIconSchema = defineType({ ... })
 
 **Changes Required**:
 1. Copy file to target location
-2. Update imports:
+2. Update imports to use direct package imports:
 
 ```typescript
 // Before
@@ -291,10 +300,8 @@ import { buttonsField } from "../common";
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import {
-  buttonsFieldSchema,
-  customRichText
-} from "@walter/sanity-atoms/schemas";
+import { buttonsFieldSchema } from "@walter/sanity-atoms/schemas/buttons";
+import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 ```
 
 3. Update field reference:
@@ -318,14 +325,14 @@ export const imageLinkCardsSchema = defineType({ ... })
 
 **Changes Required**:
 1. Copy file to target location
-2. Update import:
+2. Update import to use direct package import:
 
 ```typescript
 // Before
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import { customRichText } from "@walter/sanity-atoms/schemas";
+import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 ```
 
 3. Rename export:
@@ -345,7 +352,7 @@ export const subscribeNewsletterSchema = defineType({ ... })
 
 **Pattern** (example for faqAccordion):
 ```typescript
-import { customUrlFragment } from "@walter/sanity-atoms/fragments";
+import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
 
 export const faqAccordionFragment = /* groq */ `
   _type == "faqAccordion" => {
@@ -366,59 +373,9 @@ export const faqAccordionFragment = /* groq */ `
 `;
 ```
 
-#### 2.6 Update Block Package Exports
+**Note**: Always use direct file imports with wildcard pattern (e.g., `@walter/sanity-atoms/fragments/custom-url`), never barrel exports.
 
-**File**: `packages/sanity-blocks/src/schemas.ts`
-
-```typescript
-// Update imports
-import { faqAccordionSchema } from "./faqAccordion.schema";
-import { featureCardsIconSchema } from "./featureCardsIcon.schema";
-import { imageLinkCardsSchema } from "./imageLinkCards.schema";
-import { subscribeNewsletterSchema } from "./subscribeNewsletter.schema";
-
-// Update exports
-export {
-  heroSectionSchema,
-  ctaSchema,
-  faqAccordionSchema,
-  featureCardsIconSchema,
-  imageLinkCardsSchema,
-  subscribeNewsletterSchema
-};
-
-// Update convenience array
-export const allBlockSchemas = [
-  heroSectionSchema,
-  ctaSchema,
-  faqAccordionSchema,
-  featureCardsIconSchema,
-  imageLinkCardsSchema,
-  subscribeNewsletterSchema
-];
-```
-
-**File**: `packages/sanity-blocks/src/fragments.ts`
-
-```typescript
-// Add imports
-export { faqAccordionFragment } from "./faqAccordion.fragment";
-export { featureCardsIconFragment } from "./featureCardsIcon.fragment";
-export { imageLinkCardsFragment } from "./imageLinkCards.fragment";
-export { subscribeNewsletterFragment } from "./subscribeNewsletter.fragment";
-
-// Update convenience array
-export const allBlockFragments = [
-  heroSectionFragment,
-  ctaFragment,
-  faqAccordionFragment,
-  featureCardsIconFragment,
-  imageLinkCardsFragment,
-  subscribeNewsletterFragment
-];
-```
-
-#### 2.7 Verify Block Migration
+#### 2.6 Verify Block Migration
 
 ```bash
 # Type check
@@ -447,10 +404,8 @@ export const definitions = [
 ];
 
 // After
-import {
-  buttonSchema,
-  customUrlSchema
-} from "@walter/sanity-atoms/schemas";
+import { buttonSchema } from "@walter/sanity-atoms/schemas/button";
+import { customUrlSchema } from "@walter/sanity-atoms/schemas/custom-url";
 
 export const definitions = [
   buttonSchema,
@@ -458,6 +413,8 @@ export const definitions = [
   // ... other definitions
 ];
 ```
+
+**Note**: Use direct file imports with wildcard pattern, not barrel exports.
 
 #### 3.2 Update Block Imports
 
@@ -470,18 +427,32 @@ import { featureCardsIcon } from "./feature-cards-icon";
 import { imageLinkCards } from "./image-link-cards";
 import { subscribeNewsletter } from "./subscribe-newsletter";
 
+export const pageBuilderBlocks = [
+  faqAccordion,
+  featureCardsIcon,
+  imageLinkCards,
+  subscribeNewsletter,
+];
+
 // After
-import {
+import { heroSectionSchema } from "@walter/sanity-blocks/schemas/hero-section";
+import { ctaSchema } from "@walter/sanity-blocks/schemas/cta";
+import { faqAccordionSchema } from "@walter/sanity-blocks/schemas/faq-accordion";
+import { featureCardsIconSchema } from "@walter/sanity-blocks/schemas/feature-cards-icon";
+import { imageLinkCardsSchema } from "@walter/sanity-blocks/schemas/image-link-cards";
+import { subscribeNewsletterSchema } from "@walter/sanity-blocks/schemas/subscribe-newsletter";
+
+export const pageBuilderBlocks = [
+  heroSectionSchema,
+  ctaSchema,
   faqAccordionSchema,
   featureCardsIconSchema,
   imageLinkCardsSchema,
-  subscribeNewsletterSchema
-} from "@walter/sanity-blocks/schemas";
-
-// OR use convenience export
-import { allBlockSchemas } from "@walter/sanity-blocks/schemas";
-export const pageBuilderBlocks = allBlockSchemas;
+  subscribeNewsletterSchema,
+];
 ```
+
+**Note**: Use direct file imports with wildcard pattern, not barrel exports.
 
 #### 3.3 Verify Studio Imports
 
@@ -595,9 +566,9 @@ pnpm --filter template-studio dev
 
 ## Common Issues & Solutions
 
-### Issue: "Cannot find module '@walter/sanity-atoms/schemas'"
+### Issue: "Cannot find module '@walter/sanity-atoms/schemas/button'"
 
-**Cause**: Package not installed or TypeScript not resolving workspace dependencies
+**Cause**: Package not installed, TypeScript not resolving workspace dependencies, or wildcard paths not configured
 
 **Solution**:
 ```bash
@@ -607,21 +578,25 @@ pnpm install
 # Verify package.json has workspace dependency
 cat apps/template-studio/package.json | grep "@walter/sanity-atoms"
 # Should show: "@walter/sanity-atoms": "workspace:*"
+
+# Verify tsconfig.json has wildcard path mappings
+cat tsconfig.json | grep "@walter/sanity-atoms/schemas"
+# Should show: "@walter/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"]
 ```
 
 ---
 
 ### Issue: Type errors for schema fields after migration
 
-**Cause**: Import using wrong export name (e.g., `button` instead of `buttonSchema`)
+**Cause**: Import using wrong export name (e.g., `button` instead of `buttonSchema`) or wrong import path
 
-**Solution**: Verify export names match:
+**Solution**: Verify export names and paths match:
 ```typescript
 // In package
 export const buttonSchema = defineType({ name: "button", ... })
 
-// In template-studio
-import { buttonSchema } from "@walter/sanity-atoms/schemas"
+// In template-studio (use direct file import)
+import { buttonSchema } from "@walter/sanity-atoms/schemas/button"
 ```
 
 ---
@@ -666,7 +641,7 @@ export const pagebuilder = defineType({
 After completing migration:
 
 1. **Update Frontend Queries** (`apps/template-web`):
-   - Import fragments from `@walter/sanity-atoms/fragments` and `@walter/sanity-blocks/fragments`
+   - Import fragments using direct file imports (e.g., `@walter/sanity-atoms/fragments/custom-url`, `@walter/sanity-blocks/fragments/faq-accordion`)
    - Update pageBuilder query to include new block fragments
 
 2. **Create Frontend Components** (if not exists):

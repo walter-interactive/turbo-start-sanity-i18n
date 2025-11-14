@@ -12,65 +12,69 @@ This document captures research findings for migrating remaining Sanity schema d
 
 ### Q1: How should helper utility dependencies be handled when migrating schemas?
 
-**Decision**: Export utilities from shared packages OR inline them if simple
+**Decision**: Use the **3+ usage criterion** - Extract to shared package ONLY if 3 or more schemas use the SAME function signature and implementation; otherwise inline
 
 **Rationale**:
 - Migrated schemas (e.g., `heroSection.schema.ts`) successfully import from `@walter/sanity-atoms/schemas`
 - Helper functions like `createRadioListLayout`, `capitalize`, `isValidUrl` exist in `apps/template-studio/utils/helper.ts`
 - These are Studio-specific utilities, NOT schema logic
+- The 3+ usage threshold balances code reuse (DRY principle) with avoiding premature abstraction
 
 **Options Evaluated**:
 
-1. **Export from sanity-atoms package** (REJECTED)
-   - Pros: Single source of truth, reusable
-   - Cons: Utilities are for Studio UI configuration (radio layouts), not schema definition; would pollute package with Studio-specific code
+1. **Extract ALL utilities to shared packages** (REJECTED)
+   - Pros: Maximum reuse
+   - Cons: Over-engineering for rarely-used utilities; pollutes package with Studio-specific code
 
 2. **Keep utilities in template-studio, import via relative path** (REJECTED)
    - Pros: No duplication
    - Cons: Creates reverse dependency (package → app), violates monorepo boundaries
 
-3. **Inline simple logic, extract complex helpers to shared package** (SELECTED)
-   - Pros: Keeps packages focused on schema contracts, simple logic is self-documenting
-   - Cons: Minor code duplication for trivial functions
+3. **3+ usage criterion: Extract if ≥3 schemas use identical function; otherwise inline** (SELECTED)
+   - Pros: Keeps packages focused on schema contracts; simple logic is self-documenting; prevents premature abstraction
+   - Cons: Minor code duplication for utilities used 1-2 times (acceptable tradeoff)
 
 **Implementation**:
-- `createRadioListLayout`: Keep in template-studio, use inline `options` configuration in migrated schemas
-- `capitalize`, `isValidUrl`: Inline in migrated schemas where needed (3-5 lines each)
-- `customRichText`: Already exported from `@walter/sanity-atoms/schemas` ✅
+- `createRadioListLayout`: Used by <3 schemas → inline `options` configuration in each schema where needed
+- `capitalize`: Used by <3 schemas → inline in each schema (3-5 lines)
+- `isValidUrl`: Used by <3 schemas → inline in each schema (3-5 lines)
+- `customRichText`: Already exported from `@walter/sanity-atoms/schemas/rich-text` (used by 3+ blocks) ✅
 
 ### Q2: How should `iconField` and `buttonsField` from `common.ts` be handled?
 
-**Decision**: Migrate `buttonsField` to sanity-atoms, inline `iconField` in blocks that need it
+**Decision**: Apply the **3+ usage criterion** - `buttonsField` is used by 3+ blocks (extract to sanity-atoms), `iconField` is used by only 1 block (inline)
 
 **Rationale**:
-- `buttonsField` is a reusable field definition referencing `button` atom type
-- `iconField` is a Studio-specific UI configuration using `sanity-plugin-icon-picker`
+- `buttonsField` is a reusable field definition referencing `button` atom type, used by multiple blocks (hero, cta, imageLinkCards, etc.)
+- `iconField` is used by only 1 block (featureCardsIcon) and is a Studio-specific UI configuration using `sanity-plugin-icon-picker`
+- The 3+ usage criterion clearly dictates extraction vs. inlining decision
 
 **Evidence from Existing Migration**:
-- `buttonsFieldSchema` already exported from `@walter/sanity-atoms/schemas` (packages/sanity-atoms/src/buttons.schema.ts)
+- `buttonsFieldSchema` already exported from `@walter/sanity-atoms/schemas/buttons` (packages/sanity-atoms/src/buttons.schema.ts)
 - `heroSectionSchema` successfully imports and uses `buttonsFieldSchema`
-- No `iconField` export exists in packages (still Studio-specific)
+- No `iconField` export exists in packages (correctly kept Studio-specific due to single usage)
 
-**Implementation**:
+**Implementation** (applying 3+ criterion):
 - `button` schema: No `buttonsField` dependency (already migrated as `buttonsFieldSchema`)
 - `customUrl` schema: No common.ts dependencies
 - `faqAccordion`: Uses `customUrl` (will import from sanity-atoms)
-- `featureCardsIcon`: Uses `iconField` → inline the definition (7 lines)
-- `imageLinkCards`: Uses `buttonsField` → import `buttonsFieldSchema` from sanity-atoms
+- `featureCardsIcon`: Uses `iconField` (1 usage) → **inline the definition** (7 lines)
+- `imageLinkCards`: Uses `buttonsField` (3+ usages across blocks) → **import `buttonsFieldSchema`** from sanity-atoms
 - `subscribeNewsletter`: No common.ts dependencies
 
 ### Q3: How should `customRichText` helper from `rich-text.ts` be migrated?
 
-**Decision**: Already solved - `customRichText` is exported from `@walter/sanity-atoms/schemas`
+**Decision**: Already solved - `customRichText` is exported from `@walter/sanity-atoms/schemas/rich-text` (established in spec 008)
 
 **Evidence**:
-- File exists: `packages/sanity-atoms/src/richText.schema.ts`
+- File exists: `packages/sanity-atoms/src/rich-text.schema.ts`
 - Exports: `richText`, `customRichText`, `memberTypes`
 - Existing migrated blocks (hero, cta) successfully import and use `customRichText`
+- Confirmed in spec clarifications: Export already exists from spec 008
 
 **Implementation**:
-- All blocks using `customRichText` will import from `@walter/sanity-atoms/schemas`
-- No migration work required for this utility
+- All blocks using `customRichText` will import from `@walter/sanity-atoms/schemas/rich-text`
+- No migration work required for this utility (verification only)
 
 ### Q4: What GROQ fragment patterns should be used for the new atoms and blocks?
 
@@ -78,7 +82,8 @@ This document captures research findings for migrating remaining Sanity schema d
 
 **Pattern from `heroSection.fragment.ts`**:
 ```typescript
-import { buttonsFragment, richTextFragment } from '@walter/sanity-atoms/fragments'
+import { buttonsFragment } from '@walter/sanity-atoms/fragments/buttons'
+import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
 
 export const heroSectionFragment = /* groq */ `
   _type == "hero" => {
@@ -97,6 +102,85 @@ export const heroSectionFragment = /* groq */ `
 3. Import and compose atom fragments for nested types (buttons, customUrl, richText)
 4. Use GROQ join syntax for image assets (`image.asset->{...}`)
 5. Use GROQ join syntax for references (`faqs[]->{...}`)
+
+---
+
+### Q5: Should we use barrel exports or direct file imports for workspace packages?
+
+**Decision**: **DIRECT FILE IMPORTS ONLY** - Remove all barrel exports, use wildcard package exports
+
+**Date**: 2025-11-14
+**Priority**: CRITICAL - Affects entire monorepo architecture
+
+**Problem Discovered**:
+Sanity's typegen worker uses `esbuild-register` which doesn't properly resolve **relative imports within files loaded via TypeScript path mappings**. When a barrel export file (`fragments.ts`) imported via path mapping tried to use relative imports (`./image.fragment`), esbuild-register resolved them relative to the working directory instead of the file's actual location, causing "Cannot find module" errors.
+
+**Failed Solutions Attempted**:
+1. ❌ **Consolidating all fragments into single file** - Works but terrible DX, no file separation
+2. ❌ **Creating babel.config.json with module-resolver plugin** - Sanity uses its own internal babel config, ignores ours
+3. ❌ **Installing babel dependencies** - Completely unused, Sanity doesn't load external babel configs
+
+**Winning Solution: Wildcard Package Exports + Direct Imports**
+
+**Package Configuration**:
+```json
+{
+  "exports": {
+    "./schemas/*": "./src/*.schema.ts",
+    "./fragments/*": "./src/*.fragment.ts"
+  }
+}
+```
+
+**TypeScript Path Mappings** (both root and studio tsconfig.json):
+```json
+{
+  "baseUrl": ".",
+  "paths": {
+    "@walter/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"],
+    "@walter/sanity-atoms/fragments/*": ["./packages/sanity-atoms/src/*.fragment.ts"],
+    "@walter/sanity-blocks/schemas/*": ["./packages/sanity-blocks/src/*.schema.ts"],
+    "@walter/sanity-blocks/fragments/*": ["./packages/sanity-blocks/src/*.fragment.ts"]
+  }
+}
+```
+
+**Import Pattern** (everywhere):
+```typescript
+// Schemas - direct imports only
+import { heroSectionSchema } from "@walter/sanity-blocks/schemas/hero-section"
+import { buttonsFieldSchema } from "@walter/sanity-atoms/schemas/buttons"
+
+// Fragments - direct imports only
+import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section"
+import { imageFragment } from "@walter/sanity-atoms/fragments/image"
+```
+
+**Benefits**:
+1. **No relative imports in resolution chain** - Each import goes directly to target file
+2. **Works with Sanity typegen** - tsconfig-paths (built into Sanity) resolves wildcards correctly
+3. **Uniform pattern** - No confusion about import styles, always import from source file
+4. **Low mental overhead** - Clear what depends on what, easy to find source
+5. **Better tree-shaking** - Import only what you need, no barrel file overhead
+6. **Prevents future issues** - Eliminates entire class of module resolution bugs
+
+**Files Removed**:
+- ❌ `packages/sanity-atoms/src/schemas.ts` (barrel export)
+- ❌ `packages/sanity-atoms/src/fragments.ts` (barrel export)
+- ❌ `packages/sanity-blocks/src/schemas.ts` (barrel export)
+- ❌ `packages/sanity-blocks/src/fragments.ts` (barrel export)
+
+**Why This Works**:
+- Wildcard exports (`./schemas/*`) map directly to source files
+- TypeScript path mappings (`@walter/sanity-atoms/schemas/*`) resolve the wildcards
+- Sanity's `getResolver()` uses `tsconfig-paths` library internally (transitive dep of @sanity/codegen)
+- No barrel files = no relative imports = no resolution issues
+
+**Implementation Rule**:
+> **Every import must reference the actual source file directly. No exceptions.**
+>
+> ✅ `import { x } from "@walter/sanity-atoms/schemas/button"`
+> ❌ `import { x } from "@walter/sanity-atoms/schemas"`
 
 **Atom Fragments to Create**:
 

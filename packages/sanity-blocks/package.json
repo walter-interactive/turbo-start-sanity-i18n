@@ -18,12 +18,14 @@
   "peerDependencies": {
     "@sanity/icons": "^3.6.0",
     "lucide-react": "^0.539.0",
-    "sanity": "^4.4.1"
+    "sanity": "^4.4.1",
+    "sanity-plugin-icon-picker": "^4.0.0"
   },
   "devDependencies": {
     "@sanity/icons": "^3.6.0",
     "@workspace/typescript-config": "workspace:*",
     "sanity": "^4.4.1",
+    "sanity-plugin-icon-picker": "^4.0.0",
     "typescript": "^5.9.2"
   }
 }
