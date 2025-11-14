@@ -31,7 +31,7 @@
 import { ImageIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
-import { buttonsFieldSchema } from "@walter/sanity-atoms/schemas/buttons";
+import { buttonsGroupSchema } from "@walter/sanity-atoms/schemas/buttons";
 import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 
 const imageLinkCard = defineField({
@@ -114,7 +114,7 @@ export const imageLinkCardsSchema = defineType({
       validation: (Rule) => Rule.required(),
     }),
     customRichText(["block"]),
-    buttonsFieldSchema,
+    buttonsGroupSchema,
     defineField({
       name: "cards",
       title: "Cards",

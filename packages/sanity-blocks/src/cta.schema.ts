@@ -24,7 +24,7 @@
 import { PhoneIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
-import { buttonsFieldSchema } from "@walter/sanity-atoms/schemas/buttons";
+import { buttonsGroupSchema } from "@walter/sanity-atoms/schemas/buttons";
 import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 
 export const ctaSchema = defineType({
@@ -46,7 +46,7 @@ export const ctaSchema = defineType({
       description: "The large text that is the primary focus of the block",
     }),
     customRichText(["block"]),
-    buttonsFieldSchema,
+    buttonsGroupSchema,
   ],
   preview: {
     select: {

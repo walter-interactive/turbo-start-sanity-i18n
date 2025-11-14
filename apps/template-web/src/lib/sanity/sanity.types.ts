@@ -233,6 +233,10 @@ export type Hero = {
   } & Button>;
 };
 
+export type Buttons = Array<{
+  _key: string;
+} & Button>;
+
 export type PageBuilder = Array<{
   _key: string;
 } & Hero | {
@@ -928,7 +932,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = SubscribeNewsletter | ImageLinkCards | FaqAccordion | FeatureCardsIcon | Cta | Hero | PageBuilder | Button | RichText | Redirect | Author | TranslationMetadata | InternationalizedArrayReferenceValue | Faq | HomePage | Settings | Footer | Navbar | BlogIndex | Blog | Page | CustomUrl | InternationalizedArrayReference | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | IconPicker | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = SubscribeNewsletter | ImageLinkCards | FaqAccordion | FeatureCardsIcon | Cta | Hero | Buttons | PageBuilder | Button | RichText | Redirect | Author | TranslationMetadata | InternationalizedArrayReferenceValue | Faq | HomePage | Settings | Footer | Navbar | BlogIndex | Blog | Page | CustomUrl | InternationalizedArrayReference | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | IconPicker | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../template-web/src/lib/sanity/query.ts
 // Variable: queryImageType

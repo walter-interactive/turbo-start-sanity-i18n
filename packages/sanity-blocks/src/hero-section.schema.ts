@@ -29,7 +29,7 @@
 import { Star } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
-import { buttonsFieldSchema } from "@walter/sanity-atoms/schemas/buttons";
+import { buttonsGroupSchema } from "@walter/sanity-atoms/schemas/buttons";
 import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 
 export const heroSectionSchema = defineType({
@@ -63,7 +63,7 @@ export const heroSectionSchema = defineType({
         hotspot: true,
       },
     }),
-    buttonsFieldSchema,
+    buttonsGroupSchema,
   ],
   preview: {
     select: {

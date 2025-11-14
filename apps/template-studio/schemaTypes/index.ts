@@ -4,6 +4,7 @@
 import { buttonSchema } from "@walter/sanity-atoms/schemas/button";
 import { customUrlSchema } from "@walter/sanity-atoms/schemas/custom-url";
 import { richText } from "@walter/sanity-atoms/schemas/rich-text";
+import { buttonsGroupSchema } from "@walter/sanity-atoms/schemas/buttons";
 
 // ============================================================================
 // Shared Blocks (from @walter/sanity-blocks)
@@ -42,19 +43,12 @@ import { settings } from "./singletons/settings";
 // Schema Registration
 // ============================================================================
 
-// Collections array for reference
 export const collections = [blog, page, faq, author, redirect];
-
-// Singletons array for reference
 export const singletons = [homePage, blogIndex, settings, footer, navbar];
 
-// All documents (collections + singletons)
 const documents = [...collections, ...singletons];
+const atoms = [customUrlSchema, richText, buttonSchema, pageBuilder, buttonsGroupSchema];
 
-// All definitions (atoms + local definitions)
-const definitions = [customUrlSchema, richText, buttonSchema, pageBuilder];
-
-// All page builder blocks
 const pageBuilderBlocks = [
   heroSectionSchema,
   ctaSchema,
@@ -64,24 +58,16 @@ const pageBuilderBlocks = [
   subscribeNewsletterSchema,
 ];
 
-// Main schema types array (registered with Sanity)
-export const schemaTypes = [...documents, ...definitions, ...pageBuilderBlocks];
+export const schemaTypes = [...documents, ...atoms, ...pageBuilderBlocks];
 
 // ============================================================================
 // Type Utilities
 // ============================================================================
 
-// Array of all document schema names
 export const schemaNames = [...documents].map((doc) => doc.name);
-
-// Union type of all schema names
 export type SchemaType = (typeof schemaNames)[number];
 
-// Array of singleton schema names
 export const singletonType = singletons.map(({ name }) => name);
-
-// Union type of singleton names
 export type SingletonType = (typeof singletonType)[number];
 
-// Default export for Sanity config
 export default schemaTypes;

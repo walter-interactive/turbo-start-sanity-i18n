@@ -1,6 +1,6 @@
 import { defineField } from "sanity";
 
-export const buttonsFieldSchema = defineField({
+export const buttonsGroupSchema = defineField({
   name: "buttons",
   type: "array",
   of: [{ type: "button" }],
