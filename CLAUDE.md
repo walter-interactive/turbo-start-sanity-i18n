@@ -15,6 +15,7 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - Sanity Content Lake (cloud-hosted CMS with translation metadata) (006-fix-language-switcher)
 - TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), Sanity Studio 4.4.1, React 19.x, next-sanity (Sanity client), @sanity/document-internationalization 4.1.0 (007-colocate-pagebuilder-modules)
 - Sanity Content Lake (cloud-hosted CMS, no changes required) (007-colocate-pagebuilder-modules)
+- Sanity Content Lake (cloud-hosted CMS, no changes in Phase 1) (008-multi-tenant-template)
 
 - TypeScript 5.x (Next.js 15.x App Router, Node.js 18+) + next-intl (frontend i18n), @sanity/document-internationalization (CMS plugin), next-sanity (data fetching), groq (queries) (001-i18n-localization)
 
@@ -35,9 +36,9 @@ npm test && npm run lint
 TypeScript 5.x (Next.js 15.x App Router, Node.js 18+): Follow standard conventions
 
 ## Recent Changes
+- 008-multi-tenant-template: Added TypeScript 5.9.2, Node.js 20+
 - 007-colocate-pagebuilder-modules: Added TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), Sanity Studio 4.4.1, React 19.x, next-sanity (Sanity client), @sanity/document-internationalization 4.1.0
 - 006-fix-language-switcher: Added TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), next-intl (i18n routing), next-sanity (Sanity client), React 19.x, @sanity/document-internationalization (translation metadata)
-- 005-studio-docs-cleanup: Added TypeScript 5.9.2, Node.js 20+ + Sanity Studio 4.4.1, React 19.1, @sanity/document-internationalization 4.1.0, @sanity/orderable-document-list 1.4.0
 
 
 <!-- MANUAL ADDITIONS START -->

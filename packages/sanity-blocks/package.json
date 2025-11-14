@@ -1,0 +1,29 @@
+{
+  "name": "@walter/sanity-blocks",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./fragments": "./src/fragments.ts",
+    "./schemas": "./src/schemas.ts"
+  },
+  "scripts": {
+    "lint": "npx ultracite lint",
+    "format": "npx ultracite fix",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@walter/sanity-atoms": "workspace:*"
+  },
+  "peerDependencies": {
+    "@sanity/icons": "^3.6.0",
+    "lucide-react": "^0.539.0",
+    "sanity": "^4.4.1"
+  },
+  "devDependencies": {
+    "@sanity/icons": "^3.6.0",
+    "@workspace/typescript-config": "workspace:*",
+    "sanity": "^4.4.1",
+    "typescript": "^5.9.2"
+  }
+}
