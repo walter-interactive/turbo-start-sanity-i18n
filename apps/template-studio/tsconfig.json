@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2017",
     "lib": [
@@ -16,6 +17,13 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": "../..",
+    "paths": {
+      "@walter/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"],
+      "@walter/sanity-atoms/fragments/*": ["./packages/sanity-atoms/src/*.fragment.ts"],
+      "@walter/sanity-blocks/schemas/*": ["./packages/sanity-blocks/src/*.schema.ts"],
+      "@walter/sanity-blocks/fragments/*": ["./packages/sanity-blocks/src/*.fragment.ts"]
+    }
   },
   "include": [
     "**/*.ts",

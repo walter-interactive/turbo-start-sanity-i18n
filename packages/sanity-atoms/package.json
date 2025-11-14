@@ -4,8 +4,8 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./schemas": "./src/schemas.ts",
-    "./fragments": "./src/fragments.ts"
+    "./schemas/*": "./src/*.schema.ts",
+    "./fragments/*": "./src/*.fragment.ts"
   },
   "scripts": {
     "lint": "npx ultracite lint",

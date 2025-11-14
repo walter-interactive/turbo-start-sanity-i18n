@@ -1,16 +1,11 @@
 import { defineQuery } from "next-sanity";
 import { translationsFragment } from "./i18n";
-import {
-  heroSectionFragment,
-  ctaBlock,
-  faqSectionFragment,
-} from "@walter/sanity-blocks/fragments";
-import {
-  // imageFields,
-  // imageFragment,
-  buttonsFragment,
-  richTextFragment,
-} from "@walter/sanity-atoms/fragments";
+import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
+import { ctaBlock } from "@walter/sanity-blocks/fragments/cta";
+import { faqSectionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
+// import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
+import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
+import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
 
 
 // test
