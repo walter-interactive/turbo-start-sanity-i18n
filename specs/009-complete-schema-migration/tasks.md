@@ -186,19 +186,19 @@ This document breaks down the schema migration into actionable tasks organized b
 - [x] T057 [US4] Run `pnpm --filter template-studio build` to verify Studio builds successfully with package imports
 
 ### T058-T063: Delete Duplicate Schema Files
-- [ ] T058 [P] [US4] Delete apps/template-studio/schemaTypes/definitions/button.ts
-- [ ] T059 [P] [US4] Delete apps/template-studio/schemaTypes/definitions/custom-url.ts
-- [ ] T060 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/faq-accordion.ts
-- [ ] T061 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/feature-cards-icon.ts
-- [ ] T062 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/image-link-cards.ts
-- [ ] T063 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/subscribe-newsletter.ts
+- [x] T058 [P] [US4] Delete apps/template-studio/schemaTypes/definitions/button.ts
+- [x] T059 [P] [US4] Delete apps/template-studio/schemaTypes/definitions/custom-url.ts
+- [x] T060 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/faq-accordion.ts
+- [x] T061 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/feature-cards-icon.ts
+- [x] T062 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/image-link-cards.ts
+- [x] T063 [P] [US4] Delete apps/template-studio/schemaTypes/blocks/subscribe-newsletter.ts
 
 ### T064-T068: Final Verification
-- [ ] T064 [US4] Search codebase for duplicate schema definitions using `rg "name: \"button\"|name: \"customUrl\"|name: \"faqAccordion\"|name: \"featureCardsIcon\"|name: \"imageLinkCards\"|name: \"subscribeNewsletter\"" apps/template-studio/schemaTypes` - should return 0 results
-- [ ] T065 [US4] Run `pnpm check-types` at workspace root to verify all type checking passes
-- [ ] T066 [US4] Run `pnpm build` at workspace root to verify all builds succeed
-- [ ] T067 [US4] Run `pnpm --filter template-studio dev` and verify Studio starts without errors
-- [ ] T068 [US4] Manually verify all 6 blocks (hero, CTA, FAQ, feature cards, image cards, newsletter) appear in pageBuilder block menu in Studio UI
+- [x] T064 [US4] Search codebase for duplicate schema definitions using `rg "name: \"button\"|name: \"customUrl\"|name: \"faqAccordion\"|name: \"featureCardsIcon\"|name: \"imageLinkCards\"|name: \"subscribeNewsletter\"" apps/template-studio/schemaTypes` - should return 0 results
+- [x] T065 [US4] Run `pnpm check-types` at workspace root to verify all type checking passes
+- [x] T066 [US4] Run `pnpm build` at workspace root to verify all builds succeed
+- [x] T067 [US4] Run `pnpm --filter template-studio dev` and verify Studio starts without errors
+- [x] T068 [US4] Manually verify all 6 blocks (hero, CTA, FAQ, feature cards, image cards, newsletter) appear in pageBuilder block menu in Studio UI
 
 **Phase 5 Verification** (US4 Independent Test - Final Acceptance):
 - ✅ Type checking passes (`pnpm check-types`)
@@ -219,12 +219,12 @@ This document breaks down the schema migration into actionable tasks organized b
 **Tasks**:
 
 ### T069-T073: Type Generation & Documentation
-- [ ] T069 [P] Run `pnpm --filter template-studio type` to regenerate Sanity types with all migrated schemas
-- [ ] T070 [P] Verify quickstart.md reflects actual implementation (no updates needed - was used as guide)
-- [ ] T071 [P] Verify data-model.md reflects final implementation (no updates needed)
-- [ ] T072 Run final smoke test: Start Studio, create test page, add all 6 block types, verify preview and save functionality
-- [ ] T073 Review inlined utility code (isValidUrl, capitalize) for correctness and verify 3+ usage criterion was applied correctly: utilities used by ≥3 schemas are extracted to packages; utilities used by <3 schemas are inlined
-- [ ] T073a Comprehensive verification that all template-studio utilities have been properly handled per the **3+ usage criterion** (research.md Q1-Q2): (1) `buttonsFieldSchema` - used by 3+ blocks, correctly extracted to sanity-atoms ✓, (2) `iconField` - used by 1 block, correctly inlined in featureCardsIcon ✓, (3) `createRadioListLayout` - used by <3 schemas, correctly inlined where needed ✓, (4) `capitalize` - used by <3 schemas, correctly inlined ✓, (5) `isValidUrl` - used by <3 schemas, correctly inlined ✓, (6) `customRichText` - used by 3+ blocks, correctly exported from sanity-atoms/schemas/rich-text (spec 008) ✓ (addresses FR-015)
+- [x] T069 [P] Run `pnpm --filter template-studio type` to regenerate Sanity types with all migrated schemas
+- [x] T070 [P] Verify quickstart.md reflects actual implementation (no updates needed - was used as guide)
+- [x] T071 [P] Verify data-model.md reflects final implementation (no updates needed)
+- [x] T072 Run final smoke test: Start Studio, create test page, add all 6 block types, verify preview and save functionality
+- [x] T073 Review inlined utility code (isValidUrl, capitalize) for correctness and verify 3+ usage criterion was applied correctly: utilities used by ≥3 schemas are extracted to packages; utilities used by <3 schemas are inlined
+- [x] T073a Comprehensive verification that all template-studio utilities have been properly handled per the **3+ usage criterion** (research.md Q1-Q2): (1) `buttonsFieldSchema` - used by 3+ blocks, correctly extracted to sanity-atoms ✓, (2) `iconField` - used by 1 block, correctly inlined in featureCardsIcon ✓, (3) `createRadioListLayout` - used by <3 schemas, correctly inlined where needed ✓, (4) `capitalize` - used by <3 schemas, correctly inlined ✓, (5) `isValidUrl` - used by <3 schemas, correctly inlined ✓, (6) `customRichText` - used by 3+ blocks, correctly exported from sanity-atoms/schemas/rich-text (spec 008) ✓ (addresses FR-015)
 
 **Phase 6 Verification**:
 - ✅ Auto-generated types include all migrated schemas

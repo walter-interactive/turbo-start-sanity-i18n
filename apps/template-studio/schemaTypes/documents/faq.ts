@@ -37,9 +37,9 @@
 import { MessageCircle } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
+import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
 import { parseRichTextToString } from "../../utils/helper";
 import { languageField } from "../common";
-import { customRichText } from "../definitions/rich-text";
 
 export const faq = defineType({
   name: "faq",

@@ -82,13 +82,6 @@ export const languageField = defineField({
     }),
 });
 
-export const richTextField = defineField({
-  name: "richText",
-  type: "richText",
-  description:
-    "A text editor that lets you add formatting like bold text, links, and bullet points",
-});
-
 export const buttonsField = defineField({
   name: "buttons",
   type: "array",
