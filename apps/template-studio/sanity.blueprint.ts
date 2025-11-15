@@ -1,3 +1,4 @@
+// biome-ignore lint/nursery/noDeprecatedImports: Using recommended event format under 'event' key (not the deprecated top-level format)
 import { defineBlueprint, defineDocumentFunction } from '@sanity/blueprints'
 
 export default defineBlueprint({

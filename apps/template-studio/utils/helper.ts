@@ -181,7 +181,9 @@ export const parseRichTextToString = (
 export function splitArray<T>(array: T[], numChunks: number): T[][] {
   const result: T[][] = Array.from({ length: numChunks }, () => [])
   for (let i = 0; i < array.length; i++) {
-    result[i % numChunks].push(array[i])
+    const item = array[i] as T
+    const chunk = result[i % numChunks] as T[]
+    chunk.push(item)
   }
   return result
 }

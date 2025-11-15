@@ -13,12 +13,12 @@
  * @see specs/001-i18n-localization/data-model.md (Migration Path section)
  */
 
-import { at, defineMigration, set } from 'sanity/migrate'
+import { at, defineMigration, type Migration, set } from 'sanity/migrate'
 
 // Default language for Quebec compliance
 const DEFAULT_LANGUAGE = 'fr'
 
-export default defineMigration({
+const migration: Migration = defineMigration({
   title: 'Add language field to existing translatable documents',
 
   // Target all translatable document types
@@ -44,3 +44,5 @@ export default defineMigration({
     }
   }
 })
+
+export default migration

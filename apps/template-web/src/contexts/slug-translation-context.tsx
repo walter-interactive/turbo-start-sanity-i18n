@@ -213,8 +213,7 @@ export function useSlugTranslation(): SlugTranslationContextValue {
 
   if (context === undefined) {
     throw new Error(
-      'useSlugTranslation must be used within a SlugTranslationProvider. '
-        + 'Ensure your component is wrapped in <SlugTranslationProvider> higher in the tree.'
+      'useSlugTranslation must be used within a SlugTranslationProvider. Ensure your component is wrapped in <SlugTranslationProvider> higher in the tree.'
     )
   }
 

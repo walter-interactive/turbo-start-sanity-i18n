@@ -129,7 +129,7 @@ export const blog = defineType({
     defineField({
       name: 'publishedAt',
       type: 'date',
-      initialValue: () => new Date().toISOString().split('T')[0],
+      initialValue: () => new Date().toISOString().slice(0, 10),
       title: 'Published At',
       description:
         'The date when your blog post will appear to have been published',
