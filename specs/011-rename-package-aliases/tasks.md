@@ -247,25 +247,25 @@ This feature cannot be delivered incrementally - all changes must be applied ato
 
 #### 4.2 Final Validation
 
-- [ ] T029 Run comprehensive validation script from contracts
+- [x] T029 Run comprehensive validation script from contracts
   - File: Create `specs/011-rename-package-aliases/contracts/validation.sh` from contracts/README.md
   - Command: `chmod +x specs/011-rename-package-aliases/contracts/validation.sh && specs/011-rename-package-aliases/contracts/validation.sh`
   - Expected: All contracts pass
 
-- [ ] T030 Verify no old aliases remain in codebase (excluding spec 011)
+- [x] T030 Verify no old aliases remain in codebase (excluding spec 011)
   - Command: `grep -r '@walter/sanity' --include="*.ts" --include="*.tsx" --include="*.json" --include="*.md" --exclude-dir=node_modules --exclude-dir=specs/011-rename-package-aliases`
   - Expected: 0 matches (except intentional historical references in old specs)
 
 #### 4.3 Commit Changes
 
-- [ ] T031 Review all changes before commit
+- [x] T031 Review all changes before commit
   - Command: `git status && git diff`
   - Expected: Changes in package.json files, tsconfig.json files, TypeScript files, markdown files, pnpm-lock.yaml
 
-- [ ] T032 Stage all changes
+- [x] T032 Stage all changes
   - Command: `git add .`
 
-- [ ] T033 Create atomic commit with descriptive message
+- [x] T033 Create atomic commit with descriptive message
   - Command:
     ```bash
     git commit -m "Rename package aliases from @walter to @workspace
@@ -285,11 +285,11 @@ This feature cannot be delivered incrementally - all changes must be applied ato
     ```
   - Note: Follows project convention (no Claude branding per CLAUDE.md rules)
 
-- [ ] T034 Verify commit and clean working tree
+- [x] T034 Verify commit and clean working tree
   - Command: `git status`
   - Expected: "nothing to commit, working tree clean"
 
-- [ ] T035 Run final post-commit validation
+- [x] T035 Run final post-commit validation
   - Command: `pnpm check-types && pnpm build`
   - Expected: Success
 
