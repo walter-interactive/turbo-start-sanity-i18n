@@ -24,9 +24,9 @@ import {
   ComposeIcon,
   InlineElementIcon,
   InsertAboveIcon,
-  SearchIcon,
-} from "@sanity/icons";
-import type { FieldGroupDefinition } from "sanity";
+  SearchIcon
+} from '@sanity/icons'
+import type { FieldGroupDefinition } from 'sanity'
 
 /**
  * Field group identifier constants
@@ -35,12 +35,12 @@ import type { FieldGroupDefinition } from "sanity";
  * across all schema definitions and avoid typos.
  */
 export const GROUP = {
-  SEO: "seo",
-  MAIN_CONTENT: "main-content",
-  CARD: "card",
-  RELATED: "related",
-  OG: "og",
-};
+  SEO: 'seo',
+  MAIN_CONTENT: 'main-content',
+  CARD: 'card',
+  RELATED: 'related',
+  OG: 'og'
+}
 
 /**
  * Field group definitions for Studio UI
@@ -62,23 +62,23 @@ export const GROUPS: FieldGroupDefinition[] = [
   {
     name: GROUP.MAIN_CONTENT,
     icon: ComposeIcon,
-    title: "Content",
-    default: true,
+    title: 'Content',
+    default: true
   },
-  { name: GROUP.SEO, icon: SearchIcon, title: "SEO" },
+  { name: GROUP.SEO, icon: SearchIcon, title: 'SEO' },
   {
     name: GROUP.OG,
     icon: InsertAboveIcon,
-    title: "Open Graph",
+    title: 'Open Graph'
   },
   {
     name: GROUP.CARD,
     icon: BlockElementIcon,
-    title: "Card",
+    title: 'Card'
   },
   {
     name: GROUP.RELATED,
     icon: InlineElementIcon,
-    title: "Related",
-  },
-];
+    title: 'Related'
+  }
+]

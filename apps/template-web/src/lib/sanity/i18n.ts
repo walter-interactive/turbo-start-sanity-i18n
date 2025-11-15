@@ -1,4 +1,4 @@
-import { groq } from "next-sanity";
+import { groq } from 'next-sanity'
 
 /**
  * Locale-aware GROQ query utilities
@@ -53,4 +53,4 @@ export const translationsFragment = groq`
     "slug": slug.current,
     title
   }
-`;
+`

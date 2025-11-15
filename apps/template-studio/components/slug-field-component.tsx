@@ -33,24 +33,24 @@
  * - ErrorStates: Validation errors and warnings display
  */
 
-import { CopyIcon } from "@sanity/icons";
-import { Box, Button, Flex, Stack, Text, TextInput } from "@sanity/ui";
-import type { ChangeEvent } from "react";
-import { useCallback, useMemo } from "react";
+import { CopyIcon } from '@sanity/icons'
+import { Box, Button, Flex, Stack, Text, TextInput } from '@sanity/ui'
+import { useCallback, useMemo } from 'react'
 import {
   type ObjectFieldProps,
   type SanityDocument,
   type SlugValue,
   set,
   unset,
-  useFormValue,
-} from "sanity";
-import { styled } from "styled-components";
-import { useSlugValidation } from "../hooks/use-slug-validation";
-import { generateSlugFromTitle } from "../utils/slug-validation";
-import { ErrorStates } from "./url-slug/error-states";
+  useFormValue
+} from 'sanity'
+import { styled } from 'styled-components'
+import { useSlugValidation } from '../hooks/use-slug-validation'
+import { generateSlugFromTitle } from '../utils/slug-validation'
+import { ErrorStates } from './url-slug/error-states'
+import type { ChangeEvent } from 'react'
 
-const presentationOriginUrl = process.env.SANITY_STUDIO_PRESENTATION_URL;
+const presentationOriginUrl = process.env.SANITY_STUDIO_PRESENTATION_URL
 
 /**
  * Map document type to pathname base
@@ -58,16 +58,16 @@ const presentationOriginUrl = process.env.SANITY_STUDIO_PRESENTATION_URL;
  */
 function getPathnameForDocType(docType: string): string {
   switch (docType) {
-    case "blog":
-      return "blog";
-    case "blogIndex":
-      return "blog";
-    case "page":
-      return "";
-    case "homePage":
-      return "";
+    case 'blog':
+      return 'blog'
+    case 'blogIndex':
+      return 'blog'
+    case 'page':
+      return ''
+    case 'homePage':
+      return ''
     default:
-      return "";
+      return ''
   }
 }
 
@@ -76,29 +76,29 @@ function getPathnameForDocType(docType: string): string {
  * Handles document type translations for different locales
  */
 function getLocalizedPathPrefix(docType: string, locale: string): string {
-  const pathname = getPathnameForDocType(docType);
+  const pathname = getPathnameForDocType(docType)
 
   // French blog uses 'blogue'
-  if (pathname === "blog" && locale === "fr") {
-    return "blogue";
+  if (pathname === 'blog' && locale === 'fr') {
+    return 'blogue'
   }
 
-  return pathname;
+  return pathname
 }
 
 // Styled components
 const CopyButton = styled(Button)`
   cursor: pointer;
-`;
+`
 
 const GenerateButton = styled(Button)`
   cursor: pointer;
-`;
+`
 
 const SlugInput = styled(TextInput)`
   font-family: monospace;
   font-size: 14px;
-`;
+`
 
 const UrlPreview = styled.div`
   font-family: monospace;
@@ -110,35 +110,35 @@ const UrlPreview = styled.div`
   border: 1px solid var(--card-border-color);
   word-break: break-all;
   overflow-wrap: break-word;
-`;
+`
 
 // Types
 type SlugInputProps = {
-  value: string;
-  onChange: (value: string) => void;
-  readOnly?: boolean;
-  placeholder?: string;
-};
+  value: string
+  onChange: (value: string) => void
+  readOnly?: boolean
+  placeholder?: string
+}
 
 type GenerateButtonProps = {
-  onGenerate: () => void;
-  disabled?: boolean;
-};
+  onGenerate: () => void
+  disabled?: boolean
+}
 
 type UrlPreviewProps = {
-  url: string;
-  onCopy: () => void;
-};
+  url: string
+  onCopy: () => void
+}
 
 type FieldHeaderProps = {
-  title?: string;
-  description?: string;
-};
+  title?: string
+  description?: string
+}
 
 // Focused sub-components
 function FieldHeader({ title, description }: FieldHeaderProps) {
   if (!(title || description)) {
-    return null;
+    return null
   }
 
   return (
@@ -154,21 +154,21 @@ function FieldHeader({ title, description }: FieldHeaderProps) {
         </Text>
       )}
     </Stack>
-  );
+  )
 }
 
 function SlugInputField({
   value,
   onChange,
   readOnly,
-  placeholder,
+  placeholder
 }: SlugInputProps) {
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
+      onChange(e.target.value)
     },
     [onChange]
-  );
+  )
 
   return (
     <SlugInput
@@ -177,7 +177,7 @@ function SlugInputField({
       placeholder={placeholder}
       value={value}
     />
-  );
+  )
 }
 
 function SlugGenerateButton({ onGenerate, disabled }: GenerateButtonProps) {
@@ -190,7 +190,7 @@ function SlugGenerateButton({ onGenerate, disabled }: GenerateButtonProps) {
       text="Generate"
       tone="primary"
     />
-  );
+  )
 }
 
 function UrlPreviewSection({ url, onCopy }: UrlPreviewProps) {
@@ -214,7 +214,7 @@ function UrlPreviewSection({ url, onCopy }: UrlPreviewProps) {
         />
       </Flex>
     </Stack>
-  );
+  )
 }
 
 function HelpText() {
@@ -223,89 +223,89 @@ function HelpText() {
       Must start with a forward slash (/). Use forward slashes to create nested
       paths. Only lowercase letters, numbers, hyphens, and slashes are allowed.
     </Text>
-  );
+  )
 }
 
 export function PathnameFieldComponent(props: ObjectFieldProps<SlugValue>) {
   const {
     inputProps: { onChange, value, readOnly },
     title,
-    description,
-  } = props;
+    description
+  } = props
 
   // Get document context for title and path generation
-  const document = useFormValue([]) as SanityDocument;
-  const currentSlug = value?.current || "";
+  const document = useFormValue([]) as SanityDocument
+  const currentSlug = value?.current || ''
 
   // Use centralized validation hook with document type for unified config
   const { allErrors, allWarnings } = useSlugValidation({
     slug: currentSlug,
     documentType: document?._type,
-    includeSanityValidation: true,
-  });
+    includeSanityValidation: true
+  })
 
   // Memoize computed values for performance
   const localizedPathname = useMemo(() => {
     try {
       // Get document language from context (default to 'en')
-      const documentLanguage = (document?.language as string) || "en";
-      const localePrefix = documentLanguage === "en" ? "en" : documentLanguage;
+      const documentLanguage = (document?.language as string) || 'en'
+      const localePrefix = documentLanguage === 'en' ? 'en' : documentLanguage
 
       // Get localized document type prefix (e.g., 'blog' → 'blogue' for French)
-      const documentType = document?._type || "";
-      const pathPrefix = getLocalizedPathPrefix(documentType, documentLanguage);
+      const documentType = document?._type || ''
+      const pathPrefix = getLocalizedPathPrefix(documentType, documentLanguage)
 
       // Remove leading slash from slug for URL construction
-      const slug = currentSlug.replace(/^\//, "");
+      const slug = currentSlug.replace(/^\//, '')
 
       // Build full URL path with locale and localized document type prefix
-      const parts = [localePrefix, pathPrefix, slug].filter(Boolean);
-      return `/${parts.join("/")}`;
+      const parts = [localePrefix, pathPrefix, slug].filter(Boolean)
+      return `/${parts.join('/')}`
     } catch {
-      return currentSlug || "/";
+      return currentSlug || '/'
     }
-  }, [currentSlug, document?._type, document?.language]);
+  }, [currentSlug, document?._type, document?.language])
 
   const fullUrl = useMemo(
-    () => `${presentationOriginUrl ?? ""}${localizedPathname}`,
+    () => `${presentationOriginUrl ?? ''}${localizedPathname}`,
     [localizedPathname]
-  );
+  )
 
   // Event handlers with error handling
   const handleChange = useCallback(
     (newValue?: string) => {
       try {
         const patch =
-          typeof newValue === "string"
+          typeof newValue === 'string'
             ? set({
                 current: newValue,
-                _type: "slug",
+                _type: 'slug'
               })
-            : unset();
+            : unset()
 
-        onChange(patch);
+        onChange(patch)
       } catch {
         // Silently handle errors - validation will show user-friendly messages
       }
     },
     [onChange]
-  );
+  )
 
   const handleSlugChange = useCallback(
     (rawValue: string) => {
       // Allow users to type anything - don't clean while typing
-      handleChange(rawValue);
+      handleChange(rawValue)
     },
     [handleChange]
-  );
+  )
 
   const handleGenerate = useCallback(() => {
     try {
-      const documentTitle = document?.title as string | undefined;
-      const documentType = document?._type;
+      const documentTitle = document?.title as string | undefined
+      const documentType = document?._type
 
       if (!(documentTitle?.trim() && documentType)) {
-        return;
+        return
       }
 
       // Use unified slug generation with document type config
@@ -313,35 +313,35 @@ export function PathnameFieldComponent(props: ObjectFieldProps<SlugValue>) {
         documentTitle,
         documentType,
         currentSlug
-      );
+      )
 
       if (generatedSlug) {
-        handleChange(generatedSlug);
+        handleChange(generatedSlug)
       }
     } catch {
       // Silently handle errors
     }
-  }, [document?.title, document?._type, currentSlug, handleChange]);
+  }, [document?.title, document?._type, currentSlug, handleChange])
 
   const handleCopyUrl = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(fullUrl);
+      await navigator.clipboard.writeText(fullUrl)
     } catch {
       // Fallback for older browsers or when clipboard API fails
       try {
-        const textArea = globalThis.document?.createElement("textarea");
+        const textArea = globalThis.document?.createElement('textarea')
         if (textArea && globalThis.document?.body) {
-          textArea.value = fullUrl;
-          globalThis.document.body.appendChild(textArea);
-          textArea.select();
-          globalThis.document.execCommand?.("copy");
-          globalThis.document.body.removeChild(textArea);
+          textArea.value = fullUrl
+          globalThis.document.body.appendChild(textArea)
+          textArea.select()
+          globalThis.document.execCommand?.('copy')
+          globalThis.document.body.removeChild(textArea)
         }
       } catch {
         // Silently handle fallback errors
       }
     }
-  }, [fullUrl]);
+  }, [fullUrl])
 
   return (
     <Stack space={4}>
@@ -366,9 +366,8 @@ export function PathnameFieldComponent(props: ObjectFieldProps<SlugValue>) {
             </Box>
             <SlugGenerateButton
               disabled={
-                !(
-                  typeof document?.title === "string" && document.title.trim()
-                ) || readOnly
+                !(typeof document?.title === 'string' && document.title.trim())
+                || readOnly
               }
               onGenerate={handleGenerate}
             />
@@ -384,5 +383,5 @@ export function PathnameFieldComponent(props: ObjectFieldProps<SlugValue>) {
 
       <ErrorStates errors={allErrors} warnings={allWarnings} />
     </Stack>
-  );
+  )
 }

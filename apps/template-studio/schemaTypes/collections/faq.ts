@@ -34,48 +34,47 @@
  * - Frontend queries: apps/web likely queries by language for FAQ display
  */
 
-import { MessageCircle } from "lucide-react";
-import { defineField, defineType } from "sanity";
-
-import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
-import { parseRichTextToString } from "../../utils/helper";
-import { languageField } from "../common";
+import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { MessageCircle } from 'lucide-react'
+import { defineField, defineType } from 'sanity'
+import { parseRichTextToString } from '../../utils/helper'
+import { languageField } from '../common'
 
 export const faq = defineType({
-  name: "faq",
-  type: "document",
-  title: "Frequently Asked Question",
+  name: 'faq',
+  type: 'document',
+  title: 'Frequently Asked Question',
   description:
-    "A simple question and answer pair that helps visitors find information quickly. Think of it like writing down the questions customers often ask, along with clear answers.",
+    'A simple question and answer pair that helps visitors find information quickly. Think of it like writing down the questions customers often ask, along with clear answers.',
   icon: MessageCircle,
   fields: [
     languageField,
     defineField({
-      name: "title",
-      title: "Question",
-      type: "string",
+      name: 'title',
+      title: 'Question',
+      type: 'string',
       description:
         "Write the question exactly as someone might ask it. For example: 'How do I reset my password?'",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required()
     }),
-    customRichText(["block"], {
-      title: "Answer",
+    customRichText(['block'], {
+      title: 'Answer',
       description:
-        "Write a friendly, clear answer that directly addresses the question. Keep it simple enough that anyone can understand it.",
-    }),
+        'Write a friendly, clear answer that directly addresses the question. Keep it simple enough that anyone can understand it.'
+    })
   ],
   preview: {
     select: {
-      title: "title",
-      richText: "richText",
+      title: 'title',
+      richText: 'richText'
     },
     prepare: ({ title, richText }) => {
-      const subtitle = parseRichTextToString(richText, 20);
+      const subtitle = parseRichTextToString(richText, 20)
 
       return {
-        title: `❓ ${title || "Untitled Question"}`,
-        subtitle,
-      };
-    },
-  },
-});
+        title: `❓ ${title || 'Untitled Question'}`,
+        subtitle
+      }
+    }
+  }
+})

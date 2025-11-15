@@ -1,57 +1,55 @@
-"use client";
+'use client'
 
-import { Button } from "@workspace/ui/components/button";
-import { cn } from "@workspace/ui/lib/utils";
-import { ChevronDown, Menu, X, type LucideIcon } from "lucide-react";
-import { useLocale } from "next-intl";
-import Link from "next/link";
-import { useState } from "react";
-import useSWR from "swr";
-
-import { getValidLocale } from "@/i18n/routing";
-import { getInternalLinkHref } from "@/lib/sanity/link-helpers";
+import { Button } from '@workspace/ui/components/button'
+import { cn } from '@workspace/ui/lib/utils'
+import { ChevronDown, Menu, X } from 'lucide-react'
+import Link from 'next/link'
+import { useLocale } from 'next-intl'
+import { useState } from 'react'
+import useSWR from 'swr'
+import { getValidLocale } from '@/i18n/routing'
+import { getInternalLinkHref } from '@/lib/sanity/link-helpers'
+import { SanityButtons } from './elements/sanity-buttons'
+import { SanityIcon } from './elements/sanity-icon'
+import { LanguageSwitcher } from './language-switcher'
+import { Logo } from './logo'
+import { ModeToggle } from './mode-toggle'
 import type {
   QueryGlobalSeoSettingsResult,
-  QueryNavbarDataResult,
-} from "@/lib/sanity/sanity.types";
-
-import { SanityButtons } from "./elements/sanity-buttons";
-import { SanityIcon } from "./elements/sanity-icon";
-import { LanguageSwitcher } from "./language-switcher";
-import { Logo } from "./logo";
-import { ModeToggle } from "./mode-toggle";
+  QueryNavbarDataResult
+} from '@/lib/sanity/sanity.types'
 
 // Type helpers using utility types
 type NavigationData = {
-  navbarData: QueryNavbarDataResult;
-  settingsData: QueryGlobalSeoSettingsResult;
-};
+  navbarData: QueryNavbarDataResult
+  settingsData: QueryGlobalSeoSettingsResult
+}
 
 type NavColumn = NonNullable<
-  NonNullable<QueryNavbarDataResult>["columns"]
->[number];
+  NonNullable<QueryNavbarDataResult>['columns']
+>[number]
 
 type ColumnLink = NonNullable<
-  Extract<NavColumn, { type: "column" }>["links"]
->[number];
+  Extract<NavColumn, { type: 'column' }>['links']
+>[number]
 
 type MenuLinkProps = {
-  name: string;
-  href: string;
-  internalType?: string | null;
-  description?: string;
-  icon?: any;
-  onClick?: () => void;
-};
+  name: string
+  href: string
+  internalType?: string | null
+  description?: string
+  icon?: any
+  onClick?: () => void
+}
 
 // Fetcher function
 const fetcher = async (url: string): Promise<NavigationData> => {
-  const response = await fetch(url);
+  const response = await fetch(url)
   if (!response.ok) {
-    throw new Error("Failed to fetch navigation data");
+    throw new Error('Failed to fetch navigation data')
   }
-  return response.json();
-};
+  return response.json()
+}
 
 function MenuLink({
   name,
@@ -59,15 +57,15 @@ function MenuLink({
   internalType,
   description,
   icon,
-  onClick,
+  onClick
 }: MenuLinkProps) {
-  const localeString = useLocale();
-  const locale = getValidLocale(localeString);
+  const localeString = useLocale()
+  const locale = getValidLocale(localeString)
 
   // Construct proper path for internal links
   const finalHref = internalType
     ? getInternalLinkHref(href, internalType, locale)
-    : href || "#";
+    : href || '#'
 
   return (
     <Link
@@ -92,23 +90,23 @@ function MenuLink({
         )}
       </div>
     </Link>
-  );
+  )
 }
 
 function DesktopColumnDropdown({
-  column,
+  column
 }: {
-  column: Extract<NavColumn, { type: "column" }>;
+  column: Extract<NavColumn, { type: 'column' }>
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleMouseEnter = () => {
-    setIsOpen(true);
-  };
+    setIsOpen(true)
+  }
 
   const handleMouseLeave = () => {
-    setIsOpen(false);
-  };
+    setIsOpen(false)
+  }
 
   return (
     <div className="group relative">
@@ -133,33 +131,33 @@ function DesktopColumnDropdown({
           <div className="grid gap-1">
             {column.links?.map((link: ColumnLink) => (
               <MenuLink
-                description={link.description || ""}
-                href={link.href || ""}
-                internalType={link.internalType}
+                description={link.description || ''}
+                href={link.href || ''}
                 icon={link.icon}
+                internalType={link.internalType}
                 key={link._key}
-                name={link.name || ""}
+                name={link.name || ''}
               />
             ))}
           </div>
         </div>
       ) : null}
     </div>
-  );
+  )
 }
 
 function DesktopColumnLink({
-  column,
+  column
 }: {
-  column: Extract<NavColumn, { type: "link" }>;
+  column: Extract<NavColumn, { type: 'link' }>
 }) {
-  const localeString = useLocale();
-  const locale = getValidLocale(localeString);
+  const localeString = useLocale()
+  const locale = getValidLocale(localeString)
 
   // Construct proper path for internal links
   const finalHref = column.internalType
     ? getInternalLinkHref(column.href, column.internalType, locale)
-    : column.href || "#";
+    : column.href || '#'
 
   return (
     <Link
@@ -168,26 +166,26 @@ function DesktopColumnLink({
     >
       {column.name}
     </Link>
-  );
+  )
 }
 
 function MobileMenu({ navbarData, settingsData }: NavigationData) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const localeString = useLocale();
-  const locale = getValidLocale(localeString);
+  const [isOpen, setIsOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const localeString = useLocale()
+  const locale = getValidLocale(localeString)
 
   function toggleDropdown(key: string) {
-    setOpenDropdown(openDropdown === key ? null : key);
+    setOpenDropdown(openDropdown === key ? null : key)
   }
 
   function closeMenu() {
-    setIsOpen(false);
-    setOpenDropdown(null);
+    setIsOpen(false)
+    setOpenDropdown(null)
   }
 
-  const { columns, buttons } = navbarData || {};
-  const { logo, siteTitle } = settingsData || {};
+  const { columns, buttons } = navbarData || {}
+  const { logo, siteTitle } = settingsData || {}
 
   return (
     <>
@@ -211,7 +209,7 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
               {logo && (
                 <div className="flex justify-center border-b pb-4">
                   <Logo
-                    alt={siteTitle || ""}
+                    alt={siteTitle || ''}
                     height={40}
                     image={logo}
                     width={120}
@@ -222,14 +220,14 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
               {/* Navigation items */}
               <div className="grid gap-4">
                 {columns?.map((column) => {
-                  if (column.type === "link") {
+                  if (column.type === 'link') {
                     const finalHref = column.internalType
                       ? getInternalLinkHref(
-                        column.href,
-                        column.internalType,
-                        locale
-                      )
-                      : column.href || "#";
+                          column.href,
+                          column.internalType,
+                          locale
+                        )
+                      : column.href || '#'
 
                     return (
                       <Link
@@ -240,11 +238,11 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
                       >
                         {column.name}
                       </Link>
-                    );
+                    )
                   }
 
-                  if (column.type === "column") {
-                    const isDropdownOpen = openDropdown === column._key;
+                  if (column.type === 'column') {
+                    const isDropdownOpen = openDropdown === column._key
                     return (
                       <div className="grid gap-2" key={column._key}>
                         <button
@@ -255,8 +253,8 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
                           {column.title}
                           <ChevronDown
                             className={cn(
-                              "size-3 transition-transform",
-                              isDropdownOpen && "rotate-180"
+                              'size-3 transition-transform',
+                              isDropdownOpen && 'rotate-180'
                             )}
                           />
                         </button>
@@ -264,22 +262,22 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
                           <div className="grid gap-1 border-border border-l-2 pl-4">
                             {column.links?.map((link: ColumnLink) => (
                               <MenuLink
-                                description={link.description || ""}
-                                href={link.href || ""}
-                                internalType={link.internalType}
+                                description={link.description || ''}
+                                href={link.href || ''}
                                 icon={link.icon}
+                                internalType={link.internalType}
                                 key={link._key}
-                                name={link.name || ""}
+                                name={link.name || ''}
                                 onClick={closeMenu}
                               />
                             ))}
                           </div>
                         )}
                       </div>
-                    );
+                    )
                   }
 
-                  return null;
+                  return null
                 })}
               </div>
 
@@ -300,7 +298,7 @@ function MobileMenu({ navbarData, settingsData }: NavigationData) {
         </div>
       )}
     </>
-  );
+  )
 }
 
 function NavbarSkeleton() {
@@ -337,41 +335,41 @@ function NavbarSkeleton() {
         </div>
       </div>
     </header>
-  );
+  )
 }
 
 export function Navbar({
   navbarData: initialNavbarData,
-  settingsData: initialSettingsData,
+  settingsData: initialSettingsData
 }: NavigationData) {
   const { data, error, isLoading } = useSWR<NavigationData>(
-    "/api/navigation",
+    '/api/navigation',
     fetcher,
     {
       fallbackData: {
         navbarData: initialNavbarData,
-        settingsData: initialSettingsData,
+        settingsData: initialSettingsData
       },
       revalidateOnFocus: false,
       revalidateOnMount: false,
       revalidateOnReconnect: true,
       refreshInterval: 30_000,
       errorRetryCount: 3,
-      errorRetryInterval: 5000,
+      errorRetryInterval: 5000
     }
-  );
+  )
 
   const navigationData = data || {
     navbarData: initialNavbarData,
-    settingsData: initialSettingsData,
-  };
-  const { navbarData, settingsData } = navigationData;
-  const { columns, buttons } = navbarData || {};
-  const { logo, siteTitle } = settingsData || {};
+    settingsData: initialSettingsData
+  }
+  const { navbarData, settingsData } = navigationData
+  const { columns, buttons } = navbarData || {}
+  const { logo, siteTitle } = settingsData || {}
 
   // Show skeleton only on initial mount when no fallback data is available
   if (isLoading && !data && !(initialNavbarData && initialSettingsData)) {
-    return <NavbarSkeleton />;
+    return <NavbarSkeleton />
   }
 
   return (
@@ -382,7 +380,7 @@ export function Navbar({
           <div className="flex h-[40px] w-[120px] items-center">
             {logo && (
               <Logo
-                alt={siteTitle || ""}
+                alt={siteTitle || ''}
                 height={40}
                 image={logo}
                 priority
@@ -394,15 +392,15 @@ export function Navbar({
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-1 md:flex">
             {columns?.map((column) => {
-              if (column.type === "column") {
+              if (column.type === 'column') {
                 return (
                   <DesktopColumnDropdown column={column} key={column._key} />
-                );
+                )
               }
-              if (column.type === "link") {
-                return <DesktopColumnLink column={column} key={column._key} />;
+              if (column.type === 'link') {
+                return <DesktopColumnLink column={column} key={column._key} />
               }
-              return null;
+              return null
             })}
           </nav>
 
@@ -423,11 +421,11 @@ export function Navbar({
       </div>
 
       {/* Error boundary for SWR */}
-      {error && process.env.NODE_ENV === "development" && (
+      {error && process.env.NODE_ENV === 'development' && (
         <div className="border-destructive/20 border-b bg-destructive/10 px-4 py-2 text-destructive text-xs">
           Navigation data fetch error: {error.message}
         </div>
       )}
     </header>
-  );
+  )
 }

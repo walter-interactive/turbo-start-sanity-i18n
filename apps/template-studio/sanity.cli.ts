@@ -1,7 +1,7 @@
-import { defineCliConfig } from "sanity/cli";
+import { defineCliConfig } from 'sanity/cli'
 
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID;
-const dataset = process.env.SANITY_STUDIO_DATASET;
+const projectId = process.env.SANITY_STUDIO_PROJECT_ID
+const dataset = process.env.SANITY_STUDIO_DATASET
 
 /**
  * Returns the correct studio host based on environment variables.
@@ -10,29 +10,29 @@ const dataset = process.env.SANITY_STUDIO_DATASET;
  * - If PRODUCTION_HOSTNAME is not set, returns a default using projectId
  */
 function getStudioHost(): string | undefined {
-  const host = process.env.HOST_NAME;
-  const productionHostName = process.env.SANITY_STUDIO_PRODUCTION_HOSTNAME;
+  const host = process.env.HOST_NAME
+  const productionHostName = process.env.SANITY_STUDIO_PRODUCTION_HOSTNAME
 
   if (productionHostName) {
-    if (host && host !== "main") {
-      return `${host}-${productionHostName}`;
+    if (host && host !== 'main') {
+      return `${host}-${productionHostName}`
     }
 
-    return productionHostName;
+    return productionHostName
   }
 
   if (projectId) {
-    return `${projectId}`;
+    return `${projectId}`
   }
 
-  return;
+  return
 }
 
 export default defineCliConfig({
   api: {
     projectId,
-    dataset,
+    dataset
   },
   studioHost: getStudioHost(),
-  autoUpdates: false,
-});
+  autoUpdates: false
+})

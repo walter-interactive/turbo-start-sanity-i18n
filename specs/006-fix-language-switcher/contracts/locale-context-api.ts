@@ -28,7 +28,7 @@
  * const locale: Locale = 'es'; // ✗ Type error
  * ```
  */
-export type Locale = "en" | "fr";
+export type Locale = 'en' | 'fr'
 
 /**
  * Sanity document types that support internationalization
@@ -44,7 +44,7 @@ export type Locale = "en" | "fr";
  * const type: DocumentType = 'settings'; // ✗ Type error
  * ```
  */
-export type DocumentType = "page" | "blog" | "homePage" | "blogIndex";
+export type DocumentType = 'page' | 'blog' | 'homePage' | 'blogIndex'
 
 // ============================================================================
 // Data Structures
@@ -99,7 +99,7 @@ export interface TranslationMetadata {
    * // next-intl generates: /fr
    * ```
    */
-  slug: string;
+  slug: string
 
   /**
    * Document title in this language
@@ -108,7 +108,7 @@ export interface TranslationMetadata {
    * Used for display purposes (e.g., showing title in language switcher dropdown).
    * Not required for navigation logic.
    */
-  title: string;
+  title: string
 
   /**
    * Sanity document ID
@@ -122,7 +122,7 @@ export interface TranslationMetadata {
    * _id: 'blog-abc123-en'
    * ```
    */
-  _id: string;
+  _id: string
 
   /**
    * Sanity document type
@@ -131,7 +131,7 @@ export interface TranslationMetadata {
    * One of the internationalized document types.
    * Used for URL prefix generation and analytics.
    */
-  _type: DocumentType;
+  _type: DocumentType
 }
 
 /**
@@ -160,7 +160,7 @@ export interface TranslationMetadata {
  * ```
  */
 export interface LocaleTranslations {
-  [locale: Locale]: TranslationMetadata;
+  [locale: Locale]: TranslationMetadata
 }
 
 /**
@@ -204,7 +204,7 @@ export interface LocaleTranslations {
  * ```
  */
 export interface LocaleMapping {
-  [pathname: string]: LocaleTranslations;
+  [pathname: string]: LocaleTranslations
 }
 
 // ============================================================================
@@ -257,7 +257,7 @@ export interface LocaleContextValue {
    *
    * **Immutable**: Never mutate this object. All lookups are read-only.
    */
-  localeMapping: LocaleMapping;
+  localeMapping: LocaleMapping
 
   /**
    * Lookup translations for a given pathname
@@ -305,7 +305,7 @@ export interface LocaleContextValue {
    * }
    * ```
    */
-  getTranslations(pathname: string): LocaleTranslations | undefined;
+  getTranslations(pathname: string): LocaleTranslations | undefined
 }
 
 // ============================================================================
@@ -325,19 +325,19 @@ export interface LocaleContextValue {
  */
 export interface SanityLocalizedDocument {
   /** Sanity document ID */
-  _id: string;
+  _id: string
 
   /** Document type */
-  _type: DocumentType;
+  _type: DocumentType
 
   /** Document language (always 'en' for base query) */
-  language: Locale;
+  language: Locale
 
   /** Document slug (without locale prefix) */
-  slug: string;
+  slug: string
 
   /** Document title */
-  title: string;
+  title: string
 
   /**
    * Joined translations from translation.metadata
@@ -347,12 +347,12 @@ export interface SanityLocalizedDocument {
    * Length = number of available languages for this document.
    */
   _translations: Array<{
-    _id: string;
-    _type: DocumentType;
-    language: Locale;
-    slug: string;
-    title: string;
-  }>;
+    _id: string
+    _type: DocumentType
+    language: Locale
+    slug: string
+    title: string
+  }>
 }
 
 // ============================================================================
@@ -395,12 +395,12 @@ export interface LocaleProviderProps {
    * Created by `createLocaleMapping()` in root layout.
    * Must be serializable (passed from Server to Client Component).
    */
-  localeMapping: LocaleMapping;
+  localeMapping: LocaleMapping
 
   /**
    * Child components that will have access to locale context
    */
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 // ============================================================================
@@ -435,8 +435,8 @@ export interface LocaleProviderProps {
  */
 export class LocaleContextError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = "LocaleContextError";
+    super(message)
+    this.name = 'LocaleContextError'
   }
 }
 
@@ -622,4 +622,4 @@ export class LocaleContextError extends Error {
  * - TypeScript: 5.9.2+
  * - @workspace/i18n-config: 1.0.0+
  */
-export const CONTRACT_VERSION = "1.0.0" as const;
+export const CONTRACT_VERSION = '1.0.0' as const

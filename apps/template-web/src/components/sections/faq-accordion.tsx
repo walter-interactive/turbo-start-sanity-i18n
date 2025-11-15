@@ -2,23 +2,23 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
-} from "@workspace/ui/components/accordion";
-import { Badge } from "@workspace/ui/components/badge";
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
-import type { PagebuilderType } from "@/types";
-import { RichText } from "../elements/rich-text";
-import { FaqJsonLd } from "../json-ld";
+  AccordionTrigger
+} from '@workspace/ui/components/accordion'
+import { Badge } from '@workspace/ui/components/badge'
+import { ArrowUpRight } from 'lucide-react'
+import Link from 'next/link'
+import { RichText } from '../elements/rich-text'
+import { FaqJsonLd } from '../json-ld'
+import type { PagebuilderType } from '@/types'
 
-type FaqAccordionProps = PagebuilderType<"faqAccordion">;
+type FaqAccordionProps = PagebuilderType<'faqAccordion'>
 
 export function FaqAccordion({
   eyebrow,
   title,
   subtitle,
   faqs,
-  link,
+  link
 }: FaqAccordionProps) {
   return (
     <section className="my-8" id="faq">
@@ -64,8 +64,8 @@ export function FaqAccordion({
               <p className="mb-1 text-xs">{link?.title}</p>
               <Link
                 className="flex items-center gap-2"
-                href={link.href ?? "#"}
-                target={link.openInNewTab ? "_blank" : "_self"}
+                href={link.href ?? '#'}
+                target={link.openInNewTab ? '_blank' : '_self'}
               >
                 <p className="font-[500] text-[15px] leading-6">
                   {link?.description}
@@ -82,5 +82,5 @@ export function FaqAccordion({
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,14 +1,17 @@
-import { defineQuery } from "next-sanity";
-import { translationsFragment } from "./i18n";
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaFragment } from "@walter/sanity-blocks/fragments/cta";
-import { faqSectionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
-import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";
-import { subscribeNewsletterFragment } from "@walter/sanity-blocks/fragments/subscribe-newsletter";
-import { featureCardsIconFragment } from "@walter/sanity-blocks/fragments/feature-cards-icon";
-import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { buttonsFragment } from '@walter/sanity-atoms/fragments/buttons'
+import {
+  imageFields,
+  imageFragment
+} from '@walter/sanity-atoms/fragments/image'
+import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
+import { ctaFragment } from '@walter/sanity-blocks/fragments/cta'
+import { faqSectionFragment } from '@walter/sanity-blocks/fragments/faq-accordion'
+import { featureCardsIconFragment } from '@walter/sanity-blocks/fragments/feature-cards-icon'
+import { heroSectionFragment } from '@walter/sanity-blocks/fragments/hero-section'
+import { imageLinkCardsFragment } from '@walter/sanity-blocks/fragments/image-link-cards'
+import { subscribeNewsletterFragment } from '@walter/sanity-blocks/fragments/subscribe-newsletter'
+import { defineQuery } from 'next-sanity'
+import { translationsFragment } from './i18n'
 
 const blogAuthorFragment = /* groq */ `
   authors[0]->{
@@ -19,7 +22,7 @@ const blogAuthorFragment = /* groq */ `
       ${imageFragment}
     }
   }
-`;
+`
 
 const blogCardFragment = /* groq */ `
   _type,
@@ -33,7 +36,7 @@ const blogCardFragment = /* groq */ `
   },
   publishedAt,
   ${blogAuthorFragment}
-`;
+`
 
 const pageBuilderFragment = /* groq */ `
   pageBuilder[]{
@@ -46,7 +49,7 @@ const pageBuilderFragment = /* groq */ `
     ${subscribeNewsletterFragment},
     ${imageLinkCardsFragment}
   }
-`;
+`
 
 /**
  * Query to extract a single image from a page document
@@ -57,7 +60,7 @@ export const queryImageType = defineQuery(`
   *[_type == "page" && defined(image)][0]{
     ${imageFragment}
   }.image
-`);
+`)
 
 export const queryHomePageData =
   defineQuery(`*[_type == "homePage" && language == $locale][0]{
@@ -70,7 +73,7 @@ export const queryHomePageData =
     description,
     ${pageBuilderFragment},
     ${translationsFragment}
-  }`);
+  }`)
 
 export const querySlugPageData = defineQuery(`
   *[_type == "page" && slug.current == $slug && language == $locale][0]{
@@ -80,14 +83,14 @@ export const querySlugPageData = defineQuery(`
     ${pageBuilderFragment},
     ${translationsFragment}
   }
-  `);
+  `)
 
 export const querySlugPagePaths = defineQuery(`
   *[_type == "page" && defined(slug.current) && language == $locale]{
     "slug": slug.current,
     language
   }
-`);
+`)
 
 export const queryBlogIndexPageData = defineQuery(`
   *[_type == "blogIndex" && language == $locale][0]{
@@ -106,7 +109,7 @@ export const queryBlogIndexPageData = defineQuery(`
       ${blogCardFragment}
     }
   }
-`);
+`)
 
 export const queryBlogSlugPageData = defineQuery(`
   *[_type == "blog" && slug.current == $slug && language == $locale][0]{
@@ -121,14 +124,14 @@ export const queryBlogSlugPageData = defineQuery(`
     ${pageBuilderFragment},
     ${translationsFragment}
   }
-`);
+`)
 
 export const queryBlogPaths = defineQuery(`
   *[_type == "blog" && defined(slug.current) && language == $locale]{
     "slug": slug.current,
     language
   }
-`);
+`)
 
 const ogFieldsFragment = /* groq */ `
   _id,
@@ -148,31 +151,31 @@ const ogFieldsFragment = /* groq */ `
   "seoImage": seoImage.asset->url + "?w=1200&h=630&dpr=2&fit=max", 
   "logo": *[_type == "settings"][0].logo.asset->url + "?w=80&h=40&dpr=3&fit=max&q=100",
   "date": coalesce(date, _createdAt)
-`;
+`
 
 export const queryHomePageOGData = defineQuery(`
   *[_type == "homePage" && _id == $id][0]{
     ${ogFieldsFragment}
   }
-  `);
+  `)
 
 export const querySlugPageOGData = defineQuery(`
   *[_type == "page" && _id == $id][0]{
     ${ogFieldsFragment}
   }
-`);
+`)
 
 export const queryBlogPageOGData = defineQuery(`
   *[_type == "blog" && _id == $id][0]{
     ${ogFieldsFragment}
   }
-`);
+`)
 
 export const queryGenericPageOGData = defineQuery(`
   *[ defined(slug.current) && _id == $id][0]{
     ${ogFieldsFragment}
   }
-`);
+`)
 
 export const queryFooterData = defineQuery(`
   *[_type == "footer" && _id == "footer"][0]{
@@ -197,7 +200,7 @@ export const queryFooterData = defineQuery(`
       }
     }
   }
-`);
+`)
 
 export const queryNavbarData = defineQuery(`
   *[_type == "navbar" && language == $locale][0]{
@@ -243,7 +246,7 @@ export const queryNavbarData = defineQuery(`
     },
     ${buttonsFragment},
   }
-`);
+`)
 
 export const querySitemapData = defineQuery(`{
   "slugPages": *[_type == "page" && defined(slug.current)]{
@@ -256,7 +259,7 @@ export const querySitemapData = defineQuery(`{
     language,
     "lastModified": _updatedAt
   }
-}`);
+}`)
 export const queryGlobalSeoSettings = defineQuery(`
   *[_type == "settings"][0]{
     _id,
@@ -274,7 +277,7 @@ export const queryGlobalSeoSettings = defineQuery(`
       youtube
     }
   }
-`);
+`)
 
 export const querySettingsData = defineQuery(`
   *[_type == "settings"][0]{
@@ -286,7 +289,7 @@ export const querySettingsData = defineQuery(`
     "socialLinks": socialLinks,
     "contactEmail": contactEmail,
   }
-`);
+`)
 
 /**
  * Query all localized documents with their translation metadata
@@ -316,4 +319,4 @@ export const queryAllLocalizedPages = defineQuery(`
     title,
     ${translationsFragment}
   }
-`);
+`)

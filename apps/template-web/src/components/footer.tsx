@@ -1,85 +1,83 @@
-import Link from "next/link";
-
-import type { Locale } from "@/i18n/routing";
-import { getInternalLinkHref } from "@/lib/sanity/link-helpers";
-import { sanityFetch } from "@/lib/sanity/live";
-import { queryFooterData, queryGlobalSeoSettings } from "@/lib/sanity/query";
-import type {
-  QueryFooterDataResult,
-  QueryGlobalSeoSettingsResult,
-} from "@/lib/sanity/sanity.types";
-
-import { Logo } from "./logo";
+import Link from 'next/link'
+import { getInternalLinkHref } from '@/lib/sanity/link-helpers'
+import { sanityFetch } from '@/lib/sanity/live'
+import { queryFooterData, queryGlobalSeoSettings } from '@/lib/sanity/query'
+import { Logo } from './logo'
 import {
   FacebookIcon,
   InstagramIcon,
   LinkedinIcon,
   XIcon,
-  YoutubeIcon,
-} from "./social-icons";
+  YoutubeIcon
+} from './social-icons'
+import type { Locale } from '@/i18n/routing'
+import type {
+  QueryFooterDataResult,
+  QueryGlobalSeoSettingsResult
+} from '@/lib/sanity/sanity.types'
 
 type SocialLinksProps = {
-  data: NonNullable<QueryGlobalSeoSettingsResult>["socialLinks"];
-};
+  data: NonNullable<QueryGlobalSeoSettingsResult>['socialLinks']
+}
 
 type FooterProps = {
-  data: NonNullable<QueryFooterDataResult>;
-  settingsData: NonNullable<QueryGlobalSeoSettingsResult>;
-  locale: Locale;
-};
+  data: NonNullable<QueryFooterDataResult>
+  settingsData: NonNullable<QueryGlobalSeoSettingsResult>
+  locale: Locale
+}
 
 export async function FooterServer({ locale }: { locale: Locale }) {
   const [response, settingsResponse] = await Promise.all([
     sanityFetch({
-      query: queryFooterData,
+      query: queryFooterData
     }),
     sanityFetch({
-      query: queryGlobalSeoSettings,
-    }),
-  ]);
+      query: queryGlobalSeoSettings
+    })
+  ])
 
   if (!(response?.data && settingsResponse?.data)) {
-    return <FooterSkeleton />;
+    return <FooterSkeleton />
   }
   return (
     <Footer
       data={response.data}
-      settingsData={settingsResponse.data}
       locale={locale}
+      settingsData={settingsResponse.data}
     />
-  );
+  )
 }
 
 function SocialLinks({ data }: SocialLinksProps) {
   if (!data) {
-    return null;
+    return null
   }
 
-  const { facebook, twitter, instagram, youtube, linkedin } = data;
+  const { facebook, twitter, instagram, youtube, linkedin } = data
 
   const socialLinks = [
     {
       url: instagram,
       Icon: InstagramIcon,
-      label: "Follow us on Instagram",
+      label: 'Follow us on Instagram'
     },
     {
       url: facebook,
       Icon: FacebookIcon,
-      label: "Follow us on Facebook",
+      label: 'Follow us on Facebook'
     },
-    { url: twitter, Icon: XIcon, label: "Follow us on Twitter" },
+    { url: twitter, Icon: XIcon, label: 'Follow us on Twitter' },
     {
       url: linkedin,
       Icon: LinkedinIcon,
-      label: "Follow us on LinkedIn",
+      label: 'Follow us on LinkedIn'
     },
     {
       url: youtube,
       Icon: YoutubeIcon,
-      label: "Subscribe to our YouTube channel",
-    },
-  ].filter((link) => link.url);
+      label: 'Subscribe to our YouTube channel'
+    }
+  ].filter((link) => link.url)
 
   return (
     <ul className="flex items-center space-x-6 text-muted-foreground">
@@ -90,7 +88,7 @@ function SocialLinks({ data }: SocialLinksProps) {
         >
           <Link
             aria-label={label}
-            href={url ?? "#"}
+            href={url ?? '#'}
             prefetch={false}
             rel="noopener noreferrer"
             target="_blank"
@@ -101,7 +99,7 @@ function SocialLinks({ data }: SocialLinksProps) {
         </li>
       ))}
     </ul>
-  );
+  )
 }
 
 export function FooterSkeleton() {
@@ -152,13 +150,13 @@ export function FooterSkeleton() {
         </div>
       </section>
     </footer>
-  );
+  )
 }
 
 function Footer({ data, settingsData, locale }: FooterProps) {
-  const { subtitle, columns } = data;
-  const { siteTitle, logo, socialLinks } = settingsData;
-  const year = new Date().getFullYear();
+  const { subtitle, columns } = data
+  const { siteTitle, logo, socialLinks } = settingsData
+  const year = new Date().getFullYear()
 
   return (
     <footer className="mt-20 pb-8">
@@ -192,7 +190,7 @@ function Footer({ data, settingsData, locale }: FooterProps) {
                                 link.internalType,
                                 locale
                               )
-                            : (link.href ?? "#");
+                            : (link.href ?? '#')
 
                           return (
                             <li
@@ -203,17 +201,17 @@ function Footer({ data, settingsData, locale }: FooterProps) {
                                 href={finalHref}
                                 rel={
                                   link.openInNewTab
-                                    ? "noopener noreferrer"
+                                    ? 'noopener noreferrer'
                                     : undefined
                                 }
                                 target={
-                                  link.openInNewTab ? "_blank" : undefined
+                                  link.openInNewTab ? '_blank' : undefined
                                 }
                               >
                                 {link.name}
                               </Link>
                             </li>
-                          );
+                          )
                         })}
                       </ul>
                     )}
@@ -240,5 +238,5 @@ function Footer({ data, settingsData, locale }: FooterProps) {
         </div>
       </section>
     </footer>
-  );
+  )
 }

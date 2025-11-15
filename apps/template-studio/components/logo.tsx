@@ -42,5 +42,5 @@ export function Logo() {
         </linearGradient>
       </defs>
     </svg>
-  );
+  )
 }

@@ -12,9 +12,9 @@
  */
 
 interface AnalyticsEvent {
-  name: string;
-  properties?: Record<string, string | number | boolean | undefined>;
-  timestamp: string;
+  name: string
+  properties?: Record<string, string | number | boolean | undefined>
+  timestamp: string
 }
 
 /**
@@ -23,20 +23,20 @@ interface AnalyticsEvent {
 function isAnalyticsEnabled(): boolean {
   // Enable analytics in production and preview environments
   return (
-    process.env.VERCEL_ENV === "production" ||
-    process.env.VERCEL_ENV === "preview"
-  );
+    process.env.VERCEL_ENV === 'production'
+    || process.env.VERCEL_ENV === 'preview'
+  )
 }
 
 /**
  * Send event to Google Analytics (if available)
  */
 function sendToGoogleAnalytics(event: AnalyticsEvent): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === 'undefined') return
 
   // Check if gtag is available (Google Analytics)
-  if ("gtag" in window && typeof window.gtag === "function") {
-    window.gtag("event", event.name, event.properties);
+  if ('gtag' in window && typeof window.gtag === 'function') {
+    window.gtag('event', event.name, event.properties)
   }
 }
 
@@ -44,11 +44,11 @@ function sendToGoogleAnalytics(event: AnalyticsEvent): void {
  * Send event to Plausible Analytics (if available)
  */
 function sendToPlausible(event: AnalyticsEvent): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === 'undefined') return
 
   // Check if plausible is available
-  if ("plausible" in window && typeof window.plausible === "function") {
-    window.plausible(event.name, { props: event.properties });
+  if ('plausible' in window && typeof window.plausible === 'function') {
+    window.plausible(event.name, { props: event.properties })
   }
 }
 
@@ -56,12 +56,12 @@ function sendToPlausible(event: AnalyticsEvent): void {
  * Send event to console in development
  */
 function logToConsole(event: AnalyticsEvent): void {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     console.log(
       `[Analytics] ${event.name}`,
       event.properties || {},
       `at ${event.timestamp}`
-    );
+    )
   }
 }
 
@@ -75,16 +75,16 @@ function trackEvent(
   const event: AnalyticsEvent = {
     name,
     properties,
-    timestamp: new Date().toISOString(),
-  };
+    timestamp: new Date().toISOString()
+  }
 
   // Always log in development for debugging
-  logToConsole(event);
+  logToConsole(event)
 
   // Send to analytics providers if enabled
   if (isAnalyticsEnabled()) {
-    sendToGoogleAnalytics(event);
-    sendToPlausible(event);
+    sendToGoogleAnalytics(event)
+    sendToPlausible(event)
   }
 }
 
@@ -101,7 +101,7 @@ export const analytics = {
     name: string,
     properties?: Record<string, string | number | boolean | undefined>
   ) => {
-    trackEvent(name, properties);
+    trackEvent(name, properties)
   },
 
   /**
@@ -109,15 +109,15 @@ export const analytics = {
    * @param params - Language switch parameters
    */
   trackLanguageSwitch: (params: {
-    from: string;
-    to: string;
-    pathname: string;
+    from: string
+    to: string
+    pathname: string
   }) => {
-    trackEvent("language_switch", {
+    trackEvent('language_switch', {
       from_locale: params.from,
       to_locale: params.to,
-      page_path: params.pathname,
-    });
+      page_path: params.pathname
+    })
   },
 
   /**
@@ -125,11 +125,11 @@ export const analytics = {
    * @param params - Page view parameters
    */
   trackPageView: (params: { path: string; locale: string; title?: string }) => {
-    trackEvent("page_view", {
+    trackEvent('page_view', {
       page_path: params.path,
       locale: params.locale,
-      page_title: params.title,
-    });
+      page_title: params.title
+    })
   },
 
   /**
@@ -137,13 +137,13 @@ export const analytics = {
    * @param params - Error event parameters
    */
   trackError: (params: { message: string; type: string; context?: string }) => {
-    trackEvent("error", {
+    trackEvent('error', {
       error_message: params.message,
       error_type: params.type,
-      error_context: params.context,
-    });
-  },
-};
+      error_context: params.context
+    })
+  }
+}
 
 /**
  * Type definitions for analytics providers
@@ -154,10 +154,10 @@ declare global {
       command: string,
       eventName: string,
       eventParams?: Record<string, unknown>
-    ) => void;
+    ) => void
     plausible?: (
       eventName: string,
       options?: { props?: Record<string, unknown> }
-    ) => void;
+    ) => void
   }
 }

@@ -13,34 +13,34 @@
  * @see specs/001-i18n-localization/data-model.md (Migration Path section)
  */
 
-import { at, defineMigration, set } from "sanity/migrate";
+import { at, defineMigration, set } from 'sanity/migrate'
 
 // Default language for Quebec compliance
-const DEFAULT_LANGUAGE = "fr";
+const DEFAULT_LANGUAGE = 'fr'
 
 export default defineMigration({
-  title: "Add language field to existing translatable documents",
+  title: 'Add language field to existing translatable documents',
 
   // Target all translatable document types
   // Must match schemaTypes in sanity.config.ts documentInternationalization plugin
   documentTypes: [
-    "page",
-    "blog",
-    "blogIndex",
-    "navbar",
-    "footer",
-    "settings",
-    "homePage",
-    "faq",
+    'page',
+    'blog',
+    'blogIndex',
+    'navbar',
+    'footer',
+    'settings',
+    'homePage',
+    'faq'
   ],
 
   // Only target documents that don't already have a language field
-  filter: "!defined(language)",
+  filter: '!defined(language)',
 
   migrate: {
     document(_doc, _context) {
       // Set language field to default French for all existing documents
-      return at("language", set(DEFAULT_LANGUAGE));
-    },
-  },
-});
+      return at('language', set(DEFAULT_LANGUAGE))
+    }
+  }
+})

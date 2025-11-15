@@ -23,7 +23,7 @@
  * import { LOCALES } from '@workspace/i18n-config';
  * console.log(LOCALES); // ["fr", "en"]
  */
-export const LOCALES = ["fr", "en"] as const;
+export const LOCALES = ['fr', 'en'] as const
 
 /**
  * Default locale for the application
@@ -35,7 +35,7 @@ export const LOCALES = ["fr", "en"] as const;
  * import { DEFAULT_LOCALE } from '@workspace/i18n-config';
  * console.log(DEFAULT_LOCALE); // "fr"
  */
-export const DEFAULT_LOCALE = LOCALES[0];
+export const DEFAULT_LOCALE = LOCALES[0]
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -50,15 +50,15 @@ export const DEFAULT_LOCALE = LOCALES[0];
  * const locale: Locale = "fr"; // ✅ Valid
  * const invalid: Locale = "es"; // ❌ Type error
  */
-export type Locale = (typeof LOCALES)[number];
+export type Locale = (typeof LOCALES)[number]
 
 /**
  * Language configuration for Sanity plugin
  * Maps locale codes to human-readable titles
  */
 export interface LanguageConfig {
-  id: Locale;
-  title: string;
+  id: Locale
+  title: string
 }
 
 // ============================================================================
@@ -72,22 +72,22 @@ export interface LanguageConfig {
 export const LOCALE_METADATA: Record<
   Locale,
   {
-    name: string;
-    nativeName: string;
-    direction: "ltr" | "rtl";
+    name: string
+    nativeName: string
+    direction: 'ltr' | 'rtl'
   }
 > = {
   fr: {
-    name: "French",
-    nativeName: "Français",
-    direction: "ltr",
+    name: 'French',
+    nativeName: 'Français',
+    direction: 'ltr'
   },
   en: {
-    name: "English",
-    nativeName: "English",
-    direction: "ltr",
-  },
-} as const;
+    name: 'English',
+    nativeName: 'English',
+    direction: 'ltr'
+  }
+} as const
 
 /**
  * Language configurations for Sanity document-internationalization plugin
@@ -103,8 +103,8 @@ export const LOCALE_METADATA: Record<
  */
 export const SANITY_LANGUAGES: LanguageConfig[] = LOCALES.map((locale) => ({
   id: locale,
-  title: LOCALE_METADATA[locale].nativeName,
-}));
+  title: LOCALE_METADATA[locale].nativeName
+}))
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -125,7 +125,7 @@ export const SANITY_LANGUAGES: LanguageConfig[] = LOCALES.map((locale) => ({
  * }
  */
 export function isValidLocale(locale: string): locale is Locale {
-  return LOCALES.includes(locale as Locale);
+  return LOCALES.includes(locale as Locale)
 }
 
 /**
@@ -141,9 +141,9 @@ export function isValidLocale(locale: string): locale is Locale {
  */
 export function getValidLocale(locale: string | undefined): Locale {
   if (locale && isValidLocale(locale)) {
-    return locale;
+    return locale
   }
-  return DEFAULT_LOCALE;
+  return DEFAULT_LOCALE
 }
 
 /**
@@ -161,13 +161,13 @@ export function getValidLocale(locale: string | undefined): Locale {
  * getLocaleName({ locale: 'fr', native: false }); // 'French'
  */
 export function getLocaleName(params: {
-  locale: Locale;
-  native?: boolean;
+  locale: Locale
+  native?: boolean
 }): string {
-  const { locale, native = true } = params;
+  const { locale, native = true } = params
   return native
     ? LOCALE_METADATA[locale].nativeName
-    : LOCALE_METADATA[locale].name;
+    : LOCALE_METADATA[locale].name
 }
 
 /**
@@ -184,7 +184,7 @@ export function getLocaleName(params: {
  * }
  */
 export function getStaticLocaleParams(): Array<{ locale: Locale }> {
-  return LOCALES.map((locale) => ({ locale }));
+  return LOCALES.map((locale) => ({ locale }))
 }
 
 // ============================================================================
@@ -210,38 +210,38 @@ export function getStaticLocaleParams(): Array<{ locale: Locale }> {
  */
 export const PATHNAMES = {
   // Homepage
-  "/": {
-    en: "/",
-    fr: "/",
+  '/': {
+    en: '/',
+    fr: '/'
   },
   // Blog index
-  "/blog": {
-    en: "/blog",
-    fr: "/blogue",
+  '/blog': {
+    en: '/blog',
+    fr: '/blogue'
   },
   // Blog posts (dynamic route)
-  "/blog/[slug]": {
-    en: "/blog/[slug]",
-    fr: "/blogue/[slug]",
+  '/blog/[slug]': {
+    en: '/blog/[slug]',
+    fr: '/blogue/[slug]'
   },
   // Regular pages (no prefix)
-  "/[slug]": {
-    en: "/[slug]",
-    fr: "/[slug]",
-  },
-} as const;
+  '/[slug]': {
+    en: '/[slug]',
+    fr: '/[slug]'
+  }
+} as const
 
 /**
  * Type for pathname keys
  * Derived from PATHNAMES object keys
  */
-export type PathnameKey = keyof typeof PATHNAMES;
+export type PathnameKey = keyof typeof PATHNAMES
 
 /**
  * Sanity document types that support internationalization
  * Must match document types defined in Sanity Studio schemas
  */
-export type DocumentType = "page" | "blog" | "homePage" | "blogIndex";
+export type DocumentType = 'page' | 'blog' | 'homePage' | 'blogIndex'
 
 /**
  * Map Sanity document types to pathname patterns
@@ -255,11 +255,11 @@ export type DocumentType = "page" | "blog" | "homePage" | "blogIndex";
  * const pathname = DOCUMENT_TYPE_TO_PATHNAME['blog']; // '/blog/[slug]'
  */
 export const DOCUMENT_TYPE_TO_PATHNAME: Record<DocumentType, PathnameKey> = {
-  homePage: "/",
-  blogIndex: "/blog",
-  blog: "/blog/[slug]",
-  page: "/[slug]",
-} as const;
+  homePage: '/',
+  blogIndex: '/blog',
+  blog: '/blog/[slug]',
+  page: '/[slug]'
+} as const
 
 /**
  * Get pathname pattern for a document type
@@ -279,5 +279,5 @@ export const DOCUMENT_TYPE_TO_PATHNAME: Record<DocumentType, PathnameKey> = {
  * getPathnameForDocType('blogIndex') // '/blog'
  */
 export function getPathnameForDocType(docType: DocumentType): PathnameKey {
-  return DOCUMENT_TYPE_TO_PATHNAME[docType];
+  return DOCUMENT_TYPE_TO_PATHNAME[docType]
 }

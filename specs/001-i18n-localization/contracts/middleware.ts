@@ -13,8 +13,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import createMiddleware from "next-intl/middleware";
-import { routing } from "./i18n/routing";
+import createMiddleware from 'next-intl/middleware'
+import { routing } from './i18n/routing'
 
 /**
  * Create middleware with routing configuration
@@ -25,7 +25,7 @@ import { routing } from "./i18n/routing";
  * 3. Setting NEXT_LOCALE cookie for persistence
  * 4. Adding x-next-intl-locale header for server components
  */
-export default createMiddleware(routing);
+export default createMiddleware(routing)
 
 /**
  * Middleware configuration
@@ -42,8 +42,8 @@ export const config = {
    *
    * This pattern is recommended by next-intl documentation
    */
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
-};
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+}
 
 // ============================================================================
 // Middleware Flow Diagram

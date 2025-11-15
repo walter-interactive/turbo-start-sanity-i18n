@@ -1,28 +1,26 @@
-import { cn } from "@workspace/ui/lib/utils";
-import Link from "next/link";
-
-import type { PagebuilderType } from "@/types";
-
-import { SanityImage } from "./elements/sanity-image";
+import { cn } from '@workspace/ui/lib/utils'
+import Link from 'next/link'
+import { SanityImage } from './elements/sanity-image'
+import type { PagebuilderType } from '@/types'
 
 type ImageLinkCard = NonNullable<
-  NonNullable<PagebuilderType<"imageLinkCards">["cards"]>
->[number];
+  NonNullable<PagebuilderType<'imageLinkCards'>['cards']>
+>[number]
 
 export type CTACardProps = {
-  card: ImageLinkCard;
-  className?: string;
-};
+  card: ImageLinkCard
+  className?: string
+}
 
 export function CTACard({ card, className }: CTACardProps) {
-  const { image, description, title, href } = card ?? {};
+  const { image, description, title, href } = card ?? {}
   return (
     <Link
       className={cn(
-        "group relative flex flex-col justify-end overflow-hidden rounded-3xl p-4 transition-colors md:p-8 xl:h-[400px]",
+        'group relative flex flex-col justify-end overflow-hidden rounded-3xl p-4 transition-colors md:p-8 xl:h-[400px]',
         className
       )}
-      href={href ?? "#"}
+      href={href ?? '#'}
     >
       {image?.id && (
         <div className="absolute inset-0 z-[1] mix-blend-multiply">
@@ -44,5 +42,5 @@ export function CTACard({ card, className }: CTACardProps) {
         </p>
       </div>
     </Link>
-  );
+  )
 }

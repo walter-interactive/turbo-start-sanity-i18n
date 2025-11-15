@@ -14,9 +14,9 @@ import {
   type DocumentType,
   getPathnameForDocType,
   LOCALES,
-  PATHNAMES,
-} from "@workspace/i18n-config";
-import type { Locale } from "@/i18n/routing";
+  PATHNAMES
+} from '@workspace/i18n-config'
+import type { Locale } from '@/i18n/routing'
 
 // ============================================================================
 // Type Definitions
@@ -34,13 +34,13 @@ import type { Locale } from "@/i18n/routing";
  */
 export interface TranslationItem {
   /** Document slug WITH leading slash (e.g., "/my-post") */
-  slug: string;
+  slug: string
   /** Document title in this language */
-  title: string;
+  title: string
   /** Sanity document ID */
-  _id: string;
+  _id: string
   /** Sanity document type */
-  _type: DocumentType;
+  _type: DocumentType
 }
 
 /**
@@ -50,7 +50,7 @@ export interface TranslationItem {
  * if document is only partially translated.
  */
 export interface LocaleTranslations {
-  [locale: string]: TranslationItem;
+  [locale: string]: TranslationItem
 }
 
 /**
@@ -62,7 +62,7 @@ export interface LocaleTranslations {
  * **Performance**: O(1) lookup time via hash map.
  */
 export interface LocaleMapping {
-  [pathname: string]: LocaleTranslations;
+  [pathname: string]: LocaleTranslations
 }
 
 /**
@@ -72,18 +72,18 @@ export interface LocaleMapping {
  * The _translations array contains all language versions of the document.
  */
 export interface SanityLocalizedDocument {
-  _id: string;
-  _type: DocumentType;
-  language: string;
-  slug: string;
-  title: string | null;
+  _id: string
+  _type: DocumentType
+  language: string
+  slug: string
+  title: string | null
   _translations?: Array<{
-    _id: string;
-    _type: DocumentType;
-    language: string;
-    slug: string;
-    title: string | null;
-  }> | null;
+    _id: string
+    _type: DocumentType
+    language: string
+    slug: string
+    title: string | null
+  }> | null
 }
 
 // ============================================================================
@@ -114,7 +114,7 @@ export interface SanityLocalizedDocument {
  * @see {@link @workspace/i18n-config} for pathname definitions
  */
 export function getPathnamePattern(docType: DocumentType): string {
-  return getPathnameForDocType(docType);
+  return getPathnameForDocType(docType)
 }
 
 /**
@@ -166,37 +166,37 @@ function getLocalizedPathname(
   locale: Locale
 ): string {
   // Remove leading slash from slug for path construction
-  const slugContent = slug.replace(/^\//, "");
-  const localePrefix = locale;
+  const slugContent = slug.replace(/^\//, '')
+  const localePrefix = locale
 
   // Get localized document type prefix from PATHNAMES config
   // This ensures we use "blogue" for French blog posts
-  const pathnameKey = getPathnamePattern(docType);
+  const pathnameKey = getPathnamePattern(docType)
   const localizedPath =
-    PATHNAMES[pathnameKey as keyof typeof PATHNAMES]?.[locale];
+    PATHNAMES[pathnameKey as keyof typeof PATHNAMES]?.[locale]
 
   // Handle homepage (no slug)
-  if (docType === "homePage") {
-    return `/${localePrefix}`;
+  if (docType === 'homePage') {
+    return `/${localePrefix}`
   }
 
   // Handle blog index (no slug, just the prefix)
-  if (docType === "blogIndex") {
+  if (docType === 'blogIndex') {
     // Extract the base path from localizedPath (e.g., "/blog" or "/blogue")
-    const basePath = localizedPath?.replace(/\/\[slug\]$/, "") || "";
-    return `/${localePrefix}${basePath}`;
+    const basePath = localizedPath?.replace(/\/\[slug\]$/, '') || ''
+    return `/${localePrefix}${basePath}`
   }
 
   // For blog posts and pages, construct path with localized prefix
   // Extract the base path without [slug] placeholder
-  const basePath = localizedPath?.replace(/\/\[slug\]$/, "") || "";
+  const basePath = localizedPath?.replace(/\/\[slug\]$/, '') || ''
 
   if (basePath) {
-    return `/${localePrefix}${basePath}/${slugContent}`;
+    return `/${localePrefix}${basePath}/${slugContent}`
   }
 
   // Fallback for pages without prefix
-  return `/${localePrefix}/${slugContent}`;
+  return `/${localePrefix}/${slugContent}`
 }
 
 // ============================================================================
@@ -273,40 +273,40 @@ function getLocalizedPathname(
 export function createLocaleMapping(
   documents: SanityLocalizedDocument[]
 ): LocaleMapping {
-  const mapping: LocaleMapping = {};
+  const mapping: LocaleMapping = {}
 
   for (const doc of documents) {
     // Skip documents without translation metadata
-    if (!doc._translations || doc._translations.length === 0) continue;
+    if (!doc._translations || doc._translations.length === 0) continue
 
     // Build translations object for this document
-    const translations: LocaleTranslations = {};
+    const translations: LocaleTranslations = {}
 
     for (const translation of doc._translations) {
       // Slugs are stored as-is (with leading slash, e.g., "/my-post")
       // Title might be null, default to empty string
       translations[translation.language] = {
         slug: translation.slug,
-        title: translation.title || "",
+        title: translation.title || '',
         _id: translation._id,
-        _type: translation._type,
-      };
+        _type: translation._type
+      }
     }
 
     // Add bidirectional mappings (one for each language's pathname)
     // This enables O(1) lookups from any language URL
     for (const locale of LOCALES) {
-      if (!translations[locale]) continue;
+      if (!translations[locale]) continue
 
       const pathname = getLocalizedPathname(
         translations[locale].slug,
         translations[locale]._type,
         locale
-      );
+      )
 
-      mapping[pathname] = translations;
+      mapping[pathname] = translations
     }
   }
 
-  return mapping;
+  return mapping
 }

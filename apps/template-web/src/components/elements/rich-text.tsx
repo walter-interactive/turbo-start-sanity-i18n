@@ -1,20 +1,18 @@
-"use client";
-import { cn } from "@workspace/ui/lib/utils";
-import Link from "next/link";
+'use client'
+import { cn } from '@workspace/ui/lib/utils'
+import Link from 'next/link'
 import {
   PortableText,
   type PortableTextBlock,
-  type PortableTextReactComponents,
-} from "next-sanity";
-
-import { parseChildrenToSlug } from "@/utils";
-
-import { SanityImage } from "./sanity-image";
+  type PortableTextReactComponents
+} from 'next-sanity'
+import { parseChildrenToSlug } from '@/utils'
+import { SanityImage } from './sanity-image'
 
 const components: Partial<PortableTextReactComponents> = {
   block: {
     h2: ({ children, value }) => {
-      const slug = parseChildrenToSlug(value.children);
+      const slug = parseChildrenToSlug(value.children)
       return (
         <h2
           className="scroll-m-20 border-b pb-2 font-semibold text-3xl first:mt-0"
@@ -22,40 +20,40 @@ const components: Partial<PortableTextReactComponents> = {
         >
           {children}
         </h2>
-      );
+      )
     },
     h3: ({ children, value }) => {
-      const slug = parseChildrenToSlug(value.children);
+      const slug = parseChildrenToSlug(value.children)
       return (
         <h3 className="scroll-m-20 font-semibold text-2xl" id={slug}>
           {children}
         </h3>
-      );
+      )
     },
     h4: ({ children, value }) => {
-      const slug = parseChildrenToSlug(value.children);
+      const slug = parseChildrenToSlug(value.children)
       return (
         <h4 className="scroll-m-20 font-semibold text-xl" id={slug}>
           {children}
         </h4>
-      );
+      )
     },
     h5: ({ children, value }) => {
-      const slug = parseChildrenToSlug(value.children);
+      const slug = parseChildrenToSlug(value.children)
       return (
         <h5 className="scroll-m-20 font-semibold text-lg" id={slug}>
           {children}
         </h5>
-      );
+      )
     },
     h6: ({ children, value }) => {
-      const slug = parseChildrenToSlug(value.children);
+      const slug = parseChildrenToSlug(value.children)
       return (
         <h6 className="scroll-m-20 font-semibold text-base" id={slug}>
           {children}
         </h6>
-      );
-    },
+      )
+    }
   },
   marks: {
     code: ({ children }) => (
@@ -64,12 +62,12 @@ const components: Partial<PortableTextReactComponents> = {
       </code>
     ),
     customLink: ({ children, value }) => {
-      if (!value.href || value.href === "#") {
+      if (!value.href || value.href === '#') {
         return (
           <span className="underline decoration-dotted underline-offset-2">
             Link Broken
           </span>
-        );
+        )
       }
       return (
         <Link
@@ -77,17 +75,17 @@ const components: Partial<PortableTextReactComponents> = {
           className="underline decoration-dotted underline-offset-2"
           href={value.href}
           prefetch={false}
-          target={value.openInNewTab ? "_blank" : "_self"}
+          target={value.openInNewTab ? '_blank' : '_self'}
         >
           {children}
         </Link>
-      );
-    },
+      )
+    }
   },
   types: {
     image: ({ value }) => {
       if (!value?.id) {
-        return null;
+        return null
       }
       return (
         <figure className="my-4">
@@ -103,37 +101,37 @@ const components: Partial<PortableTextReactComponents> = {
             </figcaption>
           )}
         </figure>
-      );
-    },
+      )
+    }
   },
-  hardBreak: () => <br />,
-};
+  hardBreak: () => <br />
+}
 
 export function RichText<T>({
   richText,
-  className,
+  className
 }: {
-  richText?: T | null;
-  className?: string;
+  richText?: T | null
+  className?: string
 }) {
   if (!richText) {
-    return null;
+    return null
   }
 
   return (
     <div
       className={cn(
-        "prose prose-zinc dark:prose-invert max-w-none prose-headings:scroll-m-24 prose-h2:border-b prose-h2:pb-2 prose-h2:font-semibold prose-h2:text-3xl prose-headings:text-opacity-90 prose-ol:text-opacity-80 prose-p:text-opacity-80 prose-ul:text-opacity-80 prose-a:decoration-dotted prose-h2:first:mt-0",
+        'prose prose-zinc dark:prose-invert max-w-none prose-headings:scroll-m-24 prose-h2:border-b prose-h2:pb-2 prose-h2:font-semibold prose-h2:text-3xl prose-headings:text-opacity-90 prose-ol:text-opacity-80 prose-p:text-opacity-80 prose-ul:text-opacity-80 prose-a:decoration-dotted prose-h2:first:mt-0',
         className
       )}
     >
       <PortableText
         components={components}
         onMissingComponent={(_, { nodeType, type }) => {
-          console.warn(`Missing component: ${nodeType} for type: ${type}`);
+          console.warn(`Missing component: ${nodeType} for type: ${type}`)
         }}
         value={richText as unknown as PortableTextBlock[]}
       />
     </div>
-  );
+  )
 }

@@ -1,19 +1,17 @@
-import { Badge } from "@workspace/ui/components/badge";
+import { Badge } from '@workspace/ui/components/badge'
+import { RichText } from '../elements/rich-text'
+import { SanityButtons } from '../elements/sanity-buttons'
+import { SanityImage } from '../elements/sanity-image'
+import type { PagebuilderType } from '@/types'
 
-import type { PagebuilderType } from "@/types";
-
-import { RichText } from "../elements/rich-text";
-import { SanityButtons } from "../elements/sanity-buttons";
-import { SanityImage } from "../elements/sanity-image";
-
-type HeroBlockProps = PagebuilderType<"hero">;
+type HeroBlockProps = PagebuilderType<'hero'>
 
 export function HeroBlock({
   title,
   buttons,
   badge,
   image,
-  richText,
+  richText
 }: HeroBlockProps) {
   return (
     <section className="mt-4 md:my-16" id="hero">
@@ -52,5 +50,5 @@ export function HeroBlock({
         </div>
       </div>
     </section>
-  );
+  )
 }

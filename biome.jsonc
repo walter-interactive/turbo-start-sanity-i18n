@@ -1,6 +1,29 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite"],
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto"
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "none",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "operatorLinebreak": "before"
+    }
+  },
   "linter": {
     "rules": {
       "suspicious": {
@@ -9,13 +32,37 @@
         "noConsole": "warn"
       },
       "style": {
-        "noMagicNumbers": "info"
+        "noInferrableTypes": "error",
+        "noMagicNumbers": "error"
       },
       "performance": {
         "noNamespaceImport": "off"
       },
       "correctness": {
         "noInvalidPositionAtImportRule": "off"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              {
+                "type": false // place types import/export below everything else
+              },
+              [
+                "@walter/sanity-atoms/**",
+                ":BLANK_LINE:",
+                "@walter/sanity-blocks/**",
+                ":BLANK_LINE:",
+                "@workspace/**"
+              ]
+            ]
+          }
+        }
       }
     }
   }

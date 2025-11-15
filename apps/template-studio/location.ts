@@ -20,7 +20,7 @@
  * ```
  */
 
-import { defineLocations } from "sanity/presentation";
+import { defineLocations } from 'sanity/presentation'
 
 /**
  * Location resolver configuration for all document types
@@ -38,21 +38,21 @@ export const locations = {
    */
   blog: defineLocations({
     select: {
-      title: "title",
-      slug: "slug.current",
+      title: 'title',
+      slug: 'slug.current'
     },
     resolve: (doc) => ({
       locations: [
         {
-          title: doc?.title || "Untitled",
-          href: `${doc?.slug}`,
+          title: doc?.title || 'Untitled',
+          href: `${doc?.slug}`
         },
         {
-          title: "Blog",
-          href: "/blog",
-        },
-      ],
-    }),
+          title: 'Blog',
+          href: '/blog'
+        }
+      ]
+    })
   }),
   /**
    * Homepage location resolver
@@ -61,17 +61,17 @@ export const locations = {
    */
   home: defineLocations({
     select: {
-      title: "title",
-      slug: "slug.current",
+      title: 'title',
+      slug: 'slug.current'
     },
     resolve: () => ({
       locations: [
         {
-          title: "Home",
-          href: "/",
-        },
-      ],
-    }),
+          title: 'Home',
+          href: '/'
+        }
+      ]
+    })
   }),
 
   /**
@@ -82,16 +82,16 @@ export const locations = {
    */
   page: defineLocations({
     select: {
-      title: "title",
-      slug: "slug.current",
+      title: 'title',
+      slug: 'slug.current'
     },
     resolve: (doc) => ({
       locations: [
         {
-          title: doc?.title || "Untitled",
-          href: `${doc?.slug}`,
-        },
-      ],
-    }),
-  }),
-};
+          title: doc?.title || 'Untitled',
+          href: `${doc?.slug}`
+        }
+      ]
+    })
+  })
+}

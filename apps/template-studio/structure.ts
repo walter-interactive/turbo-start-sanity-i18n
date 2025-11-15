@@ -31,8 +31,8 @@
  * @see schemaTypes.ts - Type definitions for SchemaType and SingletonType
  */
 
-import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
-import { DEFAULT_LOCALE } from "@workspace/i18n-config";
+import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list'
+import { DEFAULT_LOCALE } from '@workspace/i18n-config'
 import {
   BookMarked,
   CogIcon,
@@ -47,27 +47,26 @@ import {
   PlusIcon,
   Settings2,
   TrendingUpDown,
-  User,
-} from "lucide-react";
+  User
+} from 'lucide-react'
+import { getTitleCase } from './utils/helper'
 import type {
   StructureBuilder,
-  StructureResolverContext,
-} from "sanity/structure";
-
-import type { SchemaType, SingletonType } from "./schemaTypes";
-import { getTitleCase } from "./utils/helper";
+  StructureResolverContext
+} from 'sanity/structure'
+import type { SchemaType, SingletonType } from './schemaTypes'
 
 type Base<T = SchemaType> = {
-  id?: string;
-  type: T;
-  preview?: boolean;
-  title?: string;
-  icon?: LucideIcon;
-};
+  id?: string
+  type: T
+  preview?: boolean
+  title?: string
+  icon?: LucideIcon
+}
 
 type CreateSingleTon = {
-  S: StructureBuilder;
-} & Base<SingletonType>;
+  S: StructureBuilder
+} & Base<SingletonType>
 
 /**
  * Creates a sidebar list item for a singleton document
@@ -115,16 +114,16 @@ type CreateSingleTon = {
  * of this type can exist. Sanity will reuse the same document ID for all edits.
  */
 const createSingleTon = ({ S, type, title, icon }: CreateSingleTon) => {
-  const newTitle = title ?? getTitleCase(type);
+  const newTitle = title ?? getTitleCase(type)
   return S.listItem()
     .title(newTitle)
     .icon(icon ?? File)
-    .child(S.document().schemaType(type).documentId(type));
-};
+    .child(S.document().schemaType(type).documentId(type))
+}
 
 type CreateList = {
-  S: StructureBuilder;
-} & Base;
+  S: StructureBuilder
+} & Base
 
 /**
  * Creates a sidebar list item for a document type with multiple instances
@@ -183,19 +182,19 @@ type CreateList = {
  * (see PAGES and FAQs sections below for examples).
  */
 const createList = ({ S, type, icon, title, id }: CreateList) => {
-  const newTitle = title ?? getTitleCase(type);
+  const newTitle = title ?? getTitleCase(type)
   return S.documentTypeListItem(type)
     .id(id ?? type)
     .title(newTitle)
-    .icon(icon ?? File);
-};
+    .icon(icon ?? File)
+}
 
 type CreateIndexList = {
-  S: StructureBuilder;
-  list: Base;
-  index: Base<SingletonType>;
-  context: StructureResolverContext;
-};
+  S: StructureBuilder
+  list: Base
+  index: Base<SingletonType>
+  context: StructureResolverContext
+}
 
 /**
  * Creates a structure list item containing both an index singleton document and an orderable
@@ -244,10 +243,10 @@ const createIndexListWithOrderableItems = ({
   S,
   index,
   list,
-  context,
+  context
 }: CreateIndexList) => {
-  const indexTitle = index.title ?? getTitleCase(index.type);
-  const listTitle = list.title ?? getTitleCase(list.type);
+  const indexTitle = index.title ?? getTitleCase(index.type)
+  const listTitle = list.title ?? getTitleCase(list.type)
   return S.listItem()
     .title(listTitle)
     .icon(index.icon ?? File)
@@ -270,27 +269,27 @@ const createIndexListWithOrderableItems = ({
             context,
             icon: list.icon ?? File,
             title: `${listTitle}`,
-            filter: "language == $lang",
+            filter: 'language == $lang',
             params: {
-              lang: DEFAULT_LOCALE,
+              lang: DEFAULT_LOCALE
             },
             menuItems: [
               S.menuItem()
                 .title(`Create new ${listTitle.slice(0, -1)}`)
                 .icon(PlusIcon)
                 .intent({
-                  type: "create",
+                  type: 'create',
                   params: {
                     type: list.type,
-                    template: `${list.type}-${DEFAULT_LOCALE}`,
-                  },
+                    template: `${list.type}-${DEFAULT_LOCALE}`
+                  }
                 })
-                .serialize(),
-            ],
-          }),
+                .serialize()
+            ]
+          })
         ])
-    );
-};
+    )
+}
 
 /**
  * Main structure resolver function for Sanity Studio sidebar
@@ -316,13 +315,13 @@ export const structure = (
   context: StructureResolverContext
 ) =>
   S.list()
-    .title("Content")
+    .title('Content')
     .items([
       // ========================================================================
       // HOMEPAGE - Singleton document for main landing page
       // ========================================================================
       // Uses createSingleTon since only one homepage exists globally
-      createSingleTon({ S, type: "homePage", icon: HomeIcon }),
+      createSingleTon({ S, type: 'homePage', icon: HomeIcon }),
 
       S.divider(),
 
@@ -340,17 +339,17 @@ export const structure = (
       // - Avoids orphaned translations (translations without a base French document)
       // - Base French document must exist before translations can be created
       S.listItem()
-        .title("Pages")
+        .title('Pages')
         .icon(FileIcon)
         .child(
-          S.documentTypeList("page")
-            .title("Pages")
+          S.documentTypeList('page')
+            .title('Pages')
             // Show only French pages (filter: language == "fr")
-            .filter("_type == $type && language == $lang")
-            .params({ type: "page", lang: DEFAULT_LOCALE })
+            .filter('_type == $type && language == $lang')
+            .params({ type: 'page', lang: DEFAULT_LOCALE })
             // Only allow creating French pages via "+ Create" button
             .initialValueTemplates([
-              S.initialValueTemplateItem(`page-${DEFAULT_LOCALE}`),
+              S.initialValueTemplateItem(`page-${DEFAULT_LOCALE}`)
             ])
         ),
 
@@ -365,9 +364,9 @@ export const structure = (
       // See createIndexListWithOrderableItems JSDoc for frontend query workaround
       createIndexListWithOrderableItems({
         S,
-        index: { type: "blogIndex", icon: BookMarked },
-        list: { type: "blog", title: "Blogs", icon: FileText },
-        context,
+        index: { type: 'blogIndex', icon: BookMarked },
+        list: { type: 'blog', title: 'Blogs', icon: FileText },
+        context
       }),
 
       // ========================================================================
@@ -375,17 +374,17 @@ export const structure = (
       // ========================================================================
       // Same pattern as PAGES: language filtering + force default language creation
       S.listItem()
-        .title("FAQs")
+        .title('FAQs')
         .icon(MessageCircle)
         .child(
-          S.documentTypeList("faq")
-            .title("FAQs")
+          S.documentTypeList('faq')
+            .title('FAQs')
             // Show only French FAQs (filter: language == "fr")
-            .filter("_type == $type && language == $lang")
-            .params({ type: "faq", lang: DEFAULT_LOCALE })
+            .filter('_type == $type && language == $lang')
+            .params({ type: 'faq', lang: DEFAULT_LOCALE })
             // Only allow creating French FAQs via "+ Create" button
             .initialValueTemplates([
-              S.initialValueTemplateItem(`faq-${DEFAULT_LOCALE}`),
+              S.initialValueTemplateItem(`faq-${DEFAULT_LOCALE}`)
             ])
         ),
 
@@ -394,7 +393,7 @@ export const structure = (
       // ========================================================================
       // Uses createList since authors don't need language filtering or ordering
       // Authors are shared across all language versions of content
-      createList({ S, type: "author", title: "Authors", icon: User }),
+      createList({ S, type: 'author', title: 'Authors', icon: User }),
 
       // ========================================================================
       // REDIRECTS - URL redirects for SEO/migration
@@ -403,9 +402,9 @@ export const structure = (
       // No language filtering needed (redirects work across all languages)
       createList({
         S,
-        type: "redirect",
-        title: "Redirects",
-        icon: TrendingUpDown,
+        type: 'redirect',
+        title: 'Redirects',
+        icon: TrendingUpDown
       }),
 
       S.divider(),
@@ -420,30 +419,30 @@ export const structure = (
       //
       // All three use createSingleTon since only one instance of each exists globally
       S.listItem()
-        .title("Site Configuration")
+        .title('Site Configuration')
         .icon(Settings2)
         .child(
           S.list()
-            .title("Site Configuration")
+            .title('Site Configuration')
             .items([
               createSingleTon({
                 S,
-                type: "navbar",
-                title: "Navigation",
-                icon: PanelBottom,
+                type: 'navbar',
+                title: 'Navigation',
+                icon: PanelBottom
               }),
               createSingleTon({
                 S,
-                type: "footer",
-                title: "Footer",
-                icon: PanelBottomIcon,
+                type: 'footer',
+                title: 'Footer',
+                icon: PanelBottomIcon
               }),
               createSingleTon({
                 S,
-                type: "settings",
-                title: "Global Settings",
-                icon: CogIcon,
-              }),
+                type: 'settings',
+                title: 'Global Settings',
+                icon: CogIcon
+              })
             ])
-        ),
-    ]);
+        )
+    ])

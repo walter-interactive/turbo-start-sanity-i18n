@@ -18,8 +18,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { documentInternationalization } from "@sanity/document-internationalization";
-import { defineConfig, defineField, defineType } from "sanity";
+import { documentInternationalization } from '@sanity/document-internationalization'
+import { defineConfig, defineField, defineType } from 'sanity'
 
 // ============================================================================
 // Language Configuration
@@ -30,11 +30,11 @@ import { defineConfig, defineField, defineType } from "sanity";
  * Must match next-intl configuration in web app
  */
 export const SUPPORTED_LANGUAGES = [
-  { id: "fr", title: "Français" }, // Default for Quebec compliance
-  { id: "en", title: "English" },
-] as const;
+  { id: 'fr', title: 'Français' }, // Default for Quebec compliance
+  { id: 'en', title: 'English' }
+] as const
 
-export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number]["id"];
+export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number]['id']
 
 // ============================================================================
 // Plugin Configuration
@@ -50,18 +50,18 @@ export const i18nPluginConfig = {
 
   // Required: Document types that support translations
   schemaTypes: [
-    "page",
-    "blog",
-    "blog-index",
-    "navbar",
-    "footer",
-    "settings",
-    "home-page",
-    "faq",
+    'page',
+    'blog',
+    'blog-index',
+    'navbar',
+    'footer',
+    'settings',
+    'home-page',
+    'faq'
   ],
 
   // Optional: Customize the language field name (default: 'language')
-  languageField: "language",
+  languageField: 'language',
 
   // Optional: Use weak references for metadata documents
   weakReferences: false,
@@ -70,12 +70,12 @@ export const i18nPluginConfig = {
   bulkPublish: false,
 
   // Optional: API version for queries
-  apiVersion: "2025-02-19",
+  apiVersion: '2025-02-19',
 
   // Optional: Allow creating metadata document without translations
   // Useful for linking pre-existing documents
-  allowCreateMetaDoc: true,
-};
+  allowCreateMetaDoc: true
+}
 
 // ============================================================================
 // Schema Field Definition
@@ -88,11 +88,11 @@ export const i18nPluginConfig = {
  * to prevent manual editing by content creators.
  */
 export const languageField = defineField({
-  name: "language",
-  type: "string",
-  title: "Language",
+  name: 'language',
+  type: 'string',
+  title: 'Language',
   description:
-    "Language of this document version. Managed automatically by the translation plugin.",
+    'Language of this document version. Managed automatically by the translation plugin.',
 
   // Plugin manages this field, don't allow manual editing
   readOnly: true,
@@ -104,15 +104,15 @@ export const languageField = defineField({
   validation: (Rule) =>
     Rule.required().custom((value) => {
       if (!value) {
-        return "Language is required";
+        return 'Language is required'
       }
-      const validLanguages = SUPPORTED_LANGUAGES.map((l) => l.id);
+      const validLanguages = SUPPORTED_LANGUAGES.map((l) => l.id)
       if (!validLanguages.includes(value)) {
-        return `Language must be one of: ${validLanguages.join(", ")}`;
+        return `Language must be one of: ${validLanguages.join(', ')}`
       }
-      return true;
-    }),
-});
+      return true
+    })
+})
 
 // ============================================================================
 // Example Document Type Schemas
@@ -126,9 +126,9 @@ export const languageField = defineField({
  * options: { documentInternationalization: { exclude: true } }
  */
 export const pageType = defineType({
-  name: "page",
-  type: "document",
-  title: "Page",
+  name: 'page',
+  type: 'document',
+  title: 'Page',
 
   fields: [
     // Language field (managed by plugin)
@@ -136,221 +136,221 @@ export const pageType = defineType({
 
     // Title - translatable
     defineField({
-      name: "title",
-      type: "string",
-      title: "Title",
-      validation: (Rule) => Rule.required(),
+      name: 'title',
+      type: 'string',
+      title: 'Title',
+      validation: (Rule) => Rule.required()
     }),
 
     // Slug - translatable, can differ per language
     defineField({
-      name: "slug",
-      type: "slug",
-      title: "Slug",
-      description: "URL-friendly identifier (can be different per language)",
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
+      description: 'URL-friendly identifier (can be different per language)',
       options: {
-        source: "title",
-        maxLength: 96,
+        source: 'title',
+        maxLength: 96
       },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required()
     }),
 
     // SEO metadata - translatable
     defineField({
-      name: "seo",
-      type: "object",
-      title: "SEO",
+      name: 'seo',
+      type: 'object',
+      title: 'SEO',
       fields: [
         defineField({
-          name: "title",
-          type: "string",
-          title: "Meta Title",
-          validation: (Rule) => Rule.max(60),
+          name: 'title',
+          type: 'string',
+          title: 'Meta Title',
+          validation: (Rule) => Rule.max(60)
         }),
         defineField({
-          name: "description",
-          type: "text",
-          title: "Meta Description",
-          validation: (Rule) => Rule.max(160),
-        }),
-      ],
+          name: 'description',
+          type: 'text',
+          title: 'Meta Description',
+          validation: (Rule) => Rule.max(160)
+        })
+      ]
     }),
 
     // Content - translatable (Portable Text)
     defineField({
-      name: "content",
-      type: "array",
-      title: "Content",
-      of: [{ type: "block" }],
+      name: 'content',
+      type: 'array',
+      title: 'Content',
+      of: [{ type: 'block' }]
     }),
 
     // Optional: Exclude specific fields from translation duplication
     // Example: Hero image that's the same across all languages
     defineField({
-      name: "heroImage",
-      type: "image",
-      title: "Hero Image",
+      name: 'heroImage',
+      type: 'image',
+      title: 'Hero Image',
       options: {
         documentInternationalization: {
-          exclude: true, // Don't copy this field when creating translations
-        },
-      },
-    }),
+          exclude: true // Don't copy this field when creating translations
+        }
+      }
+    })
   ],
 
   preview: {
     select: {
-      title: "title",
-      language: "language",
-      slug: "slug.current",
+      title: 'title',
+      language: 'language',
+      slug: 'slug.current'
     },
     prepare({ title, language, slug }) {
       return {
-        title: title || "Untitled",
-        subtitle: `/${language}/${slug || ""}`,
-      };
-    },
-  },
-});
+        title: title || 'Untitled',
+        subtitle: `/${language}/${slug || ''}`
+      }
+    }
+  }
+})
 
 /**
  * Blog post document type with internationalization
  */
 export const blogType = defineType({
-  name: "blog",
-  type: "document",
-  title: "Blog Post",
+  name: 'blog',
+  type: 'document',
+  title: 'Blog Post',
 
   fields: [
     // Language field
     languageField,
 
     defineField({
-      name: "title",
-      type: "string",
-      title: "Title",
-      validation: (Rule) => Rule.required(),
+      name: 'title',
+      type: 'string',
+      title: 'Title',
+      validation: (Rule) => Rule.required()
     }),
 
     defineField({
-      name: "slug",
-      type: "slug",
-      title: "Slug",
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
       options: {
-        source: "title",
-        maxLength: 96,
+        source: 'title',
+        maxLength: 96
       },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required()
     }),
 
     defineField({
-      name: "excerpt",
-      type: "text",
-      title: "Excerpt",
-      description: "Short summary of the post",
-      validation: (Rule) => Rule.max(200),
+      name: 'excerpt',
+      type: 'text',
+      title: 'Excerpt',
+      description: 'Short summary of the post',
+      validation: (Rule) => Rule.max(200)
     }),
 
     defineField({
-      name: "content",
-      type: "array",
-      title: "Content",
-      of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
+      name: 'content',
+      type: 'array',
+      title: 'Content',
+      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }]
     }),
 
     // Author is NOT language-specific, so exclude from duplication
     defineField({
-      name: "author",
-      type: "reference",
-      title: "Author",
-      to: [{ type: "author" }],
+      name: 'author',
+      type: 'reference',
+      title: 'Author',
+      to: [{ type: 'author' }],
       options: {
         documentInternationalization: {
-          exclude: true,
-        },
-      },
+          exclude: true
+        }
+      }
     }),
 
     // Publish date is NOT language-specific
     defineField({
-      name: "publishedAt",
-      type: "datetime",
-      title: "Published at",
+      name: 'publishedAt',
+      type: 'datetime',
+      title: 'Published at',
       options: {
         documentInternationalization: {
-          exclude: true,
-        },
-      },
-    }),
+          exclude: true
+        }
+      }
+    })
   ],
 
   preview: {
     select: {
-      title: "title",
-      language: "language",
-      author: "author.name",
+      title: 'title',
+      language: 'language',
+      author: 'author.name'
     },
     prepare({ title, language, author }) {
       return {
-        title: title || "Untitled",
-        subtitle: `${language.toUpperCase()} - by ${author || "Unknown"}`,
-      };
-    },
-  },
-});
+        title: title || 'Untitled',
+        subtitle: `${language.toUpperCase()} - by ${author || 'Unknown'}`
+      }
+    }
+  }
+})
 
 /**
  * Navbar document type (singleton with translations)
  * Each language has its own navbar document
  */
 export const navbarType = defineType({
-  name: "navbar",
-  type: "document",
-  title: "Navigation Bar",
+  name: 'navbar',
+  type: 'document',
+  title: 'Navigation Bar',
 
   fields: [
     languageField,
 
     defineField({
-      name: "menuItems",
-      type: "array",
-      title: "Menu Items",
+      name: 'menuItems',
+      type: 'array',
+      title: 'Menu Items',
       of: [
         defineField({
-          name: "menuItem",
-          type: "object",
+          name: 'menuItem',
+          type: 'object',
           fields: [
             defineField({
-              name: "title",
-              type: "string",
-              title: "Title",
-              validation: (Rule) => Rule.required(),
+              name: 'title',
+              type: 'string',
+              title: 'Title',
+              validation: (Rule) => Rule.required()
             }),
             defineField({
-              name: "link",
-              type: "reference",
-              title: "Link to Page",
-              to: [{ type: "page" }],
+              name: 'link',
+              type: 'reference',
+              title: 'Link to Page',
+              to: [{ type: 'page' }]
               // NOTE: References should point to pages in same language
               // This is handled in custom validation or Studio UI
-            }),
-          ],
-        }),
-      ],
-    }),
+            })
+          ]
+        })
+      ]
+    })
   ],
 
   preview: {
     select: {
-      language: "language",
+      language: 'language'
     },
     prepare({ language }) {
       return {
-        title: `Navigation - ${language.toUpperCase()}`,
-      };
-    },
-  },
-});
+        title: `Navigation - ${language.toUpperCase()}`
+      }
+    }
+  }
+})
 
 // ============================================================================
 // Sanity Config Integration
@@ -366,7 +366,7 @@ export const exampleSanityConfig = defineConfig({
     // ... other plugins
 
     // Add document internationalization plugin
-    documentInternationalization(i18nPluginConfig),
+    documentInternationalization(i18nPluginConfig)
   ],
 
   schema: {
@@ -374,10 +374,10 @@ export const exampleSanityConfig = defineConfig({
       // ... other types
       pageType,
       blogType,
-      navbarType,
-    ],
-  },
-});
+      navbarType
+    ]
+  }
+})
 
 // ============================================================================
 // Custom Validation for Language-Specific References
@@ -399,30 +399,30 @@ export const exampleSanityConfig = defineConfig({
  */
 export async function validateSameLanguageReference(value: any, context: any) {
   if (!value?._ref) {
-    return true;
+    return true
   }
 
-  const { document, getClient } = context;
-  const client = getClient({ apiVersion: "2025-02-19" });
+  const { document, getClient } = context
+  const client = getClient({ apiVersion: '2025-02-19' })
 
-  const parentLanguage = document.language;
+  const parentLanguage = document.language
   if (!parentLanguage) {
-    return true; // No language set yet
+    return true // No language set yet
   }
 
-  const referencedDoc = await client.fetch("*[_id == $id][0]{language}", {
-    id: value._ref,
-  });
+  const referencedDoc = await client.fetch('*[_id == $id][0]{language}', {
+    id: value._ref
+  })
 
   if (!referencedDoc) {
-    return true; // Document not found (other validation handles)
+    return true // Document not found (other validation handles)
   }
 
   if (referencedDoc.language !== parentLanguage) {
-    return `Referenced document is in ${referencedDoc.language}, but this document is in ${parentLanguage}. References should point to documents in the same language.`;
+    return `Referenced document is in ${referencedDoc.language}, but this document is in ${parentLanguage}. References should point to documents in the same language.`
   }
 
-  return true;
+  return true
 }
 
 // ============================================================================

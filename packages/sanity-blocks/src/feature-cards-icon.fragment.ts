@@ -1,4 +1,4 @@
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
 
 export const featureCardsIconFragment = /* groq */ `
   _type == "featureCardsIcon" => {
@@ -11,4 +11,4 @@ export const featureCardsIconFragment = /* groq */ `
       ${richTextFragment}
     }
   }
-`;
+`

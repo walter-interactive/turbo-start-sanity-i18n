@@ -1,4 +1,4 @@
-import { defineQuery } from "next-sanity";
+import { defineQuery } from 'next-sanity'
 
 export const queryRedirects = defineQuery(`
   *[_type == "redirect" && status == "active" && defined(source.current) && defined(destination.current)]{
@@ -6,4 +6,4 @@ export const queryRedirects = defineQuery(`
     "destination":destination.current, 
     "permanent" : permanent == "true"
   }
-`);
+`)

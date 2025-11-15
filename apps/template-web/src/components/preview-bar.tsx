@@ -1,21 +1,20 @@
-"use client";
-import { useRouter } from "next/navigation";
-import type { FC } from "react";
-import { useTransition } from "react";
-
-import { disableDraftMode } from "@/app/actions";
+'use client'
+import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
+import { disableDraftMode } from '@/app/actions'
+import type { FC } from 'react'
 
 export const PreviewBar: FC = () => {
-  const router = useRouter();
-  const [pending, startTransition] = useTransition();
+  const router = useRouter()
+  const [pending, startTransition] = useTransition()
 
   const disable = () => {
-    console.log("Disabling draft mode");
+    console.log('Disabling draft mode')
     startTransition(async () => {
-      await disableDraftMode();
-      router.refresh();
-    });
-  };
+      await disableDraftMode()
+      router.refresh()
+    })
+  }
 
   return (
     <div className="fixed right-0 bottom-1 left-0 z-10 px-2 md:bottom-2 md:px-4">
@@ -42,5 +41,5 @@ export const PreviewBar: FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -8,8 +8,8 @@
  * @see specs/003-dedup-studio-records/contracts/language-filter-types.ts
  */
 
-import type { SanityClient } from "@sanity/client";
-import { DEFAULT_LOCALE, type Locale } from "@workspace/i18n-config";
+import { DEFAULT_LOCALE, type Locale } from '@workspace/i18n-config'
+import type { SanityClient } from '@sanity/client'
 
 // ============================================================================
 // TYPES
@@ -19,18 +19,18 @@ import { DEFAULT_LOCALE, type Locale } from "@workspace/i18n-config";
  * Minimal document data structure with language information
  */
 export interface DocumentWithLanguage {
-  _id: string;
-  title: string;
-  slug: string;
-  language: Locale;
+  _id: string
+  title: string
+  slug: string
+  language: Locale
 }
 
 /**
  * Options for filtering documents by language
  */
 export interface LanguageFilterOptions {
-  language?: Locale;
-  includeLegacy?: boolean;
+  language?: Locale
+  includeLegacy?: boolean
 }
 
 // ============================================================================
@@ -45,7 +45,7 @@ const DOCUMENT_FIELDS = `
   title,
   "slug": slug.current,
   language
-`;
+`
 
 /**
  * Create GROQ filter expression for language filtering
@@ -56,10 +56,10 @@ const DOCUMENT_FIELDS = `
 export function createLanguageFilter(includeLegacy = true): string {
   if (includeLegacy) {
     // Include documents without language field (legacy support)
-    return "(!defined(language) || language == $language)";
+    return '(!defined(language) || language == $language)'
   }
   // Strict filtering - only documents with matching language
-  return "language == $language";
+  return 'language == $language'
 }
 
 // ============================================================================
@@ -85,27 +85,27 @@ export async function fetchDocumentsByLanguage(
   schemaType: string,
   options: LanguageFilterOptions = {}
 ): Promise<DocumentWithLanguage[]> {
-  const { language = DEFAULT_LOCALE, includeLegacy = true } = options;
+  const { language = DEFAULT_LOCALE, includeLegacy = true } = options
 
   try {
-    const languageFilter = createLanguageFilter(includeLegacy);
+    const languageFilter = createLanguageFilter(includeLegacy)
 
     const documents = await client.fetch<DocumentWithLanguage[]>(
       `*[_type == $schemaType && defined(slug.current) && ${languageFilter}] {
         ${DOCUMENT_FIELDS}
       }`,
       { schemaType, language }
-    );
+    )
 
     if (!Array.isArray(documents)) {
-      throw new Error("Invalid documents response from Sanity");
+      throw new Error('Invalid documents response from Sanity')
     }
 
-    return documents;
+    return documents
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    throw new Error(`Unable to load ${schemaType} documents: ${errorMessage}`);
+      error instanceof Error ? error.message : 'Unknown error'
+    throw new Error(`Unable to load ${schemaType} documents: ${errorMessage}`)
   }
 }
 
@@ -120,7 +120,7 @@ export function createLanguageQueryParams(
   schemaType: string,
   language: Locale = DEFAULT_LOCALE
 ): { schemaType: string; language: Locale } {
-  return { schemaType, language };
+  return { schemaType, language }
 }
 
 // ============================================================================
@@ -132,11 +132,11 @@ export function createLanguageQueryParams(
  */
 export function hasLanguage(doc: unknown): doc is DocumentWithLanguage {
   return (
-    typeof doc === "object" &&
-    doc !== null &&
-    "language" in doc &&
-    typeof (doc as DocumentWithLanguage).language === "string"
-  );
+    typeof doc === 'object'
+    && doc !== null
+    && 'language' in doc
+    && typeof (doc as DocumentWithLanguage).language === 'string'
+  )
 }
 
 /**
@@ -147,7 +147,7 @@ export function getDocumentLanguage(
   fallback: Locale = DEFAULT_LOCALE
 ): Locale {
   if (hasLanguage(doc)) {
-    return doc.language;
+    return doc.language
   }
-  return fallback;
+  return fallback
 }

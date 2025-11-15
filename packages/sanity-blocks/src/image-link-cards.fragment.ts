@@ -1,6 +1,6 @@
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
-import { imageFragment } from "@walter/sanity-atoms/fragments/image";
+import { buttonsFragment } from '@walter/sanity-atoms/fragments/buttons'
+import { imageFragment } from '@walter/sanity-atoms/fragments/image'
+import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
 
 export const imageLinkCardsFragment = /* groq */ `
   _type == "imageLinkCards" => {
@@ -22,4 +22,4 @@ export const imageLinkCardsFragment = /* groq */ `
       ${imageFragment},
     })
   }
-`;
+`

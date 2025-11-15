@@ -1,4 +1,4 @@
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
 
 const faqFragment = /* groq */ `
   "faqs": array::compact(faqs[]->{
@@ -7,7 +7,7 @@ const faqFragment = /* groq */ `
     _type,
     ${richTextFragment}
   })
-`;
+`
 
 export const faqSectionFragment = /* groq */ `
   _type == "faqAccordion" => {
@@ -27,4 +27,4 @@ export const faqSectionFragment = /* groq */ `
       )
     }
   }
-`;
+`

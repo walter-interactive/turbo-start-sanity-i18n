@@ -13,8 +13,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { createNavigation } from "next-intl/navigation";
-import { routing } from "./routing";
+import { createNavigation } from 'next-intl/navigation'
+import { routing } from './routing'
 
 // ============================================================================
 // Navigation API Creation
@@ -113,8 +113,8 @@ export const {
    *   return <button onClick={handleNavigate}>Navigate</button>
    * }
    */
-  useRouter,
-} = createNavigation(routing);
+  useRouter
+} = createNavigation(routing)
 
 // ============================================================================
 // Usage Examples by Component Type
@@ -267,12 +267,12 @@ export async function switchLanguageAndRedirect(targetLocale: string) {
  * Define route constants for type safety
  */
 export const routes = {
-  home: "/",
-  about: "/about",
-  blog: "/blog",
+  home: '/',
+  about: '/about',
+  blog: '/blog',
   blogPost: (slug: string) => `/blog/${slug}`,
-  contact: "/contact",
-} as const;
+  contact: '/contact'
+} as const
 
 /**
  * Usage with type safety

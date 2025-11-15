@@ -1,62 +1,60 @@
-"use client";
-import { Link } from "@/i18n/navigation";
-
-import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
-
-import { SanityImage } from "./elements/sanity-image";
+'use client'
+import { Link } from '@/i18n/navigation'
+import { SanityImage } from './elements/sanity-image'
+import type { QueryBlogIndexPageDataResult } from '@/lib/sanity/sanity.types'
 
 type Blog = NonNullable<
-  NonNullable<QueryBlogIndexPageDataResult>["blogs"]
->[number];
+  NonNullable<QueryBlogIndexPageDataResult>['blogs']
+>[number]
 
 type BlogImageProps = {
-  image: Blog["image"];
-  title?: string | null;
-};
+  image: Blog['image']
+  title?: string | null
+}
 
 function BlogImage({ image, title }: BlogImageProps) {
   if (!image?.id) {
-    return null;
+    return null
   }
 
   return (
     <SanityImage
-      alt={title ?? "Blog post image"}
+      alt={title ?? 'Blog post image'}
       className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
       height={400}
       image={image}
       width={800}
     />
-  );
+  )
 }
 
 type AuthorImageProps = {
-  author: Blog["authors"];
-};
+  author: Blog['authors']
+}
 
 function AuthorImage({ author }: AuthorImageProps) {
   if (!author?.image) {
-    return null;
+    return null
   }
 
   return (
     <SanityImage
-      alt={author.name ?? "Author image"}
+      alt={author.name ?? 'Author image'}
       className="size-8 flex-none rounded-full bg-gray-50"
       height={40}
       image={author.image}
       width={40}
     />
-  );
+  )
 }
 
 type BlogAuthorProps = {
-  author: Blog["authors"];
-};
+  author: Blog['authors']
+}
 
 export function BlogAuthor({ author }: BlogAuthorProps) {
   if (!author) {
-    return null;
+    return null
   }
 
   return (
@@ -64,52 +62,52 @@ export function BlogAuthor({ author }: BlogAuthorProps) {
       <AuthorImage author={author} />
       {author.name}
     </div>
-  );
+  )
 }
 
 type BlogCardProps = {
-  blog: Blog;
-};
+  blog: Blog
+}
 
 function BlogMeta({ publishedAt }: { publishedAt: string | null }) {
   return (
     <div className="my-4 flex items-center gap-x-4 text-xs">
-      <time className="text-muted-foreground" dateTime={publishedAt ?? ""}>
+      <time className="text-muted-foreground" dateTime={publishedAt ?? ''}>
         {publishedAt
-          ? new Date(publishedAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
+          ? new Date(publishedAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
             })
-          : ""}
+          : ''}
       </time>
     </div>
-  );
+  )
 }
 
 function BlogContent({
   title,
   slug,
   description,
-  isFeatured,
+  isFeatured
 }: {
-  title: string | null;
-  slug: string | null;
-  description: string | null;
-  isFeatured?: boolean;
+  title: string | null
+  slug: string | null
+  description: string | null
+  isFeatured?: boolean
 }) {
-  const HeadingTag = isFeatured ? "h2" : "h3";
+  const HeadingTag = isFeatured ? 'h2' : 'h3'
   const headingClasses = isFeatured
-    ? "mt-3 text-3xl font-semibold leading-tight"
-    : "mt-3 text-lg font-semibold leading-6";
+    ? 'mt-3 text-3xl font-semibold leading-tight'
+    : 'mt-3 text-lg font-semibold leading-6'
 
   return (
     <div className="group relative">
       <HeadingTag className={headingClasses}>
         <Link
           href={{
-            pathname: "/blog/[slug]",
-            params: { slug: slug?.substring(1) || "#" },
+            pathname: '/blog/[slug]',
+            params: { slug: slug?.substring(1) || '#' }
           }}
         >
           <span className="absolute inset-0" />
@@ -120,11 +118,11 @@ function BlogContent({
         {description}
       </p>
     </div>
-  );
+  )
 }
 
 export function FeaturedBlogCard({ blog }: BlogCardProps) {
-  const { title, publishedAt, slug, description, image } = blog ?? {};
+  const { title, publishedAt, slug, description, image } = blog ?? {}
 
   return (
     <article className="grid w-full grid-cols-1 gap-8 lg:grid-cols-2">
@@ -139,7 +137,7 @@ export function FeaturedBlogCard({ blog }: BlogCardProps) {
         />
       </div>
     </article>
-  );
+  )
 }
 
 export function BlogCard({ blog }: BlogCardProps) {
@@ -153,10 +151,10 @@ export function BlogCard({ blog }: BlogCardProps) {
           <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
         </div>
       </article>
-    );
+    )
   }
 
-  const { title, publishedAt, slug, description, image } = blog;
+  const { title, publishedAt, slug, description, image } = blog
 
   return (
     <article className="grid w-full grid-cols-1 gap-4">
@@ -169,15 +167,15 @@ export function BlogCard({ blog }: BlogCardProps) {
         <BlogContent description={description} slug={slug} title={title} />
       </div>
     </article>
-  );
+  )
 }
 
 export function BlogHeader({
   title,
-  description,
+  description
 }: {
-  title: string | null;
-  description: string | null;
+  title: string | null
+  description: string | null
 }) {
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -188,5 +186,5 @@ export function BlogHeader({
         </p>
       </div>
     </div>
-  );
+  )
 }

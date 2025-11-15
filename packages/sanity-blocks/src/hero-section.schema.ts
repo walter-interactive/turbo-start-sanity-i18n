@@ -7,52 +7,51 @@
  * and communicate the primary message immediately upon page load.
  */
 
-import { Star } from "lucide-react";
-import { defineField, defineType } from "sanity";
-
-import { buttonsGroupSchema } from "@walter/sanity-atoms/schemas/buttons";
-import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
+import { buttonsGroupSchema } from '@walter/sanity-atoms/schemas/buttons'
+import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { Star } from 'lucide-react'
+import { defineField, defineType } from 'sanity'
 
 export const heroSectionSchema = defineType({
-  name: "hero",
-  title: "Hero",
+  name: 'hero',
+  title: 'Hero',
   icon: Star,
-  type: "object",
+  type: 'object',
   fields: [
     defineField({
-      name: "badge",
-      type: "string",
-      title: "Badge",
+      name: 'badge',
+      type: 'string',
+      title: 'Badge',
       description:
-        "Optional badge text displayed above the title, useful for highlighting new features or promotions",
+        'Optional badge text displayed above the title, useful for highlighting new features or promotions'
     }),
     defineField({
-      name: "title",
-      type: "string",
-      title: "Title",
+      name: 'title',
+      type: 'string',
+      title: 'Title',
       description:
-        "The main heading text for the hero section that captures attention",
+        'The main heading text for the hero section that captures attention'
     }),
-    customRichText(["block"]),
+    customRichText(['block']),
     defineField({
-      name: "image",
-      type: "image",
-      title: "Image",
+      name: 'image',
+      type: 'image',
+      title: 'Image',
       description:
-        "The main hero image - should be high quality and visually impactful",
+        'The main hero image - should be high quality and visually impactful',
       options: {
-        hotspot: true,
-      },
+        hotspot: true
+      }
     }),
-    buttonsGroupSchema,
+    buttonsGroupSchema
   ],
   preview: {
     select: {
-      title: "title",
+      title: 'title'
     },
     prepare: ({ title }) => ({
       title,
-      subtitle: "Hero Block",
-    }),
-  },
-});
+      subtitle: 'Hero Block'
+    })
+  }
+})

@@ -28,22 +28,22 @@
  * ```
  */
 
-import { EarthGlobeIcon } from "@sanity/icons";
-import { useToast } from "@sanity/ui";
-import { useCallback } from "react";
+import { EarthGlobeIcon } from '@sanity/icons'
+import { useToast } from '@sanity/ui'
+import { useCallback } from 'react'
 import {
   type DocumentActionComponent,
   definePlugin,
-  useGetFormValue,
-} from "sanity";
-import { useRouter } from "sanity/router";
+  useGetFormValue
+} from 'sanity'
+import { useRouter } from 'sanity/router'
 
 /**
  * Type definition for the presentation action hook
  */
 type PresentationUrlAction = {
-  documentId: string;
-};
+  documentId: string
+}
 
 /**
  * Presentation URL plugin definition
@@ -53,7 +53,7 @@ type PresentationUrlAction = {
  * tool with that slug as the preview URL.
  */
 export const presentationUrl = definePlugin(() => ({
-  name: "presentationUrl",
+  name: 'presentationUrl',
   document: {
     /**
      * Custom field actions configuration
@@ -63,7 +63,7 @@ export const presentationUrl = definePlugin(() => ({
      */
     unstable_fieldActions: (props: DocumentActionComponent[]) => [
       {
-        name: "open-in-presentation",
+        name: 'open-in-presentation',
         /**
          * Action hook that handles presentation preview navigation
          *
@@ -71,9 +71,9 @@ export const presentationUrl = definePlugin(() => ({
          * @returns Action configuration with icon, handler, and visibility rules
          */
         useAction: ({ documentId }: PresentationUrlAction) => {
-          const getFormValue = useGetFormValue();
-          const router = useRouter();
-          const toast = useToast();
+          const getFormValue = useGetFormValue()
+          const router = useRouter()
+          const toast = useToast()
 
           /**
            * Handler function for the "Open in Presentation" button
@@ -82,33 +82,33 @@ export const presentationUrl = definePlugin(() => ({
            * Shows an error toast if the slug is missing or invalid.
            */
           const handlePresentationOpen = useCallback(() => {
-            const slug = getFormValue(["slug", "current"]);
+            const slug = getFormValue(['slug', 'current'])
 
-            if (typeof slug !== "string") {
+            if (typeof slug !== 'string') {
               toast.push({
-                title: "No slug found",
-                status: "error",
-                description: "Please ensure the document has a valid slug",
-              });
-              return;
+                title: 'No slug found',
+                status: 'error',
+                description: 'Please ensure the document has a valid slug'
+              })
+              return
             }
 
             router.navigateUrl({
-              path: `/presentation?preview=${encodeURIComponent(slug)}`,
-            });
-          }, [getFormValue, toast, router]);
+              path: `/presentation?preview=${encodeURIComponent(slug)}`
+            })
+          }, [getFormValue, toast, router])
 
           return {
-            type: "action" as const,
+            type: 'action' as const,
             icon: EarthGlobeIcon,
-            hidden: documentId === "root", // Hide for root/system documents
+            hidden: documentId === 'root', // Hide for root/system documents
             renderAsButton: true, // Show as button (not dropdown menu item)
             onAction: handlePresentationOpen,
-            title: "Open in Presentation",
-          };
-        },
+            title: 'Open in Presentation'
+          }
+        }
       },
-      ...props, // Preserve existing field actions
-    ],
-  },
-}));
+      ...props // Preserve existing field actions
+    ]
+  }
+}))

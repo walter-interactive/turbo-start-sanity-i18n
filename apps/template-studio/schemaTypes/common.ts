@@ -48,97 +48,96 @@
  * - utils/slug.ts: Slug generation and uniqueness utilities
  */
 
-import { defineField } from "sanity";
-
-import { PathnameFieldComponent } from "../components/slug-field-component";
-import { GROUP } from "../utils/constant";
-import { isUnique } from "../utils/slug";
+import { defineField } from 'sanity'
+import { PathnameFieldComponent } from '../components/slug-field-component'
+import { GROUP } from '../utils/constant'
+import { isUnique } from '../utils/slug'
 import {
   createSlugValidator,
-  getDocumentTypeConfig,
-} from "../utils/slug-validation";
+  getDocumentTypeConfig
+} from '../utils/slug-validation'
 
 export const SUPPORTED_LANGUAGES = [
-  { id: "fr", title: "Français" },
-  { id: "en", title: "English" },
-] as const;
+  { id: 'fr', title: 'Français' },
+  { id: 'en', title: 'English' }
+] as const
 
 export const languageField = defineField({
-  name: "language",
-  type: "string",
-  title: "Language",
+  name: 'language',
+  type: 'string',
+  title: 'Language',
   description:
-    "Language of this document version. Managed automatically by the translation plugin.",
+    'Language of this document version. Managed automatically by the translation plugin.',
   readOnly: true,
   hidden: true,
   validation: (Rule) =>
     Rule.required().custom((value: string | undefined) => {
-      if (!value) return "Language is required";
-      const validLanguages = SUPPORTED_LANGUAGES.map((l) => l.id);
-      if (!validLanguages.includes(value as "fr" | "en")) {
-        return `Language must be one of: ${validLanguages.join(", ")}`;
+      if (!value) return 'Language is required'
+      const validLanguages = SUPPORTED_LANGUAGES.map((l) => l.id)
+      if (!validLanguages.includes(value as 'fr' | 'en')) {
+        return `Language must be one of: ${validLanguages.join(', ')}`
       }
-      return true;
-    }),
-});
+      return true
+    })
+})
 
 export const buttonsField = defineField({
-  name: "buttons",
-  type: "array",
-  of: [{ type: "button" }],
+  name: 'buttons',
+  type: 'array',
+  of: [{ type: 'button' }],
   description:
-    "Add one or more clickable buttons that visitors can use to navigate your website",
-});
+    'Add one or more clickable buttons that visitors can use to navigate your website'
+})
 
 export const pageBuilderField = defineField({
-  name: "pageBuilder",
+  name: 'pageBuilder',
   group: GROUP.MAIN_CONTENT,
-  type: "pageBuilder",
+  type: 'pageBuilder',
   description:
-    "Build your page by adding different sections like text, images, and other content blocks",
-});
+    'Build your page by adding different sections like text, images, and other content blocks'
+})
 
 export const iconField = defineField({
-  name: "icon",
-  title: "Icon",
+  name: 'icon',
+  title: 'Icon',
   options: {
     storeSvg: true,
-    providers: ["fi"],
+    providers: ['fi']
   },
-  type: "iconPicker",
+  type: 'iconPicker',
   description:
-    "Choose a small picture symbol to represent this item, like a home icon or shopping cart",
-});
+    'Choose a small picture symbol to represent this item, like a home icon or shopping cart'
+})
 
 export const documentSlugField = (
   documentType: string,
   options: {
-    group?: string;
-    description?: string;
-    title?: string;
+    group?: string
+    description?: string
+    title?: string
   } = {}
 ) => {
   const {
     group,
     description = `The web address where people can find your ${documentType} (automatically created from title)`,
-    title = "URL",
-  } = options;
+    title = 'URL'
+  } = options
 
   return defineField({
-    name: "slug",
-    type: "slug",
+    name: 'slug',
+    type: 'slug',
     title,
     description,
     group,
     components: {
-      field: PathnameFieldComponent,
+      field: PathnameFieldComponent
     },
     options: {
-      isUnique,
+      isUnique
     },
     validation: (Rule) => [
-      Rule.required().error("A URL slug is required"),
-      Rule.custom(createSlugValidator(getDocumentTypeConfig(documentType))),
-    ],
-  });
-};
+      Rule.required().error('A URL slug is required'),
+      Rule.custom(createSlugValidator(getDocumentTypeConfig(documentType)))
+    ]
+  })
+}

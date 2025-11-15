@@ -29,13 +29,13 @@
  * - Any document type needing flexible content composition
  */
 
-import { defineArrayMember, defineType } from "sanity";
-import { ctaSchema } from "@walter/sanity-blocks/schemas/cta";
-import { faqAccordionSchema } from "@walter/sanity-blocks/schemas/faq-accordion";
-import { featureCardsIconSchema } from "@walter/sanity-blocks/schemas/feature-cards-icon";
-import { heroSectionSchema } from "@walter/sanity-blocks/schemas/hero-section";
-import { imageLinkCardsSchema } from "@walter/sanity-blocks/schemas/image-link-cards";
-import { subscribeNewsletterSchema } from "@walter/sanity-blocks/schemas/subscribe-newsletter";
+import { ctaSchema } from '@walter/sanity-blocks/schemas/cta'
+import { faqAccordionSchema } from '@walter/sanity-blocks/schemas/faq-accordion'
+import { featureCardsIconSchema } from '@walter/sanity-blocks/schemas/feature-cards-icon'
+import { heroSectionSchema } from '@walter/sanity-blocks/schemas/hero-section'
+import { imageLinkCardsSchema } from '@walter/sanity-blocks/schemas/image-link-cards'
+import { subscribeNewsletterSchema } from '@walter/sanity-blocks/schemas/subscribe-newsletter'
+import { defineArrayMember, defineType } from 'sanity'
 
 const pageBuilderBlocks = [
   heroSectionSchema,
@@ -43,15 +43,15 @@ const pageBuilderBlocks = [
   featureCardsIconSchema,
   faqAccordionSchema,
   imageLinkCardsSchema,
-  subscribeNewsletterSchema,
-];
+  subscribeNewsletterSchema
+]
 
 export const pagebuilderBlockTypes = pageBuilderBlocks.map(({ name }) => ({
-  type: name,
-}));
+  type: name
+}))
 
 export const pageBuilder = defineType({
-  name: "pageBuilder",
-  type: "array",
-  of: pagebuilderBlockTypes.map((block) => defineArrayMember(block)),
-});
+  name: 'pageBuilder',
+  type: 'array',
+  of: pagebuilderBlockTypes.map((block) => defineArrayMember(block))
+})

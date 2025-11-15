@@ -11,11 +11,11 @@ export const imageFields = /* groq */ `
     right,
     top
   }
-`;
+`
 
 // Base fragments for reusable query parts
 export const imageFragment = /* groq */ `
   image {
     ${imageFields}
   }
-`;
+`

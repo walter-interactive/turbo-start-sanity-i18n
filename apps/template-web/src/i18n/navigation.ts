@@ -1,5 +1,5 @@
-import { createNavigation } from "next-intl/navigation";
-import { routing } from "./routing";
+import { createNavigation } from 'next-intl/navigation'
+import { routing } from './routing'
 
 /**
  * Creates locale-aware navigation APIs
@@ -11,15 +11,15 @@ import { routing } from "./routing";
  * - Provide type-safe navigation
  */
 export const { Link, redirect, getPathname, usePathname, useRouter } =
-  createNavigation(routing);
+  createNavigation(routing)
 
 /**
  * Define route constants for type safety
  */
 export const routes = {
-  home: "/",
-  about: "/about",
-  blog: "/blog",
+  home: '/',
+  about: '/about',
+  blog: '/blog',
   blogPost: (slug: string) => `/blog/${slug}`,
-  contact: "/contact",
-} as const;
+  contact: '/contact'
+} as const

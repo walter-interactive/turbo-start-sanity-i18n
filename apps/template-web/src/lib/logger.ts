@@ -12,44 +12,44 @@
  * logger.info('User action', { action: 'language-switch', from: 'en', to: 'fr' })
  */
 
-type LogLevel = "info" | "warn" | "error" | "debug";
+type LogLevel = 'info' | 'warn' | 'error' | 'debug'
 
 interface LogContext {
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 interface LogEntry {
-  level: LogLevel;
-  message: string;
-  timestamp: string;
-  context?: LogContext;
-  environment: string;
+  level: LogLevel
+  message: string
+  timestamp: string
+  context?: LogContext
+  environment: string
 }
 
 /**
  * Format log entry for output
  */
 function formatLogEntry(entry: LogEntry): string {
-  const { level, message, timestamp, context } = entry;
-  const contextStr = context ? ` ${JSON.stringify(context)}` : "";
-  return `[${timestamp}] [${level.toUpperCase()}] ${message}${contextStr}`;
+  const { level, message, timestamp, context } = entry
+  const contextStr = context ? ` ${JSON.stringify(context)}` : ''
+  return `[${timestamp}] [${level.toUpperCase()}] ${message}${contextStr}`
 }
 
 /**
  * Determine if we're in development mode
  */
 function isDevelopment(): boolean {
-  return process.env.NODE_ENV === "development";
+  return process.env.NODE_ENV === 'development'
 }
 
 /**
  * Get current environment
  */
 function getEnvironment(): string {
-  if (process.env.VERCEL_ENV === "production") return "production";
-  if (process.env.VERCEL_ENV === "preview") return "preview";
-  if (isDevelopment()) return "development";
-  return "unknown";
+  if (process.env.VERCEL_ENV === 'production') return 'production'
+  if (process.env.VERCEL_ENV === 'preview') return 'preview'
+  if (isDevelopment()) return 'development'
+  return 'unknown'
 }
 
 /**
@@ -61,34 +61,34 @@ function log(level: LogLevel, message: string, context?: LogContext): void {
     message,
     timestamp: new Date().toISOString(),
     context,
-    environment: getEnvironment(),
-  };
+    environment: getEnvironment()
+  }
 
   // In development, use console methods with colors
   if (isDevelopment()) {
-    const formattedMessage = formatLogEntry(entry);
+    const formattedMessage = formatLogEntry(entry)
     switch (level) {
-      case "error":
-        console.error(formattedMessage);
-        break;
-      case "warn":
-        console.warn(formattedMessage);
-        break;
-      case "info":
-        console.info(formattedMessage);
-        break;
-      case "debug":
-        console.debug(formattedMessage);
-        break;
+      case 'error':
+        console.error(formattedMessage)
+        break
+      case 'warn':
+        console.warn(formattedMessage)
+        break
+      case 'info':
+        console.info(formattedMessage)
+        break
+      case 'debug':
+        console.debug(formattedMessage)
+        break
     }
-    return;
+    return
   }
 
   // In production, use structured logging
   // This can be extended to send to external services (e.g., Sentry, LogRocket, Datadog)
   // Log errors, warnings, and info in production (debug is development-only)
-  if (level === "error" || level === "warn" || level === "info") {
-    console.error(JSON.stringify(entry));
+  if (level === 'error' || level === 'warn' || level === 'info') {
+    console.error(JSON.stringify(entry))
   }
 }
 
@@ -102,7 +102,7 @@ export const logger = {
    * @param context - Additional context
    */
   info: (message: string, context?: LogContext) => {
-    log("info", message, context);
+    log('info', message, context)
   },
 
   /**
@@ -111,7 +111,7 @@ export const logger = {
    * @param context - Additional context
    */
   warn: (message: string, context?: LogContext) => {
-    log("warn", message, context);
+    log('warn', message, context)
   },
 
   /**
@@ -120,7 +120,7 @@ export const logger = {
    * @param context - Additional context including error details
    */
   error: (message: string, context?: LogContext) => {
-    log("error", message, context);
+    log('error', message, context)
   },
 
   /**
@@ -130,10 +130,10 @@ export const logger = {
    */
   debug: (message: string, context?: LogContext) => {
     if (isDevelopment()) {
-      log("debug", message, context);
+      log('debug', message, context)
     }
-  },
-};
+  }
+}
 
 /**
  * Helper to extract error information for logging
@@ -141,20 +141,20 @@ export const logger = {
  * @returns Structured error information
  */
 export function extractErrorInfo(error: unknown): {
-  message: string;
-  stack?: string;
-  type: string;
+  message: string
+  stack?: string
+  type: string
 } {
   if (error instanceof Error) {
     return {
       message: error.message,
       stack: error.stack,
-      type: error.name,
-    };
+      type: error.name
+    }
   }
 
   return {
     message: String(error),
-    type: "UnknownError",
-  };
+    type: 'UnknownError'
+  }
 }

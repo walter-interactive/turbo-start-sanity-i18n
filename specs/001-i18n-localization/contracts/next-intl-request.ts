@@ -13,9 +13,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { hasLocale } from "next-intl";
-import { getRequestConfig } from "next-intl/server";
-import { routing } from "./routing";
+import { hasLocale } from 'next-intl'
+import { getRequestConfig } from 'next-intl/server'
+import { routing } from './routing'
 
 /**
  * Request configuration for next-intl
@@ -33,7 +33,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
    *
    * IMPORTANT: requestLocale is a Promise in Next.js 15+
    */
-  const requested = await requestLocale;
+  const requested = await requestLocale
 
   /**
    * Validate and sanitize the locale
@@ -43,7 +43,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
    */
   const locale = hasLocale(routing.locales, requested)
     ? requested
-    : routing.defaultLocale;
+    : routing.defaultLocale
 
   /**
    * Load translation messages for the locale
@@ -51,7 +51,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
    * Messages are loaded dynamically to avoid bundling all languages
    * in the initial JavaScript bundle
    */
-  const messages = (await import(`../../messages/${locale}.json`)).default;
+  const messages = (await import(`../../messages/${locale}.json`)).default
 
   /**
    * Optional: Load global/shared messages
@@ -88,7 +88,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
      * @example
      * timeZone: 'America/Montreal' // Quebec time zone
      */
-    timeZone: "America/Montreal",
+    timeZone: 'America/Montreal'
 
     /**
      * Optional: Configure date/time formatting defaults
@@ -112,8 +112,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
      *   }
      * }
      */
-  };
-});
+  }
+})
 
 // ============================================================================
 // Advanced Configuration Examples

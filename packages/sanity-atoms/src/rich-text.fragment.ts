@@ -1,4 +1,4 @@
-import { imageFields } from "./image.fragment";
+import { imageFields } from './image.fragment'
 
 export const customLinkFragment = /* groq */ `
   ...customLink{
@@ -13,14 +13,14 @@ export const customLinkFragment = /* groq */ `
       null
     ),
   }
-`;
+`
 
 export const markDefsFragment = /* groq */ `
   markDefs[]{
     ...,
     ${customLinkFragment}
   }
-`;
+`
 
 export const richTextFragment = /* groq */ `
   richText[]{
@@ -34,4 +34,4 @@ export const richTextFragment = /* groq */ `
       "caption": caption
     }
   }
-`;
+`

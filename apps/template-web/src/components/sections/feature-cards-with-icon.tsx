@@ -1,18 +1,16 @@
-import { Badge } from "@workspace/ui/components/badge";
+import { Badge } from '@workspace/ui/components/badge'
+import { RichText } from '../elements/rich-text'
+import { SanityIcon } from '../elements/sanity-icon'
+import type { PagebuilderType } from '@/types'
 
-import type { PagebuilderType } from "@/types";
-
-import { RichText } from "../elements/rich-text";
-import { SanityIcon } from "../elements/sanity-icon";
-
-type FeatureCardsWithIconProps = PagebuilderType<"featureCardsIcon">;
+type FeatureCardsWithIconProps = PagebuilderType<'featureCardsIcon'>
 
 type FeatureCardProps = {
-  card: NonNullable<FeatureCardsWithIconProps["cards"]>[number];
-};
+  card: NonNullable<FeatureCardsWithIconProps['cards']>[number]
+}
 
 function FeatureCard({ card }: FeatureCardProps) {
-  const { icon, title, richText } = card ?? {};
+  const { icon, title, richText } = card ?? {}
   return (
     <div className="rounded-3xl bg-accent p-8 md:min-h-[300px] md:p-8">
       <span className="mb-9 flex w-fit items-center justify-center rounded-full bg-background p-3 drop-shadow-xl">
@@ -27,14 +25,14 @@ function FeatureCard({ card }: FeatureCardProps) {
         />
       </div>
     </div>
-  );
+  )
 }
 
 export function FeatureCardsWithIcon({
   eyebrow,
   title,
   richText,
-  cards,
+  cards
 }: FeatureCardsWithIconProps) {
   return (
     <section className="my-6 md:my-16" id="features">
@@ -59,5 +57,5 @@ export function FeatureCardsWithIcon({
         </div>
       </div>
     </section>
-  );
+  )
 }

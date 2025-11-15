@@ -1,18 +1,16 @@
-import { Badge } from "@workspace/ui/components/badge";
-import { cn } from "@workspace/ui/lib/utils";
+import { Badge } from '@workspace/ui/components/badge'
+import { cn } from '@workspace/ui/lib/utils'
+import { RichText } from '../elements/rich-text'
+import { CTACard } from '../image-link-card'
+import type { PagebuilderType } from '@/types'
 
-import type { PagebuilderType } from "@/types";
-
-import { RichText } from "../elements/rich-text";
-import { CTACard } from "../image-link-card";
-
-export type ImageLinkCardsProps = PagebuilderType<"imageLinkCards">;
+export type ImageLinkCardsProps = PagebuilderType<'imageLinkCards'>
 
 export function ImageLinkCards({
   richText,
   title,
   eyebrow,
-  cards,
+  cards
 }: ImageLinkCardsProps) {
   return (
     <section className="my-16" id="image-link-cards">
@@ -33,11 +31,11 @@ export function ImageLinkCards({
                 <CTACard
                   card={card}
                   className={cn(
-                    "bg-muted-foreground/10 dark:bg-zinc-800",
-                    idx === 0 && "lg:rounded-r-none lg:rounded-l-3xl",
-                    idx === cards.length - 1 &&
-                      "lg:rounded-r-3xl lg:rounded-l-none",
-                    idx !== 0 && idx !== cards.length - 1 && "lg:rounded-none"
+                    'bg-muted-foreground/10 dark:bg-zinc-800',
+                    idx === 0 && 'lg:rounded-r-none lg:rounded-l-3xl',
+                    idx === cards.length - 1
+                      && 'lg:rounded-r-3xl lg:rounded-l-none',
+                    idx !== 0 && idx !== cards.length - 1 && 'lg:rounded-none'
                   )}
                   key={card._key}
                 />
@@ -47,5 +45,5 @@ export function ImageLinkCards({
         </div>
       </div>
     </section>
-  );
+  )
 }

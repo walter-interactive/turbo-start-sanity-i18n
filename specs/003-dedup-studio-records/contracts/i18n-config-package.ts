@@ -22,7 +22,7 @@
  * console.log(LOCALES); // ["fr", "en"]
  * console.log(LOCALES[0]); // "fr"
  */
-export declare const LOCALES: readonly ["fr", "en"];
+export declare const LOCALES: readonly ['fr', 'en']
 
 /**
  * Default locale for the application
@@ -34,7 +34,7 @@ export declare const LOCALES: readonly ["fr", "en"];
  * import { DEFAULT_LOCALE } from '@workspace/i18n-config';
  * console.log(DEFAULT_LOCALE); // "fr"
  */
-export declare const DEFAULT_LOCALE: "fr";
+export declare const DEFAULT_LOCALE: 'fr'
 
 // ============================================================================
 // EXPORTED TYPES
@@ -51,7 +51,7 @@ export declare const DEFAULT_LOCALE: "fr";
  * const validLocale: Locale = "fr"; // ✅
  * const invalidLocale: Locale = "es"; // ❌ Type error
  */
-export type Locale = (typeof LOCALES)[number];
+export type Locale = (typeof LOCALES)[number]
 
 /**
  * Language configuration object for Sanity plugin
@@ -62,9 +62,9 @@ export type Locale = (typeof LOCALES)[number];
  */
 export interface LanguageConfig {
   /** Locale code matching Locale type */
-  id: Locale;
+  id: Locale
   /** Human-readable language name (in native language) */
-  title: string;
+  title: string
 }
 
 /**
@@ -73,11 +73,11 @@ export interface LanguageConfig {
  */
 export interface LocaleMetadata {
   /** English name of the language */
-  name: string;
+  name: string
   /** Native name of the language */
-  nativeName: string;
+  nativeName: string
   /** Text direction for the locale */
-  direction: "ltr" | "rtl";
+  direction: 'ltr' | 'rtl'
 }
 
 // ============================================================================
@@ -95,7 +95,7 @@ export interface LocaleMetadata {
  * console.log(LOCALE_METADATA.fr.nativeName); // "Français"
  * console.log(LOCALE_METADATA.en.direction); // "ltr"
  */
-export declare const LOCALE_METADATA: Record<Locale, LocaleMetadata>;
+export declare const LOCALE_METADATA: Record<Locale, LocaleMetadata>
 
 /**
  * Language configurations for Sanity document-internationalization plugin
@@ -111,7 +111,7 @@ export declare const LOCALE_METADATA: Record<Locale, LocaleMetadata>;
  *   schemaTypes: ['page', 'blog']
  * })
  */
-export declare const SANITY_LANGUAGES: LanguageConfig[];
+export declare const SANITY_LANGUAGES: LanguageConfig[]
 
 // ============================================================================
 // EXPORTED FUNCTIONS
@@ -133,7 +133,7 @@ export declare const SANITY_LANGUAGES: LanguageConfig[];
  *   const t = await getTranslations({ locale: userInput });
  * }
  */
-export declare function isValidLocale(locale: string): locale is Locale;
+export declare function isValidLocale(locale: string): locale is Locale
 
 /**
  * Get valid locale with fallback to default
@@ -149,7 +149,7 @@ export declare function isValidLocale(locale: string): locale is Locale;
  * getValidLocale("invalid"); // "fr" (fallback)
  * getValidLocale(undefined); // "fr" (fallback)
  */
-export declare function getValidLocale(locale: string | undefined): Locale;
+export declare function getValidLocale(locale: string | undefined): Locale
 
 /**
  * Get display name for a locale
@@ -166,9 +166,9 @@ export declare function getValidLocale(locale: string | undefined): Locale;
  * getLocaleName({ locale: "fr", native: false }); // "French"
  */
 export declare function getLocaleName(params: {
-  locale: Locale;
-  native?: boolean;
-}): string;
+  locale: Locale
+  native?: boolean
+}): string
 
 /**
  * Generate static params for Next.js generateStaticParams
@@ -183,7 +183,7 @@ export declare function getLocaleName(params: {
  * }
  * // Returns: [{ locale: "fr" }, { locale: "en" }]
  */
-export declare function getStaticLocaleParams(): Array<{ locale: Locale }>;
+export declare function getStaticLocaleParams(): Array<{ locale: Locale }>
 
 // ============================================================================
 // USAGE EXAMPLES

@@ -1,19 +1,19 @@
-"use client";
+'use client'
 
-import { Button } from "@workspace/ui/components/button";
+import { Button } from '@workspace/ui/components/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@workspace/ui/components/dropdown-menu";
-import { Languages } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useLocale } from "next-intl";
-import { useSlugTranslation } from "@/contexts/slug-translation-context";
-import { Link } from "@/i18n/navigation";
-import { getLocaleName, LOCALES, type Locale } from "@/i18n/routing";
-import { analytics } from "@/lib/analytics";
+  DropdownMenuTrigger
+} from '@workspace/ui/components/dropdown-menu'
+import { Languages } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { useLocale } from 'next-intl'
+import { useSlugTranslation } from '@/contexts/slug-translation-context'
+import { Link } from '@/i18n/navigation'
+import { getLocaleName, LOCALES, type Locale } from '@/i18n/routing'
+import { analytics } from '@/lib/analytics'
 
 /**
  * Language switcher component
@@ -22,11 +22,11 @@ import { analytics } from "@/lib/analytics";
  * the translated slug. If not, uses current locale's slug (will show 404).
  */
 export function LanguageSwitcher() {
-  const pathname = usePathname();
-  const currentLocale = useLocale() as Locale;
-  const { getTranslations } = useSlugTranslation();
+  const pathname = usePathname()
+  const currentLocale = useLocale() as Locale
+  const { getTranslations } = useSlugTranslation()
 
-  const translations = getTranslations(pathname);
+  const translations = getTranslations(pathname)
 
   /**
    * Build href for a locale
@@ -34,30 +34,30 @@ export function LanguageSwitcher() {
    */
   const getHrefForLocale = (locale: Locale) => {
     // Try target locale first, fallback to current locale
-    const translation = translations?.[locale] ?? translations?.[currentLocale];
+    const translation = translations?.[locale] ?? translations?.[currentLocale]
 
     if (!translation) {
-      return "/"; // No translations at all, go to homepage
+      return '/' // No translations at all, go to homepage
     }
 
-    const slug = translation.slug.replace(/^\//, "");
+    const slug = translation.slug.replace(/^\//, '')
 
-    if (translation._type === "homePage") return "/";
-    if (translation._type === "blogIndex") return "/blog";
-    if (translation._type === "blog") {
-      return { pathname: "/blog/[slug]" as const, params: { slug } };
+    if (translation._type === 'homePage') return '/'
+    if (translation._type === 'blogIndex') return '/blog'
+    if (translation._type === 'blog') {
+      return { pathname: '/blog/[slug]' as const, params: { slug } }
     }
-    return { pathname: "/[slug]" as const, params: { slug } };
-  };
+    return { pathname: '/[slug]' as const, params: { slug } }
+  }
 
   const handleLanguageClick = (targetLocale: Locale) => {
-    if (targetLocale === currentLocale) return;
+    if (targetLocale === currentLocale) return
     analytics.trackLanguageSwitch({
       from: currentLocale,
       to: targetLocale,
-      pathname,
-    });
-  };
+      pathname
+    })
+  }
 
   return (
     <DropdownMenu>
@@ -69,8 +69,8 @@ export function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {LOCALES.map((locale) => {
-          const isActive = locale === currentLocale;
-          const hasTranslation = !!translations?.[locale];
+          const isActive = locale === currentLocale
+          const hasTranslation = !!translations?.[locale]
 
           return (
             <Link
@@ -89,15 +89,15 @@ export function LanguageSwitcher() {
                     <span
                       className={
                         hasTranslation
-                          ? "text-xs uppercase"
-                          : "text-muted-foreground text-xs uppercase"
+                          ? 'text-xs uppercase'
+                          : 'text-muted-foreground text-xs uppercase'
                       }
                       lang={locale}
                     >
                       {locale}
                     </span>
                     <span
-                      className={hasTranslation ? "" : "text-muted-foreground"}
+                      className={hasTranslation ? '' : 'text-muted-foreground'}
                       lang={locale}
                     >
                       {getLocaleName({ locale, native: true })}
@@ -111,9 +111,9 @@ export function LanguageSwitcher() {
                 </span>
               </DropdownMenuItem>
             </Link>
-          );
+          )
         })}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

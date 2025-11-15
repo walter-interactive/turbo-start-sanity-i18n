@@ -1,5 +1,5 @@
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
+import { buttonsFragment } from '@walter/sanity-atoms/fragments/buttons'
+import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
 
 export const ctaFragment = /* groq */ `
   _type == "cta" => {
@@ -7,4 +7,4 @@ export const ctaFragment = /* groq */ `
     ${richTextFragment},
     ${buttonsFragment},
   }
-`;
+`

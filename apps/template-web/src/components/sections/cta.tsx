@@ -1,11 +1,9 @@
-import { Badge } from "@workspace/ui/components/badge";
+import { Badge } from '@workspace/ui/components/badge'
+import { RichText } from '../elements/rich-text'
+import { SanityButtons } from '../elements/sanity-buttons'
+import type { PagebuilderType } from '@/types'
 
-import type { PagebuilderType } from "@/types";
-
-import { RichText } from "../elements/rich-text";
-import { SanityButtons } from "../elements/sanity-buttons";
-
-export type CTABlockProps = PagebuilderType<"cta">;
+export type CTABlockProps = PagebuilderType<'cta'>
 
 export function CTABlock({ richText, title, eyebrow, buttons }: CTABlockProps) {
   return (
@@ -38,5 +36,5 @@ export function CTABlock({ richText, title, eyebrow, buttons }: CTABlockProps) {
         </div>
       </div>
     </section>
-  );
+  )
 }

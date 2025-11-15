@@ -1,6 +1,6 @@
-import { hasLocale } from "next-intl";
-import { getRequestConfig } from "next-intl/server";
-import { routing } from "./routing";
+import { hasLocale } from 'next-intl'
+import { getRequestConfig } from 'next-intl/server'
+import { routing } from './routing'
 
 /**
  * Request configuration for next-intl
@@ -13,7 +13,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
    * Get the requested locale
    * IMPORTANT: requestLocale is a Promise in Next.js 15+
    */
-  const requested = await requestLocale;
+  const requested = await requestLocale
 
   /**
    * Validate and sanitize the locale
@@ -21,13 +21,13 @@ export default getRequestConfig(async ({ requestLocale }) => {
    */
   const locale = hasLocale(routing.locales, requested)
     ? requested
-    : routing.defaultLocale;
+    : routing.defaultLocale
 
   /**
    * Load translation messages for the locale
    * Messages are loaded dynamically to avoid bundling all languages
    */
-  const messages = (await import(`../../messages/${locale}.json`)).default;
+  const messages = (await import(`../../messages/${locale}.json`)).default
 
   return {
     locale,
@@ -35,6 +35,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
     /**
      * Time zone for date/time formatting (Quebec)
      */
-    timeZone: "America/Montreal",
-  };
-});
+    timeZone: 'America/Montreal'
+  }
+})

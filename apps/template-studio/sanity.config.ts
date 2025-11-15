@@ -1,33 +1,32 @@
-import { assist } from "@sanity/assist";
-import { documentInternationalization } from "@sanity/document-internationalization";
-import { visionTool } from "@sanity/vision";
-import { SANITY_LANGUAGES } from "@workspace/i18n-config";
-import { defineConfig } from "sanity";
-import { presentationTool } from "sanity/presentation";
-import { structureTool } from "sanity/structure";
-import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
-import { iconPicker } from "sanity-plugin-icon-picker";
-import { media } from "sanity-plugin-media";
+import { assist } from '@sanity/assist'
+import { documentInternationalization } from '@sanity/document-internationalization'
+import { visionTool } from '@sanity/vision'
+import { SANITY_LANGUAGES } from '@workspace/i18n-config'
+import { defineConfig } from 'sanity'
+import { presentationTool } from 'sanity/presentation'
+import { structureTool } from 'sanity/structure'
+import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
+import { iconPicker } from 'sanity-plugin-icon-picker'
+import { media } from 'sanity-plugin-media'
+import { Logo } from './components/logo'
+import { locations } from './location'
+import { presentationUrl } from './plugins/presentation-url'
+import { schemaTypes } from './schemaTypes'
+import { structure } from './structure'
+import { getPresentationUrl } from './utils/helper'
 
-import { Logo } from "./components/logo";
-import { locations } from "./location";
-import { presentationUrl } from "./plugins/presentation-url";
-import { schemaTypes } from "./schemaTypes";
-import { structure } from "./structure";
-import { getPresentationUrl } from "./utils/helper";
-
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID ?? "";
-const dataset = process.env.SANITY_STUDIO_DATASET;
-const title = process.env.SANITY_STUDIO_TITLE;
+const projectId = process.env.SANITY_STUDIO_PROJECT_ID ?? ''
+const dataset = process.env.SANITY_STUDIO_DATASET
+const title = process.env.SANITY_STUDIO_TITLE
 
 export default defineConfig({
-  name: "default",
+  name: 'default',
   title,
   icon: Logo,
   projectId,
-  dataset: dataset ?? "production",
+  dataset: dataset ?? 'production',
   releases: {
-    enabled: true,
+    enabled: true
   },
   plugins: [
     // ============================================================================
@@ -53,14 +52,14 @@ export default defineConfig({
     //
     presentationTool({
       resolve: {
-        locations,
+        locations
       },
       previewUrl: {
         origin: getPresentationUrl(),
         previewMode: {
-          enable: "/api/presentation-draft",
-        },
-      },
+          enable: '/api/presentation-draft'
+        }
+      }
     }),
 
     // ============================================================================
@@ -82,7 +81,7 @@ export default defineConfig({
     // @see https://www.sanity.io/docs/structure-builder - Official documentation
     //
     structureTool({
-      structure,
+      structure
     }),
 
     // ============================================================================
@@ -231,16 +230,16 @@ export default defineConfig({
     documentInternationalization({
       supportedLanguages: SANITY_LANGUAGES,
       schemaTypes: [
-        "page",
-        "blog",
-        "blogIndex",
-        "navbar",
-        "footer",
-        "settings",
-        "homePage",
-        "faq",
-      ],
-    }),
+        'page',
+        'blog',
+        'blogIndex',
+        'navbar',
+        'footer',
+        'settings',
+        'homePage',
+        'faq'
+      ]
+    })
   ],
   document: {
     // ============================================================================
@@ -278,16 +277,16 @@ export default defineConfig({
     // - 'redirect': Non-translatable (URL redirects are language-agnostic)
     //
     newDocumentOptions: (prev, { creationContext }) => {
-      const { type } = creationContext;
-      if (type === "global") {
+      const { type } = creationContext
+      if (type === 'global') {
         return prev.filter((doc) =>
-          ["author", "page-fr", "blog-fr", "faq-fr", "redirect"].includes(
+          ['author', 'page-fr', 'blog-fr', 'faq-fr', 'redirect'].includes(
             doc.templateId
           )
-        );
+        )
       }
-      return prev;
-    },
+      return prev
+    }
   },
   schema: {
     types: schemaTypes,
@@ -304,15 +303,15 @@ export default defineConfig({
       // List of schema types that use document internationalization plugin
       // These types MUST NOT have generic templates (would bypass language selection)
       const i18nTypes = [
-        "page",
-        "blog",
-        "blogIndex",
-        "navbar",
-        "footer",
-        "settings",
-        "homePage",
-        "faq",
-      ];
+        'page',
+        'blog',
+        'blogIndex',
+        'navbar',
+        'footer',
+        'settings',
+        'homePage',
+        'faq'
+      ]
 
       // ============================================================================
       // Why i18n types are filtered from default templates:
@@ -336,7 +335,7 @@ export default defineConfig({
       //
       const filtered = prev.filter(
         (template) => !i18nTypes.includes(template.id)
-      );
+      )
 
       // ============================================================================
       // Custom templates with pre-filled values
@@ -367,23 +366,23 @@ export default defineConfig({
         // generated by documentInternationalization plugin (e.g., nested-page-template-fr).
         //
         {
-          id: "nested-page-template",
-          title: "Nested Page",
-          schemaType: "page",
+          id: 'nested-page-template',
+          title: 'Nested Page',
+          schemaType: 'page',
           value: (props: { slug?: string; title?: string }) => ({
             ...(props.slug
-              ? { slug: { current: props.slug, _type: "slug" } }
+              ? { slug: { current: props.slug, _type: 'slug' } }
               : {}),
-            ...(props.title ? { title: props.title } : {}),
+            ...(props.title ? { title: props.title } : {})
           }),
           parameters: [
             {
-              name: "slug",
-              type: "string",
-            },
-          ],
-        },
-      ];
-    },
-  },
-});
+              name: 'slug',
+              type: 'string'
+            }
+          ]
+        }
+      ]
+    }
+  }
+})

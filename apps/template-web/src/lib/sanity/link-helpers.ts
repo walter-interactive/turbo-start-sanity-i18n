@@ -11,9 +11,9 @@
 import {
   type DocumentType,
   getPathnameForDocType,
-  PATHNAMES,
-} from "@workspace/i18n-config";
-import type { Locale } from "@/i18n/routing";
+  PATHNAMES
+} from '@workspace/i18n-config'
+import type { Locale } from '@/i18n/routing'
 
 /**
  * Construct localized path from document type and slug
@@ -64,36 +64,36 @@ export function constructLocalizedPath(
   locale: Locale
 ): string {
   // Remove leading slash from slug for path construction
-  const slugContent = slug.replace(/^\//, "");
+  const slugContent = slug.replace(/^\//, '')
 
   // Get the pathname pattern for this document type
-  const pathnameKey = getPathnameForDocType(docType);
+  const pathnameKey = getPathnameForDocType(docType)
 
   // Get localized path from PATHNAMES config
-  const localizedPath = PATHNAMES[pathnameKey]?.[locale];
+  const localizedPath = PATHNAMES[pathnameKey]?.[locale]
 
   // Handle homepage (no slug)
-  if (docType === "homePage") {
-    return "/";
+  if (docType === 'homePage') {
+    return '/'
   }
 
   // Handle blog index (no slug, just the prefix)
-  if (docType === "blogIndex") {
+  if (docType === 'blogIndex') {
     // Extract the base path from localizedPath (e.g., "/blog" or "/blogue")
-    const basePath = localizedPath?.replace(/\/\[slug\]$/, "") || "";
-    return basePath;
+    const basePath = localizedPath?.replace(/\/\[slug\]$/, '') || ''
+    return basePath
   }
 
   // For blog posts and pages, construct path with localized prefix
   // Extract the base path without [slug] placeholder
-  const basePath = localizedPath?.replace(/\/\[slug\]$/, "") || "";
+  const basePath = localizedPath?.replace(/\/\[slug\]$/, '') || ''
 
   if (basePath) {
-    return `${basePath}/${slugContent}`;
+    return `${basePath}/${slugContent}`
   }
 
   // Fallback for pages without prefix
-  return `/${slugContent}`;
+  return `/${slugContent}`
 }
 
 /**
@@ -110,7 +110,7 @@ export function constructLocalizedPath(
  * ```
  */
 export function isDocumentType(type: string): type is DocumentType {
-  return ["page", "blog", "homePage", "blogIndex"].includes(type);
+  return ['page', 'blog', 'homePage', 'blogIndex'].includes(type)
 }
 
 /**
@@ -136,9 +136,9 @@ export function getInternalLinkHref(
   docType: string | null | undefined,
   locale: Locale
 ): string {
-  if (!slug || !docType || !isDocumentType(docType)) {
-    return "#";
+  if (!(slug && docType && isDocumentType(docType))) {
+    return '#'
   }
 
-  return constructLocalizedPath(slug, docType, locale);
+  return constructLocalizedPath(slug, docType, locale)
 }

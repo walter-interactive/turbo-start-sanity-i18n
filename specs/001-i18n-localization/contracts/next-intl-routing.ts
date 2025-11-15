@@ -13,7 +13,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { defineRouting } from "next-intl/routing";
+import { defineRouting } from 'next-intl/routing'
 
 // ============================================================================
 // Routing Configuration
@@ -35,7 +35,7 @@ export const routing = defineRouting({
    * MUST match Sanity plugin configuration in apps/studio
    * Order matters: first locale is the default fallback
    */
-  locales: ["fr", "en"] as const,
+  locales: ['fr', 'en'] as const,
 
   /**
    * Default locale (Quebec compliance)
@@ -45,7 +45,7 @@ export const routing = defineRouting({
    * - Requested locale is not supported
    * - Root path (/) is accessed
    */
-  defaultLocale: "fr",
+  defaultLocale: 'fr',
 
   /**
    * Locale prefix strategy
@@ -61,7 +61,7 @@ export const routing = defineRouting({
    * - Better hreflang tag generation
    * - Avoids confusion about which language is default
    */
-  localePrefix: "always" as const,
+  localePrefix: 'always' as const
 
   /**
    * Pathnames configuration (optional)
@@ -78,7 +78,7 @@ export const routing = defineRouting({
    * }
    */
   // pathnames: {} // Leave empty to use slug-based routing from Sanity
-});
+})
 
 // ============================================================================
 // Type Exports for Type Safety
@@ -87,20 +87,20 @@ export const routing = defineRouting({
 /**
  * Export routing config type for use across the application
  */
-export type Routing = typeof routing;
+export type Routing = typeof routing
 
 /**
  * Locale type derived from routing configuration
  * Ensures type safety when working with locales
  */
-export type Locale = (typeof routing.locales)[number]; // 'fr' | 'en'
+export type Locale = (typeof routing.locales)[number] // 'fr' | 'en'
 
 /**
  * Helper type for pathname objects
  */
 export type Pathname =
   | string
-  | { pathname: string; params?: Record<string, string> };
+  | { pathname: string; params?: Record<string, string> }
 
 // ============================================================================
 // Constants for Convenience
@@ -110,13 +110,13 @@ export type Pathname =
  * Array of locales for iteration
  * Useful in generateStaticParams and mapping operations
  */
-export const locales = [...routing.locales]; // ['fr', 'en']
+export const locales = [...routing.locales] // ['fr', 'en']
 
 /**
  * Default locale constant
  * Used throughout the app for fallback logic
  */
-export const defaultLocale = routing.defaultLocale; // 'fr'
+export const defaultLocale = routing.defaultLocale // 'fr'
 
 /**
  * Type guard to check if a string is a valid locale
@@ -128,7 +128,7 @@ export const defaultLocale = routing.defaultLocale; // 'fr'
  * }
  */
 export function isValidLocale(locale: string): locale is Locale {
-  return routing.locales.includes(locale as Locale);
+  return routing.locales.includes(locale as Locale)
 }
 
 /**
@@ -139,9 +139,9 @@ export function isValidLocale(locale: string): locale is Locale {
  */
 export function getValidLocale(locale: string | undefined): Locale {
   if (locale && isValidLocale(locale)) {
-    return locale;
+    return locale
   }
-  return defaultLocale;
+  return defaultLocale
 }
 
 // ============================================================================
@@ -155,25 +155,25 @@ export function getValidLocale(locale: string | undefined): Locale {
 export const localeMetadata: Record<
   Locale,
   {
-    name: string;
-    nativeName: string;
-    direction: "ltr" | "rtl";
-    flag?: string;
+    name: string
+    nativeName: string
+    direction: 'ltr' | 'rtl'
+    flag?: string
   }
 > = {
   fr: {
-    name: "French",
-    nativeName: "Français",
-    direction: "ltr",
-    flag: "🇫🇷",
+    name: 'French',
+    nativeName: 'Français',
+    direction: 'ltr',
+    flag: '🇫🇷'
   },
   en: {
-    name: "English",
-    nativeName: "English",
-    direction: "ltr",
-    flag: "🇬🇧",
-  },
-};
+    name: 'English',
+    nativeName: 'English',
+    direction: 'ltr',
+    flag: '🇬🇧'
+  }
+}
 
 /**
  * Get display name for locale
@@ -187,7 +187,7 @@ export const localeMetadata: Record<
 export function getLocaleName(locale: Locale, native = true): string {
   return native
     ? localeMetadata[locale].nativeName
-    : localeMetadata[locale].name;
+    : localeMetadata[locale].name
 }
 
 // ============================================================================
@@ -204,7 +204,7 @@ export function getLocaleName(locale: Locale, native = true): string {
  * }
  */
 export function getStaticLocaleParams() {
-  return locales.map((locale) => ({ locale }));
+  return locales.map((locale) => ({ locale }))
 }
 
 /**
@@ -218,7 +218,7 @@ export function getStaticLocaleParams() {
  * // Returns: [{locale: 'fr', slug: 'about'}, {locale: 'en', slug: 'about'}, ...]
  */
 export function getStaticLocaleParamsWithSlugs(slugs: string[]) {
-  return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
+  return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })))
 }
 
 // ============================================================================
@@ -234,18 +234,18 @@ export function getStaticLocaleParamsWithSlugs(slugs: string[]) {
  */
 export function buildLocalizedUrl(locale: Locale, pathname: string): string {
   // Ensure pathname starts with /
-  const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`
 
-  if (routing.localePrefix === "always") {
-    return `/${locale}${normalizedPath}`;
+  if (routing.localePrefix === 'always') {
+    return `/${locale}${normalizedPath}`
   }
 
   // as-needed: only add prefix for non-default locales
-  if (routing.localePrefix === "as-needed" && locale !== defaultLocale) {
-    return `/${locale}${normalizedPath}`;
+  if (routing.localePrefix === 'as-needed' && locale !== defaultLocale) {
+    return `/${locale}${normalizedPath}`
   }
 
-  return normalizedPath;
+  return normalizedPath
 }
 
 /**
@@ -256,13 +256,13 @@ export function buildLocalizedUrl(locale: Locale, pathname: string): string {
  * parseLocaleFromPathname('/about') // 'fr' (default)
  */
 export function parseLocaleFromPathname(pathname: string): Locale {
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname.split('/').filter(Boolean)
 
   if (segments.length > 0 && isValidLocale(segments[0])) {
-    return segments[0] as Locale;
+    return segments[0] as Locale
   }
 
-  return defaultLocale;
+  return defaultLocale
 }
 
 // ============================================================================

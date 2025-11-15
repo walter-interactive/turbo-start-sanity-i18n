@@ -12,7 +12,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { defineQuery, groq } from "next-sanity";
+import { defineQuery, groq } from 'next-sanity'
 
 // ============================================================================
 // Query Fragments
@@ -32,7 +32,7 @@ export const translationsFragment = groq`
     "slug": slug.current,
     title
   }
-`;
+`
 
 /**
  * SEO fields fragment
@@ -43,7 +43,7 @@ export const seoFragment = groq`
     "description": seo.description,
     "ogImage": seo.ogImage.asset->url
   }
-`;
+`
 
 /**
  * Image fragment with proper asset resolution
@@ -55,7 +55,7 @@ export const imageFragment = groq`
     "hotspot": image.hotspot,
     "crop": image.crop
   }
-`;
+`
 
 // ============================================================================
 // Single Document Queries
@@ -85,7 +85,7 @@ export const getPageBySlugQuery = defineQuery(groq`
     ${seoFragment},
     ${translationsFragment}
   }
-`);
+`)
 
 /**
  * Get a blog post by slug and language
@@ -113,7 +113,7 @@ export const getBlogPostQuery = defineQuery(groq`
     ${seoFragment},
     ${translationsFragment}
   }
-`);
+`)
 
 /**
  * Get navbar for specific language (singleton pattern)
@@ -129,7 +129,7 @@ export const getNavbarQuery = defineQuery(groq`
       "linkLanguage": link->language
     }
   }
-`);
+`)
 
 // ============================================================================
 // List Queries
@@ -148,7 +148,7 @@ export const getAllPagesQuery = defineQuery(groq`
     "slug": slug.current,
     ${translationsFragment}
   }
-`);
+`)
 
 /**
  * Get all blog posts in a specific language
@@ -169,7 +169,7 @@ export const getAllBlogPostsQuery = defineQuery(groq`
     },
     ${translationsFragment}
   }
-`);
+`)
 
 /**
  * Get paginated blog posts
@@ -186,7 +186,7 @@ export const getPaginatedBlogPostsQuery = defineQuery(groq`
     excerpt,
     ${translationsFragment}
   }
-`);
+`)
 
 // ============================================================================
 // Translation-Aware Queries
@@ -215,7 +215,7 @@ export const getPageWithFallbackQuery = defineQuery(groq`
     ${seoFragment},
     ${translationsFragment}
   }
-`);
+`)
 
 /**
  * Get all translations for a document
@@ -236,7 +236,7 @@ export const getDocumentTranslationsQuery = defineQuery(groq`
       }
     }
   }
-`);
+`)
 
 /**
  * Check if translation exists for a document
@@ -246,7 +246,7 @@ export const hasTranslationQuery = defineQuery(groq`
     _type == "translation.metadata" 
     && references($docId)
   ][0].translations[_key == $language]) > 0
-`);
+`)
 
 // ============================================================================
 // Sitemap Generation Queries
@@ -262,7 +262,7 @@ export const getAllPagesForSitemapQuery = defineQuery(groq`
     _updatedAt,
     ${translationsFragment}
   }
-`);
+`)
 
 /**
  * Get all blog posts in all languages for sitemap
@@ -275,7 +275,7 @@ export const getAllBlogPostsForSitemapQuery = defineQuery(groq`
     publishedAt,
     ${translationsFragment}
   }
-`);
+`)
 
 // ============================================================================
 // Search Queries
@@ -305,7 +305,7 @@ export const searchQuery = defineQuery(groq`
     "excerpt": pt::text(content)[0...200],
     _score
   }
-`);
+`)
 
 // ============================================================================
 // Related Content Queries
@@ -327,7 +327,7 @@ export const getRelatedBlogPostsQuery = defineQuery(groq`
     excerpt,
     publishedAt
   }
-`);
+`)
 
 // ============================================================================
 // Admin/Dashboard Queries
@@ -353,7 +353,7 @@ export const getTranslationStatusQuery = defineQuery(groq`
       }
     }
   }
-`);
+`)
 
 /**
  * Find documents missing translations
@@ -370,7 +370,7 @@ export const getMissingTranslationsQuery = defineQuery(groq`
       && references(^._id)
     ][0].translations[_key == $targetLanguage]) > 0
   }[hasTranslation == false]
-`);
+`)
 
 // ============================================================================
 // TypeScript Types for Query Results
@@ -381,57 +381,57 @@ export const getMissingTranslationsQuery = defineQuery(groq`
  * These should match your Sanity typegen output
  */
 export type PageQueryResult = {
-  _id: string;
-  _type: "page";
-  _createdAt: string;
-  _updatedAt: string;
-  language: "en" | "fr";
-  title: string;
-  slug: string;
-  content: any[]; // Portable Text blocks
+  _id: string
+  _type: 'page'
+  _createdAt: string
+  _updatedAt: string
+  language: 'en' | 'fr'
+  title: string
+  slug: string
+  content: any[] // Portable Text blocks
   seo: {
-    title: string;
-    description: string;
-    ogImage?: string;
-  };
+    title: string
+    description: string
+    ogImage?: string
+  }
   _translations?: Array<{
-    _id: string;
-    _type: string;
-    language: "en" | "fr";
-    slug: string;
-    title: string;
-  }>;
-};
+    _id: string
+    _type: string
+    language: 'en' | 'fr'
+    slug: string
+    title: string
+  }>
+}
 
 export type BlogPostQueryResult = {
-  _id: string;
-  _type: "blog";
-  _createdAt: string;
-  _updatedAt: string;
-  publishedAt: string;
-  language: "en" | "fr";
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: any[]; // Portable Text blocks
+  _id: string
+  _type: 'blog'
+  _createdAt: string
+  _updatedAt: string
+  publishedAt: string
+  language: 'en' | 'fr'
+  title: string
+  slug: string
+  excerpt: string
+  content: any[] // Portable Text blocks
   author: {
-    name: string;
+    name: string
     image: {
-      url: string;
-      alt: string;
-    };
-  };
+      url: string
+      alt: string
+    }
+  }
   seo: {
-    title: string;
-    description: string;
-  };
+    title: string
+    description: string
+  }
   _translations?: Array<{
-    _id: string;
-    language: "en" | "fr";
-    slug: string;
-    title: string;
-  }>;
-};
+    _id: string
+    language: 'en' | 'fr'
+    slug: string
+    title: string
+  }>
+}
 
 // ============================================================================
 // Query Helper Functions
@@ -453,10 +453,10 @@ export async function fetchWithLanguage<T>(
   params: Record<string, any>
 ): Promise<T | null> {
   try {
-    const result = await client.fetch<T>(query, params);
-    return result;
+    const result = await client.fetch<T>(query, params)
+    return result
   } catch (_error) {
-    return null;
+    return null
   }
 }
 
@@ -468,16 +468,16 @@ export async function fetchWithFallback<T>(
   query: string,
   params: { slug: string; language: string; defaultLanguage: string }
 ): Promise<{ data: T | null; isFallback: boolean }> {
-  const result = await client.fetch<T>(query, params);
+  const result = await client.fetch<T>(query, params)
 
   if (!result) {
-    return { data: null, isFallback: false };
+    return { data: null, isFallback: false }
   }
 
   // Check if we got fallback content
-  const isFallback = (result as any).isDefaultLanguageFallback === true;
+  const isFallback = (result as any).isDefaultLanguageFallback === true
 
-  return { data: result, isFallback };
+  return { data: result, isFallback }
 }
 
 // ============================================================================

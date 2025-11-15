@@ -8,8 +8,8 @@
  * Location: apps/studio/components/language-filter.ts (implementation)
  */
 
-import type { SanityClient } from "@sanity/client";
-import type { Locale } from "@workspace/i18n-config";
+import type { Locale } from '@workspace/i18n-config'
+import type { SanityClient } from '@sanity/client'
 
 // ============================================================================
 // DOCUMENT TYPES
@@ -21,13 +21,13 @@ import type { Locale } from "@workspace/i18n-config";
  */
 export interface DocumentWithLanguage {
   /** Unique document identifier */
-  _id: string;
+  _id: string
   /** Document title for display */
-  title: string;
+  title: string
   /** URL slug (without _type wrapper) */
-  slug: string;
+  slug: string
   /** ISO language code */
-  language: Locale;
+  language: Locale
 }
 
 /**
@@ -36,7 +36,7 @@ export interface DocumentWithLanguage {
  */
 export interface DocumentWithStatus extends DocumentWithLanguage {
   /** Whether this document lacks a default language version */
-  isOrphaned?: boolean;
+  isOrphaned?: boolean
 }
 
 /**
@@ -45,11 +45,11 @@ export interface DocumentWithStatus extends DocumentWithLanguage {
  */
 export interface TranslationReference {
   /** Language code (matches Locale type) */
-  _key: Locale;
+  _key: Locale
   /** Reference object containing document ID */
   value: {
-    _ref: string;
-  };
+    _ref: string
+  }
 }
 
 /**
@@ -58,11 +58,11 @@ export interface TranslationReference {
  */
 export interface TranslationMetadata {
   /** Always "translation.metadata" */
-  _type: "translation.metadata";
+  _type: 'translation.metadata'
   /** Unique metadata document ID */
-  _id: string;
+  _id: string
   /** Array of references to language versions */
-  translations: TranslationReference[];
+  translations: TranslationReference[]
 }
 
 // ============================================================================
@@ -75,11 +75,11 @@ export interface TranslationMetadata {
  */
 export interface LanguageFilterOptions {
   /** Language code to filter by (defaults to DEFAULT_LOCALE) */
-  language?: Locale;
+  language?: Locale
   /** Include documents without language field (legacy support) */
-  includeLegacy?: boolean;
+  includeLegacy?: boolean
   /** Check for orphaned status (requires additional query) */
-  checkOrphaned?: boolean;
+  checkOrphaned?: boolean
 }
 
 /**
@@ -88,11 +88,11 @@ export interface LanguageFilterOptions {
  */
 export interface FilteredDocuments<T extends DocumentWithLanguage> {
   /** Array of filtered documents */
-  documents: T[];
+  documents: T[]
   /** Total count (before filtering, if known) */
-  totalCount?: number;
+  totalCount?: number
   /** Applied filter language */
-  appliedLanguage: Locale;
+  appliedLanguage: Locale
 }
 
 // ============================================================================
@@ -117,7 +117,7 @@ export type FetchDocumentsByLanguage = (
   client: SanityClient,
   schemaType: string,
   options?: LanguageFilterOptions
-) => Promise<DocumentWithLanguage[]>;
+) => Promise<DocumentWithLanguage[]>
 
 /**
  * Check if a document is orphaned (lacks default language version)
@@ -137,7 +137,7 @@ export type IsDocumentOrphaned = (
   client: SanityClient,
   documentId: string,
   documentLanguage: Locale
-) => Promise<boolean>;
+) => Promise<boolean>
 
 /**
  * Create GROQ filter expression for language filtering
@@ -153,7 +153,7 @@ export type IsDocumentOrphaned = (
 export type CreateLanguageFilter = (
   language: Locale,
   includeLegacy?: boolean
-) => string;
+) => string
 
 // ============================================================================
 // BADGE/INDICATOR TYPES
@@ -165,11 +165,11 @@ export type CreateLanguageFilter = (
  */
 export interface OrphanedBadgeProps {
   /** Document language code */
-  language: Locale;
+  language: Locale
   /** Whether to show badge (document is orphaned) */
-  showBadge: boolean;
+  showBadge: boolean
   /** Optional custom label */
-  label?: string;
+  label?: string
 }
 
 /**
@@ -178,13 +178,13 @@ export interface OrphanedBadgeProps {
  */
 export interface BadgeConfig {
   /** Badge color tone */
-  tone: "critical" | "caution" | "positive" | "primary";
+  tone: 'critical' | 'caution' | 'positive' | 'primary'
   /** Badge label text */
-  label: string;
+  label: string
   /** Icon component (optional) */
-  icon?: React.ComponentType;
+  icon?: React.ComponentType
   /** ARIA label for accessibility */
-  ariaLabel: string;
+  ariaLabel: string
 }
 
 // ============================================================================
@@ -197,9 +197,9 @@ export interface BadgeConfig {
  */
 export interface LanguageQueryParams {
   /** Document schema type */
-  schemaType: string;
+  schemaType: string
   /** Language code to filter by */
-  language: Locale;
+  language: Locale
 }
 
 /**
@@ -207,9 +207,9 @@ export interface LanguageQueryParams {
  */
 export interface OrphanedCheckParams {
   /** Document ID to check */
-  documentId: string;
+  documentId: string
   /** Default language to check for */
-  defaultLanguage: Locale;
+  defaultLanguage: Locale
 }
 
 // ============================================================================
@@ -222,11 +222,11 @@ export interface OrphanedCheckParams {
  */
 export interface StructureDocument extends DocumentWithLanguage {
   /** Document type */
-  _type: string;
+  _type: string
   /** Whether document is a draft */
-  _isDraft?: boolean;
+  _isDraft?: boolean
   /** Publishing status */
-  _publishedAt?: string;
+  _publishedAt?: string
 }
 
 /**
@@ -235,15 +235,15 @@ export interface StructureDocument extends DocumentWithLanguage {
  */
 export interface StructureListOptions {
   /** Schema type for the list */
-  schemaType: string;
+  schemaType: string
   /** Filter language (defaults to DEFAULT_LOCALE) */
-  filterLanguage?: Locale;
+  filterLanguage?: Locale
   /** Show orphaned documents with warnings */
-  showOrphaned?: boolean;
+  showOrphaned?: boolean
   /** Custom list title */
-  title?: string;
+  title?: string
   /** Custom list icon */
-  icon?: React.ComponentType;
+  icon?: React.ComponentType
 }
 
 // ============================================================================
@@ -260,8 +260,8 @@ export class LanguageFilterError extends Error {
     public language: Locale,
     public cause?: Error
   ) {
-    super(message);
-    this.name = "LanguageFilterError";
+    super(message)
+    this.name = 'LanguageFilterError'
   }
 }
 
@@ -274,8 +274,8 @@ export class OrphanedCheckError extends Error {
     public documentId: string,
     public cause?: Error
   ) {
-    super(message);
-    this.name = "OrphanedCheckError";
+    super(message)
+    this.name = 'OrphanedCheckError'
   }
 }
 
@@ -291,13 +291,13 @@ export class OrphanedCheckError extends Error {
  *   return typeof doc === "object" && doc !== null && "language" in doc;
  * }
  */
-export type HasLanguage<T> = T extends { language: Locale } ? T : never;
+export type HasLanguage<T> = T extends { language: Locale } ? T : never
 
 /**
  * Document list grouped by language
  * Useful for debugging or displaying language distribution
  */
-export type DocumentsByLanguage = Record<Locale, DocumentWithLanguage[]>;
+export type DocumentsByLanguage = Record<Locale, DocumentWithLanguage[]>
 
 // ============================================================================
 // CONSTANTS
@@ -316,16 +316,16 @@ export const GROQ_FRAGMENTS = {
   `,
 
   /** Language filter (parameterized) */
-  LANGUAGE_FILTER: "language == $language",
+  LANGUAGE_FILTER: 'language == $language',
 
   /** Language filter with legacy fallback */
-  LANGUAGE_FILTER_WITH_LEGACY: "(!defined(language) || language == $language)",
+  LANGUAGE_FILTER_WITH_LEGACY: '(!defined(language) || language == $language)',
 
   /** Translation metadata lookup */
   TRANSLATION_METADATA: `
     *[_type == "translation.metadata" && $documentId in translations[].value._ref][0]
-  `,
-} as const;
+  `
+} as const
 
 // ============================================================================
 // USAGE EXAMPLES

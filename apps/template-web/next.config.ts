@@ -1,36 +1,36 @@
-import type { NextConfig } from "next";
-import createNextIntlPlugin from "next-intl/plugin";
-import { client } from "@/lib/sanity/client";
-import { queryRedirects } from "@/lib/sanity/redirect-query";
+import createNextIntlPlugin from 'next-intl/plugin'
+import { client } from '@/lib/sanity/client'
+import { queryRedirects } from '@/lib/sanity/redirect-query'
+import type { NextConfig } from 'next'
 
-const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@workspace/ui", "@workspace/sanity"],
+  transpilePackages: ['@workspace/ui', '@workspace/sanity'],
   experimental: {
     reactCompiler: true,
-    inlineCss: true,
+    inlineCss: true
   },
   logging: {
-    fetches: {},
+    fetches: {}
   },
   images: {
     minimumCacheTTL: 31_536_000,
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "cdn.sanity.io",
-        pathname: `/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/**`,
-      },
-    ],
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        pathname: `/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/**`
+      }
+    ]
   },
   async redirects() {
-    const redirects = await client.fetch(queryRedirects);
+    const redirects = await client.fetch(queryRedirects)
     return redirects.map((redirect) => ({
       ...redirect,
-      permanent: redirect.permanent ?? false,
-    }));
-  },
-};
+      permanent: redirect.permanent ?? false
+    }))
+  }
+}
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(nextConfig)

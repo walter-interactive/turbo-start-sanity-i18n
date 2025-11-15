@@ -1,61 +1,61 @@
-import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
-import { BlogCard, BlogHeader, FeaturedBlogCard } from "@/components/blog-card";
-import { PageBuilder } from "@/components/pagebuilder";
-import type { Locale } from "@/i18n/routing";
-import { sanityFetch } from "@/lib/sanity/live";
-import { queryBlogIndexPageData } from "@/lib/sanity/query";
-import type { QueryBlogIndexPageDataResult } from "@/lib/sanity/sanity.types";
-import { getSEOMetadata } from "@/lib/seo";
-import { handleErrors } from "@/utils";
+import { notFound } from 'next/navigation'
+import { setRequestLocale } from 'next-intl/server'
+import { BlogCard, BlogHeader, FeaturedBlogCard } from '@/components/blog-card'
+import { PageBuilder } from '@/components/pagebuilder'
+import { sanityFetch } from '@/lib/sanity/live'
+import { queryBlogIndexPageData } from '@/lib/sanity/query'
+import { getSEOMetadata } from '@/lib/seo'
+import { handleErrors } from '@/utils'
+import type { Locale } from '@/i18n/routing'
+import type { QueryBlogIndexPageDataResult } from '@/lib/sanity/sanity.types'
 
-type Blog = NonNullable<QueryBlogIndexPageDataResult>["blogs"][number];
+type Blog = NonNullable<QueryBlogIndexPageDataResult>['blogs'][number]
 
 async function fetchBlogPosts(locale: Locale) {
   return await handleErrors(
     sanityFetch({
       query: queryBlogIndexPageData,
-      params: { locale },
+      params: { locale }
     })
-  );
+  )
 }
 
 export async function generateMetadata({
-  params,
+  params
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: Locale }>
 }) {
-  const { locale } = await params;
+  const { locale } = await params
   const { data: result } = await sanityFetch({
     query: queryBlogIndexPageData,
     params: { locale },
-    stega: false,
-  });
+    stega: false
+  })
   return getSEOMetadata(
     result
       ? {
-          title: result?.seoTitle ?? result?.title ?? "",
-          description: result?.seoDescription ?? result?.description ?? "",
+          title: result?.seoTitle ?? result?.title ?? '',
+          description: result?.seoDescription ?? result?.description ?? '',
           slug: result?.slug,
           contentId: result?._id,
           contentType: result?._type,
-          locale,
+          locale
         }
       : { locale }
-  );
+  )
 }
 
 export default async function BlogIndexPage({
-  params,
+  params
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: Locale }>
 }) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+  const { locale } = await params
+  setRequestLocale(locale)
 
-  const [res, err] = await fetchBlogPosts(locale);
+  const [res, err] = await fetchBlogPosts(locale)
   if (err || !res?.data) {
-    notFound();
+    notFound()
   }
 
   const {
@@ -66,12 +66,12 @@ export default async function BlogIndexPage({
     _id,
     _type,
     displayFeaturedBlogs,
-    featuredBlogsCount,
-  } = res.data;
+    featuredBlogsCount
+  } = res.data
 
   const validFeaturedBlogsCount = featuredBlogsCount
     ? Number.parseInt(featuredBlogsCount, 10)
-    : 0;
+    : 0
 
   if (!blogs.length) {
     return (
@@ -86,18 +86,18 @@ export default async function BlogIndexPage({
           <PageBuilder id={_id} pageBuilder={pageBuilder} type={_type} />
         )}
       </main>
-    );
+    )
   }
 
   const shouldDisplayFeaturedBlogs =
-    displayFeaturedBlogs && validFeaturedBlogsCount > 0;
+    displayFeaturedBlogs && validFeaturedBlogsCount > 0
 
   const featuredBlogs = shouldDisplayFeaturedBlogs
     ? blogs.slice(0, validFeaturedBlogsCount)
-    : [];
+    : []
   const remainingBlogs = shouldDisplayFeaturedBlogs
     ? blogs.slice(validFeaturedBlogsCount)
-    : blogs;
+    : blogs
 
   return (
     <main className="bg-background">
@@ -125,5 +125,5 @@ export default async function BlogIndexPage({
         <PageBuilder id={_id} pageBuilder={pageBuilder} type={_type} />
       )}
     </main>
-  );
+  )
 }

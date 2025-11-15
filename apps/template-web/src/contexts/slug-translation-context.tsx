@@ -11,13 +11,13 @@
  * @see {@link /specs/006-fix-language-switcher/contracts/locale-context-api.ts|API Contract}
  */
 
-"use client";
+'use client'
 
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo } from 'react'
 import type {
   LocaleMapping,
-  LocaleTranslations,
-} from "@/lib/sanity/locale-mapper";
+  LocaleTranslations
+} from '@/lib/sanity/locale-mapper'
 
 // ============================================================================
 // Context Definition
@@ -38,7 +38,7 @@ interface SlugTranslationContextValue {
    * Direct access to the full mapping. Prefer using getTranslations()
    * for safer access with better error handling.
    */
-  localeMapping: LocaleMapping;
+  localeMapping: LocaleMapping
 
   /**
    * Lookup translations for a given pathname
@@ -55,7 +55,7 @@ interface SlugTranslationContextValue {
    * }
    * ```
    */
-  getTranslations(pathname: string): LocaleTranslations | undefined;
+  getTranslations(pathname: string): LocaleTranslations | undefined
 }
 
 /**
@@ -65,7 +65,7 @@ interface SlugTranslationContextValue {
  */
 const SlugTranslationContext = createContext<
   SlugTranslationContextValue | undefined
->(undefined);
+>(undefined)
 
 // ============================================================================
 // Provider Component
@@ -82,12 +82,12 @@ interface SlugTranslationProviderProps {
    * Created by createLocaleMapping() in root layout.
    * Must be serializable (passed from Server to Client Component).
    */
-  localeMapping: LocaleMapping;
+  localeMapping: LocaleMapping
 
   /**
    * Child components that will have access to slug translation context
    */
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 /**
@@ -127,7 +127,7 @@ interface SlugTranslationProviderProps {
  */
 export function SlugTranslationProvider({
   localeMapping,
-  children,
+  children
 }: SlugTranslationProviderProps) {
   /**
    * Memoized context value
@@ -139,16 +139,16 @@ export function SlugTranslationProvider({
   const value = useMemo<SlugTranslationContextValue>(
     () => ({
       localeMapping,
-      getTranslations: (pathname: string) => localeMapping[pathname],
+      getTranslations: (pathname: string) => localeMapping[pathname]
     }),
     [localeMapping]
-  );
+  )
 
   return (
     <SlugTranslationContext.Provider value={value}>
       {children}
     </SlugTranslationContext.Provider>
-  );
+  )
 }
 
 // ============================================================================
@@ -209,14 +209,14 @@ export function SlugTranslationProvider({
  * ```
  */
 export function useSlugTranslation(): SlugTranslationContextValue {
-  const context = useContext(SlugTranslationContext);
+  const context = useContext(SlugTranslationContext)
 
   if (context === undefined) {
     throw new Error(
-      "useSlugTranslation must be used within a SlugTranslationProvider. " +
-        "Ensure your component is wrapped in <SlugTranslationProvider> higher in the tree."
-    );
+      'useSlugTranslation must be used within a SlugTranslationProvider. '
+        + 'Ensure your component is wrapped in <SlugTranslationProvider> higher in the tree.'
+    )
   }
 
-  return context;
+  return context
 }

@@ -1,4 +1,4 @@
-import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
+import { customUrlFragment } from '@walter/sanity-atoms/fragments/custom-url'
 
 export const subscribeNewsletterFragment = /* groq */ `
   _type == "subscribeNewsletter" => {
@@ -22,4 +22,4 @@ export const subscribeNewsletterFragment = /* groq */ `
       }
     }
   }
-`;
+`

@@ -1,18 +1,18 @@
-"use client";
-import { Button } from "@workspace/ui/components/button";
-import { ChevronRight, LoaderCircle } from "lucide-react";
-import { useFormStatus } from "react-dom";
-import type { PagebuilderType } from "@/types";
-import { RichText } from "../elements/rich-text";
+'use client'
+import { Button } from '@workspace/ui/components/button'
+import { ChevronRight, LoaderCircle } from 'lucide-react'
+import { useFormStatus } from 'react-dom'
+import { RichText } from '../elements/rich-text'
+import type { PagebuilderType } from '@/types'
 
-type SubscribeNewsletterProps = PagebuilderType<"subscribeNewsletter">;
+type SubscribeNewsletterProps = PagebuilderType<'subscribeNewsletter'>
 
 export default function SubscribeNewsletterButton() {
   // if using useFormStatus, for the submission logic, you need to use the form action
-  const { pending } = useFormStatus();
+  const { pending } = useFormStatus()
   return (
     <Button
-      aria-label={pending ? "Subscribing..." : "Subscribe to newsletter"}
+      aria-label={pending ? 'Subscribing...' : 'Subscribe to newsletter'}
       className="aspect-square size-8 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700"
       disabled={pending}
       size="icon"
@@ -36,13 +36,13 @@ export default function SubscribeNewsletterButton() {
         )}
       </span>
     </Button>
-  );
+  )
 }
 
 export function SubscribeNewsletter({
   title,
   subTitle,
-  helperText,
+  helperText
 }: SubscribeNewsletterProps) {
   return (
     <section className="px-4 py-8 sm:py-12 md:py-16" id="subscribe">
@@ -60,7 +60,7 @@ export function SubscribeNewsletter({
           <form
             className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-2"
             onSubmit={(e) => {
-              e.preventDefault();
+              e.preventDefault()
               // custom submit logic
             }}
           >
@@ -84,5 +84,5 @@ export function SubscribeNewsletter({
         </div>
       </div>
     </section>
-  );
+  )
 }

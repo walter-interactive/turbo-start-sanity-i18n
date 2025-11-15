@@ -1,54 +1,52 @@
-"use client";
+'use client'
 
-import { useOptimistic } from "@sanity/visual-editing/react";
-import { createDataAttribute } from "next-sanity";
-import { useCallback, useMemo } from "react";
-
-import { dataset, projectId, studioUrl } from "@/config";
-import type { QueryHomePageDataResult } from "@/lib/sanity/sanity.types";
-import type { PageBuilderBlockTypes, PagebuilderType } from "@/types";
-
-import { CTABlock } from "./sections/cta";
-import { FaqAccordion } from "./sections/faq-accordion";
-import { FeatureCardsWithIcon } from "./sections/feature-cards-with-icon";
-import { HeroBlock } from "./sections/hero";
-import { ImageLinkCards } from "./sections/image-link-cards";
-import { SubscribeNewsletter } from "./sections/subscribe-newsletter";
+import { useOptimistic } from '@sanity/visual-editing/react'
+import { createDataAttribute } from 'next-sanity'
+import { useCallback, useMemo } from 'react'
+import { dataset, projectId, studioUrl } from '@/config'
+import { CTABlock } from './sections/cta'
+import { FaqAccordion } from './sections/faq-accordion'
+import { FeatureCardsWithIcon } from './sections/feature-cards-with-icon'
+import { HeroBlock } from './sections/hero'
+import { ImageLinkCards } from './sections/image-link-cards'
+import { SubscribeNewsletter } from './sections/subscribe-newsletter'
+import type { QueryHomePageDataResult } from '@/lib/sanity/sanity.types'
+import type { PageBuilderBlockTypes, PagebuilderType } from '@/types'
 
 // More specific and descriptive type aliases
 type PageBuilderBlock = NonNullable<
-  NonNullable<QueryHomePageDataResult>["pageBuilder"]
->[number];
+  NonNullable<QueryHomePageDataResult>['pageBuilder']
+>[number]
 
 export type PageBuilderProps = {
-  readonly pageBuilder?: PageBuilderBlock[];
-  readonly id: string;
-  readonly type: string;
-};
+  readonly pageBuilder?: PageBuilderBlock[]
+  readonly id: string
+  readonly type: string
+}
 
 type SanityDataAttributeConfig = {
-  readonly id: string;
-  readonly type: string;
-  readonly path: string;
-};
+  readonly id: string
+  readonly type: string
+  readonly path: string
+}
 
 // Strongly typed component mapping with proper component signatures
 const BLOCK_COMPONENTS = {
-  cta: CTABlock as React.ComponentType<PagebuilderType<"cta">>,
+  cta: CTABlock as React.ComponentType<PagebuilderType<'cta'>>,
   faqAccordion: FaqAccordion as React.ComponentType<
-    PagebuilderType<"faqAccordion">
+    PagebuilderType<'faqAccordion'>
   >,
-  hero: HeroBlock as React.ComponentType<PagebuilderType<"hero">>,
+  hero: HeroBlock as React.ComponentType<PagebuilderType<'hero'>>,
   featureCardsIcon: FeatureCardsWithIcon as React.ComponentType<
-    PagebuilderType<"featureCardsIcon">
+    PagebuilderType<'featureCardsIcon'>
   >,
   subscribeNewsletter: SubscribeNewsletter as React.ComponentType<
-    PagebuilderType<"subscribeNewsletter">
+    PagebuilderType<'subscribeNewsletter'>
   >,
   imageLinkCards: ImageLinkCards as React.ComponentType<
-    PagebuilderType<"imageLinkCards">
-  >,
-} as const satisfies Record<PageBuilderBlockTypes, React.ComponentType<any>>;
+    PagebuilderType<'imageLinkCards'>
+  >
+} as const satisfies Record<PageBuilderBlockTypes, React.ComponentType<any>>
 
 /**
  * Helper function to create consistent Sanity data attributes
@@ -60,8 +58,8 @@ function createSanityDataAttribute(config: SanityDataAttributeConfig): string {
     projectId,
     dataset,
     type: config.type,
-    path: config.path,
-  }).toString();
+    path: config.path
+  }).toString()
 }
 
 /**
@@ -69,10 +67,10 @@ function createSanityDataAttribute(config: SanityDataAttributeConfig): string {
  */
 function UnknownBlockError({
   blockType,
-  blockKey,
+  blockKey
 }: {
-  blockType: string;
-  blockKey: string;
+  blockType: string
+  blockKey: string
 }) {
   return (
     <div
@@ -88,7 +86,7 @@ function UnknownBlockError({
         </code>
       </div>
     </div>
-  );
+  )
 }
 
 /**
@@ -102,11 +100,11 @@ function useOptimisticPageBuilder(
     initialBlocks,
     (currentBlocks, action) => {
       if (action.id === documentId && action.document?.pageBuilder) {
-        return action.document.pageBuilder;
+        return action.document.pageBuilder
       }
-      return currentBlocks;
+      return currentBlocks
     }
-  );
+  )
 }
 
 /**
@@ -118,15 +116,15 @@ function useBlockRenderer(id: string, type: string) {
       createSanityDataAttribute({
         id,
         type,
-        path: `pageBuilder[_key=="${blockKey}"]`,
+        path: `pageBuilder[_key=="${blockKey}"]`
       }),
     [id, type]
-  );
+  )
 
   const renderBlock = useCallback(
     (block: PageBuilderBlock, _index: number) => {
       const Component =
-        BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS];
+        BLOCK_COMPONENTS[block._type as keyof typeof BLOCK_COMPONENTS]
 
       if (!Component) {
         return (
@@ -135,7 +133,7 @@ function useBlockRenderer(id: string, type: string) {
             blockType={block._type}
             key={`${block._type}-${block._key}`}
           />
-        );
+        )
       }
 
       return (
@@ -145,12 +143,12 @@ function useBlockRenderer(id: string, type: string) {
         >
           <Component {...(block as any)} />
         </div>
-      );
+      )
     },
     [createBlockDataAttribute]
-  );
+  )
 
-  return { renderBlock };
+  return { renderBlock }
 }
 
 /**
@@ -159,18 +157,18 @@ function useBlockRenderer(id: string, type: string) {
 export function PageBuilder({
   pageBuilder: initialBlocks = [],
   id,
-  type,
+  type
 }: PageBuilderProps) {
-  const blocks = useOptimisticPageBuilder(initialBlocks, id);
-  const { renderBlock } = useBlockRenderer(id, type);
+  const blocks = useOptimisticPageBuilder(initialBlocks, id)
+  const { renderBlock } = useBlockRenderer(id, type)
 
   const containerDataAttribute = useMemo(
-    () => createSanityDataAttribute({ id, type, path: "pageBuilder" }),
+    () => createSanityDataAttribute({ id, type, path: 'pageBuilder' }),
     [id, type]
-  );
+  )
 
   if (!blocks.length) {
-    return null;
+    return null
   }
 
   return (
@@ -181,5 +179,5 @@ export function PageBuilder({
     >
       {blocks.map(renderBlock)}
     </section>
-  );
+  )
 }

@@ -25,4 +25,4 @@ export const customUrlFragment = /* groq */ `
       "slug": slug.current
     }
   }
-`;
+`

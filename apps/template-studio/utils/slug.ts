@@ -16,18 +16,17 @@
  * allowing the same slug in French and English (e.g., /fr/about vs /en/about).
  */
 
-import type { SanityDocument } from "@sanity/client";
 import {
   defineField,
   type FieldDefinition,
   getDraftId,
   getPublishedId,
   type SlugifierFn,
-  type SlugValidationContext,
-} from "sanity";
-import slugify from "slugify";
-
-import type { PathnameParams } from "./types";
+  type SlugValidationContext
+} from 'sanity'
+import slugify from 'slugify'
+import type { SanityDocument } from '@sanity/client'
+import type { PathnameParams } from './types'
 
 /**
  * Type guard to check if document has a language field
@@ -41,11 +40,11 @@ function hasLanguageField(
   doc: SanityDocument | null | undefined
 ): doc is SanityDocument & { language: string } {
   return (
-    doc !== null &&
-    doc !== undefined &&
-    "language" in doc &&
-    typeof doc.language === "string"
-  );
+    doc !== null
+    && doc !== undefined
+    && 'language' in doc
+    && typeof doc.language === 'string'
+  )
 }
 
 /**
@@ -75,24 +74,24 @@ function hasLanguageField(
  * for duplicates per-language for i18n documents or globally for regular documents.
  */
 export function defineSlug(
-  schema: PathnameParams = { name: "slug" }
-): FieldDefinition<"slug"> {
-  const slugOptions = schema?.options;
+  schema: PathnameParams = { name: 'slug' }
+): FieldDefinition<'slug'> {
+  const slugOptions = schema?.options
 
   return defineField({
     ...schema,
-    name: schema.name ?? "slug",
-    title: schema?.title ?? "URL",
-    type: "slug",
+    name: schema.name ?? 'slug',
+    title: schema?.title ?? 'URL',
+    type: 'slug',
     components: {
-      ...schema.components,
+      ...schema.components
       // field: schema.components?.field ?? PathnameFieldComponent,
     },
     options: {
       ...(slugOptions ?? {}),
-      isUnique: slugOptions?.isUnique ?? isUnique,
-    },
-  });
+      isUnique: slugOptions?.isUnique ?? isUnique
+    }
+  })
 }
 
 /**
@@ -125,29 +124,29 @@ export async function isUnique(
   slug: string,
   context: SlugValidationContext
 ): Promise<boolean> {
-  const { document, getClient } = context;
-  const client = getClient({ apiVersion: "2025-02-10" });
-  const id = getPublishedId(document?._id ?? "");
-  const draftId = getDraftId(id);
+  const { document, getClient } = context
+  const client = getClient({ apiVersion: '2025-02-10' })
+  const id = getPublishedId(document?._id ?? '')
+  const draftId = getDraftId(id)
 
   // Extract language from document if it exists (for i18n documents)
-  const language = hasLanguageField(document) ? document.language : undefined;
+  const language = hasLanguageField(document) ? document.language : undefined
 
   const params = {
     draft: draftId,
     published: id,
     slug,
-    ...(language && { language }),
-  };
+    ...(language && { language })
+  }
 
   // If the document has a language field, check uniqueness per language
   // Otherwise, check globally (for backwards compatibility with non-i18n documents)
   const query = language
-    ? "*[!(_id in [$draft, $published]) && slug.current == $slug && language == $language]"
-    : "*[!(_id in [$draft, $published]) && slug.current == $slug]";
+    ? '*[!(_id in [$draft, $published]) && slug.current == $slug && language == $language]'
+    : '*[!(_id in [$draft, $published]) && slug.current == $slug]'
 
-  const result = await client.fetch(query, params);
-  return result.length === 0;
+  const result = await client.fetch(query, params)
+  return result.length === 0
 }
 
 /**
@@ -166,11 +165,11 @@ export async function isUnique(
  * ```
  */
 export const getDocTypePrefix = (type: string) => {
-  if (["page"].includes(type)) {
-    return "";
+  if (['page'].includes(type)) {
+    return ''
   }
-  return type;
-};
+  return type
+}
 
 /**
  * Special slug mappings for specific document types
@@ -179,9 +178,9 @@ export const getDocTypePrefix = (type: string) => {
  * This mapper defines those special cases.
  */
 const slugMapper = {
-  homePage: "/",
-  blogIndex: "/blog",
-} as Record<string, string>;
+  homePage: '/',
+  blogIndex: '/blog'
+} as Record<string, string>
 
 /**
  * Automatically generates slugs from input text
@@ -215,19 +214,19 @@ const slugMapper = {
  */
 export const createSlug: SlugifierFn = (input, _, { parent }) => {
   const { _type } = parent as {
-    _type: string;
-  };
-
-  if (slugMapper[_type]) {
-    return slugMapper[_type];
+    _type: string
   }
 
-  const prefix = getDocTypePrefix(_type);
+  if (slugMapper[_type]) {
+    return slugMapper[_type]
+  }
+
+  const prefix = getDocTypePrefix(_type)
 
   const slug = slugify(input, {
     lower: true,
-    remove: /[^a-zA-Z0-9 ]/g,
-  });
+    remove: /[^a-zA-Z0-9 ]/g
+  })
 
-  return `/${[prefix, slug].filter(Boolean).join("/")}`;
-};
+  return `/${[prefix, slug].filter(Boolean).join('/')}`
+}

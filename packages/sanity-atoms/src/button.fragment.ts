@@ -14,10 +14,10 @@
  * ```
  */
 
-import { customUrlFragment } from "./custom-url.fragment";
+import { customUrlFragment } from './custom-url.fragment'
 
 export const buttonFragment = /* groq */ `
   variant,
   text,
   ${customUrlFragment}
-`;
+`

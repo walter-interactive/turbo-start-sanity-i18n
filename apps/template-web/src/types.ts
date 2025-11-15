@@ -1,30 +1,30 @@
 import type {
   QueryBlogSlugPageDataResult,
   QueryHomePageDataResult,
-  QueryImageTypeResult,
-} from "@/lib/sanity/sanity.types";
+  QueryImageTypeResult
+} from '@/lib/sanity/sanity.types'
 
 export type PageBuilderBlockTypes = NonNullable<
-  NonNullable<QueryHomePageDataResult>["pageBuilder"]
->[number]["_type"];
+  NonNullable<QueryHomePageDataResult>['pageBuilder']
+>[number]['_type']
 
 export type PagebuilderType<T extends PageBuilderBlockTypes> = Extract<
-  NonNullable<NonNullable<QueryHomePageDataResult>["pageBuilder"]>[number],
+  NonNullable<NonNullable<QueryHomePageDataResult>['pageBuilder']>[number],
   { _type: T }
->;
+>
 
 export type SanityButtonProps = NonNullable<
-  NonNullable<PagebuilderType<"hero">>["buttons"]
->[number];
+  NonNullable<PagebuilderType<'hero'>>['buttons']
+>[number]
 
-export type SanityImageProps = NonNullable<QueryImageTypeResult>;
+export type SanityImageProps = NonNullable<QueryImageTypeResult>
 
 export type SanityRichTextProps =
-  NonNullable<QueryBlogSlugPageDataResult>["richText"];
+  NonNullable<QueryBlogSlugPageDataResult>['richText']
 
 export type SanityRichTextBlock = Extract<
   NonNullable<NonNullable<SanityRichTextProps>[number]>,
-  { _type: "block" }
->;
+  { _type: 'block' }
+>
 
-export type Maybe<T> = T | null | undefined;
+export type Maybe<T> = T | null | undefined
