@@ -223,24 +223,24 @@ This feature cannot be delivered incrementally - all changes must be applied ato
 
 #### 4.1 Update Documentation Files
 
-- [ ] T024 Search for documentation references to old aliases
+- [x] T024 Search for documentation references to old aliases
   - Command: `grep -rn '@walter/sanity' --include="*.md" --exclude-dir=node_modules --exclude-dir=specs/011-rename-package-aliases`
   - Expected: List of markdown files requiring updates
 
-- [ ] T025 Update CLAUDE.md references to use @workspace prefix
+- [x] T025 Update CLAUDE.md references to use @workspace prefix
   - File: `CLAUDE.md`
   - Change: Replace all `@walter/sanity-atoms` and `@walter/sanity-blocks` with `@workspace/*` equivalents
   - **Success Criteria**: SC-006 (documentation updated)
 
-- [ ] T026 Update packages/sanity-atoms/README.md (if exists)
+- [x] T026 Update packages/sanity-atoms/README.md (if exists)
   - File: `packages/sanity-atoms/README.md`
   - Change: Update import examples to use `@workspace/sanity-atoms`
 
-- [ ] T027 Update packages/sanity-blocks/README.md (if exists)
+- [x] T027 Update packages/sanity-blocks/README.md (if exists)
   - File: `packages/sanity-blocks/README.md`
   - Change: Update import examples to use `@workspace/sanity-blocks`
 
-- [ ] T028 Update previous spec files (009, 010) with code examples
+- [x] T028 Update previous spec files (009, 010) with code examples
   - Files: Check `specs/009-complete-schema-migration/**/*.md` and `specs/010-migrate-web-fragments/**/*.md`
   - Change: Update any code examples showing `@walter/*` imports to `@workspace/*`
   - Rationale: Prevents confusion when reviewing old documentation

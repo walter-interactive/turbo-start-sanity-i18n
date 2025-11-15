@@ -23,7 +23,6 @@ src/
 ├── buttons.schema.ts
 ├── image.schema.ts
 ├── richText.schema.ts
-└── schemas.ts  # Re-exports
 ```
 
 ## Design Principles
