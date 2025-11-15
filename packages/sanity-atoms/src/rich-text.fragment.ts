@@ -1,6 +1,6 @@
 import { imageFields } from "./image.fragment";
 
-const customLinkFragment = /* groq */ `
+export const customLinkFragment = /* groq */ `
   ...customLink{
     openInNewTab,
     "href": select(
@@ -15,7 +15,7 @@ const customLinkFragment = /* groq */ `
   }
 `;
 
-const markDefsFragment = /* groq */ `
+export const markDefsFragment = /* groq */ `
   markDefs[]{
     ...,
     ${customLinkFragment}

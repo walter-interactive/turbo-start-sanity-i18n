@@ -1,7 +1,7 @@
 import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
 import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
 
-export const ctaBlock = /* groq */ `
+export const ctaFragment = /* groq */ `
   _type == "cta" => {
     ...,
     ${richTextFragment},

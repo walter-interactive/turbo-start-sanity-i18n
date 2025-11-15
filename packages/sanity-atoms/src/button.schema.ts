@@ -4,25 +4,6 @@
  * PURPOSE:
  * Reusable button field configuration for CTAs, navigation, and actions throughout
  * the site. Provides consistent button styling options and flexible link configuration.
- *
- * KEY FEATURES:
- * - Variant selection: default, secondary, outline, link styles
- * - Button text: Customizable label for the button
- * - URL configuration: Uses customUrl for internal/external links
- * - Preview metadata: Shows variant and URL with new tab indicator
- *
- * I18N SUPPORT: No - This is a reusable definition, not a standalone document
- * ORDERING: No - Used as a field within other schemas
- * SINGLETON: No - Multiple instances allowed per parent document
- *
- * SPECIAL BEHAVIORS:
- * - Radio list layout: Variants displayed horizontally for easy selection
- * - Default value: "default" variant pre-selected for new buttons
- * - Preview format: Shows "Variant • URL ↗" for quick identification
- *
- * USAGE LOCATIONS:
- * - buttonsField in common.ts: Used in CTA, hero, navbar, and other blocks
- * - Any schema needing button configuration with style variants
  */
 
 import { Command } from "lucide-react";

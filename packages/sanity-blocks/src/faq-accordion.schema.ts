@@ -5,28 +5,6 @@
  * Displays frequently asked questions in an expandable accordion format with
  * optional header content (eyebrow, title, subtitle) and a related link. References
  * FAQ documents rather than inline content for better reusability.
- *
- * KEY FEATURES:
- * - Header section: Eyebrow, title, and subtitle for context
- * - Optional link: Additional resource or contact link with description
- * - FAQ references: Array of references to FAQ documents (not inline content)
- * - Unique validation: Prevents duplicate FAQ references
- *
- * I18N SUPPORT: No - This is a page builder block, not a standalone document
- * ORDERING: No - Positioned within pageBuilder array
- * SINGLETON: No - Multiple instances allowed per page
- *
- * SPECIAL BEHAVIORS:
- * - References FAQ documents: Uses reference field (not inline objects)
- * - Validation: Title is required, FAQ array is required and must have unique items
- * - Preview: Shows title with "FAQ Accordion" subtitle
- *
- * RELATED TYPES:
- * - faq: Referenced document type for individual FAQ items
- *
- * USAGE LOCATIONS:
- * - Available in pageBuilder array for any page/document type
- * - Commonly used on support pages, product pages, and help sections
  */
 
 import { MessageCircle } from "lucide-react";

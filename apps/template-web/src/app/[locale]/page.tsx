@@ -22,14 +22,14 @@ export async function generateMetadata({
   return getSEOMetadata(
     homePageData
       ? {
-          title: homePageData?.seoTitle ?? homePageData?.title ?? "",
-          description:
-            homePageData?.seoDescription ?? homePageData?.description ?? "",
-          slug: homePageData?.slug,
-          contentId: homePageData?._id,
-          contentType: homePageData?._type,
-          locale,
-        }
+        title: homePageData?.seoTitle ?? homePageData?.title ?? "",
+        description:
+          homePageData?.seoDescription ?? homePageData?.description ?? "",
+        slug: homePageData?.slug,
+        contentId: homePageData?._id,
+        contentType: homePageData?._type,
+        locale,
+      }
       : { locale }
   );
 }

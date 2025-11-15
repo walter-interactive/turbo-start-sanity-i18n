@@ -8,7 +8,6 @@
  * **Performance**: O(1) lookup time via hash map, ~260KB memory for 500 documents
  *
  * @module locale-mapper
- * @see {@link https://github.com/conciliainc/conciliainc.com|Reference Implementation}
  */
 
 import {

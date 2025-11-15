@@ -1,65 +1,23 @@
 import { defineQuery } from "next-sanity";
 import { translationsFragment } from "./i18n";
 import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaBlock } from "@walter/sanity-blocks/fragments/cta";
+import { ctaFragment } from "@walter/sanity-blocks/fragments/cta";
 import { faqSectionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
-// import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
+import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";
+import { subscribeNewsletterFragment } from "@walter/sanity-blocks/fragments/subscribe-newsletter";
+import { featureCardsIconFragment } from "@walter/sanity-blocks/fragments/feature-cards-icon";
+import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
 import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
 import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
-
-
-// test
-export const imageFields = /* groq */ `
-  "id": asset._ref,
-  "preview": asset->metadata.lqip,
-  hotspot {
-    x,
-    y
-  },
-  crop {
-    bottom,
-    left,
-    right,
-    top
-  }
-`;
-
-// Base fragments for reusable query parts
-export const imageFragment = /* groq */ `
-  image {
-    ${imageFields}
-  }
-`;
-
-// Local fragments still needed for unmigrated blocks
-const customLinkFragment = /* groq */ `
-  ...customLink{
-    openInNewTab,
-    "href": select(
-      type == "internal" => internal->slug.current,
-      type == "external" => external,
-      "#"
-    ),
-    "internalType": select(
-      type == "internal" => internal->_type,
-      null
-    ),
-  }
-`;
-
-const markDefsFragment = /* groq */ `
-  markDefs[]{
-    ...,
-    ${customLinkFragment}
-  }
-`;
 
 const blogAuthorFragment = /* groq */ `
   authors[0]->{
     _id,
     name,
     position,
-    ${imageFragment}
+    image {
+      ${imageFragment}
+    }
   }
 `;
 
@@ -70,69 +28,23 @@ const blogCardFragment = /* groq */ `
   description,
   "slug":slug.current,
   orderRank,
-  ${imageFragment},
+  image {
+    ${imageFragment}
+  },
   publishedAt,
   ${blogAuthorFragment}
-`;
-
-// Page builder block fragments
-const imageLinkCardsBlock = /* groq */ `
-  _type == "imageLinkCards" => {
-    ...,
-    ${richTextFragment},
-    ${buttonsFragment},
-    "cards": array::compact(cards[]{
-      ...,
-      "openInNewTab": url.openInNewTab,
-      "href": select(
-        url.type == "internal" => url.internal->slug.current,
-        url.type == "external" => url.external,
-        url.href
-      ),
-      "internalType": select(
-        url.type == "internal" => url.internal->_type,
-        null
-      ),
-      ${imageFragment},
-    })
-  }
-`;
-
-const subscribeNewsletterBlock = /* groq */ `
-  _type == "subscribeNewsletter" => {
-    ...,
-    "subTitle": subTitle[]{
-      ...,
-      ${markDefsFragment}
-    },
-    "helperText": helperText[]{
-      ...,
-      ${markDefsFragment}
-    }
-  }
-`;
-
-const featureCardsIconBlock = /* groq */ `
-  _type == "featureCardsIcon" => {
-    ...,
-    ${richTextFragment},
-    "cards": array::compact(cards[]{
-      ...,
-      ${richTextFragment},
-    })
-  }
 `;
 
 const pageBuilderFragment = /* groq */ `
   pageBuilder[]{
     ...,
     _type,
-    ${ctaBlock},
+    ${ctaFragment},
     ${heroSectionFragment},
     ${faqSectionFragment},
-    ${featureCardsIconBlock},
-    ${subscribeNewsletterBlock},
-    ${imageLinkCardsBlock}
+    ${featureCardsIconFragment},
+    ${subscribeNewsletterFragment},
+    ${imageLinkCardsFragment}
   }
 `;
 
@@ -202,7 +114,9 @@ export const queryBlogSlugPageData = defineQuery(`
     "slug": slug.current,
     language,
     ${blogAuthorFragment},
-    ${imageFragment},
+    image {
+      ${imageFragment}
+    },
     ${richTextFragment},
     ${pageBuilderFragment},
     ${translationsFragment}

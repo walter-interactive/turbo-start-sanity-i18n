@@ -5,34 +5,6 @@
  * Flexible link configuration that supports both internal page references and external
  * URLs with validation. Used throughout the site for all link types (buttons, navigation,
  * cards) to maintain consistency and ensure proper link handling.
- *
- * KEY FEATURES:
- * - Type selection: Internal (reference to page/blog) or external (URL string)
- * - Open in new tab: Boolean flag for external link behavior
- * - Reference field: For internal links to page, blog, or blogIndex documents
- * - External URL: Validated URL string with support for relative and absolute paths
- * - Hidden href field: Technical field for internal use, not editable
- *
- * I18N SUPPORT: No - This is a reusable definition, not a standalone document
- * ORDERING: No - Used as a field within other schemas
- * SINGLETON: No - Multiple instances allowed per parent document
- *
- * SPECIAL BEHAVIORS:
- * - Conditional visibility: External field hidden when type is "internal" and vice versa
- * - URL validation: Validates URLs and relative paths inline
- * - Custom validation: Required field validation based on selected type
- * - Default value: "external" type pre-selected for new links
- *
- * RELATED TYPES:
- * - page: Linkable document type for internal references
- * - blog: Linkable document type for internal references
- * - blogIndex: Linkable document type for internal references
- *
- * USAGE LOCATIONS:
- * - button.ts: URL field for button links
- * - navbar.ts: Navigation link URLs
- * - faq-accordion.ts: Optional link field
- * - image-link-cards.ts: Card link URLs
  */
 
 import { defineField, defineType } from "sanity";

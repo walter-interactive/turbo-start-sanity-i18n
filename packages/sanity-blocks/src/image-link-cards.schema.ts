@@ -4,28 +4,6 @@
  * PURPOSE:
  * Displays a collection of clickable cards with images, titles, descriptions, and links.
  * Used for showcasing related content, categories, or navigation sections with visual appeal.
- *
- * KEY FEATURES:
- * - Header section: Optional eyebrow, title, rich text intro, and buttons
- * - Card grid: Array of card objects with image, title, description, and customUrl
- * - Link indicators: Preview shows internal/external link and new tab indicator (↗)
- * - Flexible linking: Uses customUrl for internal page or external URL links
- *
- * I18N SUPPORT: No - This is a page builder block, not a standalone document
- * ORDERING: No - Positioned within pageBuilder array
- * SINGLETON: No - Multiple instances allowed per page
- *
- * SPECIAL BEHAVIORS:
- * - Preview metadata: Shows card count in preview subtitle
- * - Link preview: Displays URL and new tab indicator in card preview
- * - Nested object structure: imageLinkCard is defined inline, not as separate schema
- *
- * RELATED TYPES:
- * - customUrl: Used for internal/external link configuration
- *
- * USAGE LOCATIONS:
- * - Available in pageBuilder array for any page/document type
- * - Commonly used for resource sections, category navigation, and related content
  */
 
 import { ImageIcon } from "lucide-react";
