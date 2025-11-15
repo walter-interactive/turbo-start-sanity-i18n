@@ -6,6 +6,7 @@ export const featureCardsIconFragment = /* groq */ `
     title,
     ${richTextFragment},
     "cards": cards[]{
+      _key,
       icon,
       title,
       ${richTextFragment}

@@ -18,9 +18,7 @@ const blogAuthorFragment = /* groq */ `
     _id,
     name,
     position,
-    image {
-      ${imageFragment}
-    }
+    ${imageFragment}
   }
 `
 
@@ -31,9 +29,7 @@ const blogCardFragment = /* groq */ `
   description,
   "slug":slug.current,
   orderRank,
-  image {
-    ${imageFragment}
-  },
+  ${imageFragment},
   publishedAt,
   ${blogAuthorFragment}
 `
@@ -117,9 +113,7 @@ export const queryBlogSlugPageData = defineQuery(`
     "slug": slug.current,
     language,
     ${blogAuthorFragment},
-    image {
-      ${imageFragment}
-    },
+    ${imageFragment},
     ${richTextFragment},
     ${pageBuilderFragment},
     ${translationsFragment}
