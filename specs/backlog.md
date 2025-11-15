@@ -1,3 +1,11 @@
+# TODO
+- [ ] Reconfigure tsconfig for the entire code base (add build steps, tsconfig.build.json, tsconfig.lint.json if necessary) Try barrel export again to see if it would work
+- [ ] Extract logger to package
+- [ ] Extract remaining queries in query.ts to package
+- [ ] Create factory methods for i18n-config creation to be reused in other projects
+- [ ] Find any other potentially reusable code that should be extracted to common packages
+- [ ] Configure vitest + playwright for automated test runners
+
 # 008-multi-tenant-template
 
 ## Phase 6: User Story 5 - Developer Manages I18n Configuration (Priority: P2)
