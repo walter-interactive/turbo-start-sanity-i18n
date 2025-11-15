@@ -5,6 +5,8 @@
 
 This documentation provides comprehensive guidance for developers working with the Sanity Studio application. It covers architecture, plugin ecosystem, content type organization, and common development workflows.
 
+# Test, this shouldn't trigger template-web re-build
+
 ---
 
 ## Table of Contents
