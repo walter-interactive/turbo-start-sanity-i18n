@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TypeScript Path Mappings Contract",
+  "description": "Expected TypeScript path mappings after rename",
+  "type": "object",
+  "required": ["pathMappings"],
+  "properties": {
+    "pathMappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["configFile", "expectedPaths"],
+        "properties": {
+          "configFile": {
+            "type": "string",
+            "description": "Path to tsconfig.json file"
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["root", "workspace"],
+            "description": "Whether this is root or workspace-specific config"
+          },
+          "expectedPaths": {
+            "type": "object",
+            "description": "Expected 'paths' mapping after rename",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "configFile": "tsconfig.json",
+          "scope": "root",
+          "expectedPaths": {
+            "@workspace/sanity-atoms/schemas/*": [
+              "./packages/sanity-atoms/src/*.schema.ts"
+            ],
+            "@workspace/sanity-atoms/fragments/*": [
+              "./packages/sanity-atoms/src/*.fragment.ts"
+            ],
+            "@workspace/sanity-blocks/schemas/*": [
+              "./packages/sanity-blocks/src/*.schema.ts"
+            ],
+            "@workspace/sanity-blocks/fragments/*": [
+              "./packages/sanity-blocks/src/*.fragment.ts"
+            ]
+          }
+        }
+      ]
+    },
+    "forbiddenPatterns": {
+      "type": "array",
+      "description": "Patterns that must NOT appear in any tsconfig.json",
+      "items": {
+        "type": "string"
+      },
+      "items": [
+        "@walter/sanity-atoms",
+        "@walter/sanity-blocks"
+      ]
+    }
+  }
+}

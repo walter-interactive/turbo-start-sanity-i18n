@@ -19,6 +19,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-06
 - TypeScript 5.9.2, Node.js 20+ + Sanity 4.4.1, React 19.1, @sanity/document-internationalization 4.1.0, lucide-react 0.539.0, sanity-plugin-icon-picker 4.0.0 (009-complete-schema-migration)
 - TypeScript 5.9.2, Node.js 20+ + Next.js 15.x (App Router), next-sanity 10.x (GROQ queries), @walter/sanity-blocks (workspace), @walter/sanity-atoms (workspace) (010-migrate-web-fragments)
 - Sanity Content Lake (cloud-hosted CMS, no schema changes required) (010-migrate-web-fragments)
+- TypeScript 5.9.2, Node.js 20+ + TurboRepo 2.5.4, pnpm 10.21.0 (workspace management), TypeScript compiler (011-rename-package-aliases)
+- N/A (metadata-only rename, no data persistence) (011-rename-package-aliases)
 
 - TypeScript 5.x (Next.js 15.x App Router, Node.js 18+) + next-intl (frontend i18n), @sanity/document-internationalization (CMS plugin), next-sanity (data fetching), groq (queries) (001-i18n-localization)
 
@@ -39,9 +41,9 @@ npm test && npm run lint
 TypeScript 5.x (Next.js 15.x App Router, Node.js 18+): Follow standard conventions
 
 ## Recent Changes
+- 011-rename-package-aliases: Added TypeScript 5.9.2, Node.js 20+ + TurboRepo 2.5.4, pnpm 10.21.0 (workspace management), TypeScript compiler
 - 010-migrate-web-fragments: Migrated query fragments from template-web to shared packages (@walter/sanity-blocks, @walter/sanity-atoms). All schema-coupled fragments now co-located with schemas. Exposed previously hidden fragments (customLinkFragment, markDefsFragment) as public API. Resolved 7 fragment duplicates. Zero functional changes - all queries return identical results.
 - 009-complete-schema-migration: Added TypeScript 5.9.2, Node.js 20+ + Sanity 4.4.1, React 19.1, @sanity/document-internationalization 4.1.0, lucide-react 0.539.0, sanity-plugin-icon-picker 4.0.0
-- 008-multi-tenant-template: Added TypeScript 5.9.2, Node.js 20+
 
 
 <!-- MANUAL ADDITIONS START -->

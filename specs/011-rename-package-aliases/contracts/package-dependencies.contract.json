@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Package Dependencies Contract",
+  "description": "Expected dependency declarations after rename",
+  "type": "object",
+  "required": ["dependencies"],
+  "properties": {
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dependentPackage", "filePath", "expectedDependencies"],
+        "properties": {
+          "dependentPackage": {
+            "type": "string",
+            "description": "Package declaring the dependency"
+          },
+          "filePath": {
+            "type": "string",
+            "description": "Path to package.json"
+          },
+          "expectedDependencies": {
+            "type": "object",
+            "description": "Expected dependency entries after rename",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "dependentPackage": "@workspace/sanity-blocks",
+          "filePath": "packages/sanity-blocks/package.json",
+          "expectedDependencies": {
+            "@workspace/sanity-atoms": "workspace:*"
+          }
+        },
+        {
+          "dependentPackage": "apps/template-studio",
+          "filePath": "apps/template-studio/package.json",
+          "expectedDependencies": {
+            "@workspace/sanity-atoms": "workspace:*",
+            "@workspace/sanity-blocks": "workspace:*"
+          }
+        },
+        {
+          "dependentPackage": "apps/template-web",
+          "filePath": "apps/template-web/package.json",
+          "expectedDependencies": {
+            "@workspace/sanity-atoms": "workspace:*",
+            "@workspace/sanity-blocks": "workspace:*"
+          }
+        }
+      ]
+    }
+  }
+}

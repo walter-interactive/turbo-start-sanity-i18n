@@ -1,6 +1,8 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["ultracite"],
+  "extends": [
+    "ultracite"
+  ],
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
@@ -52,14 +54,7 @@
             "groups": [
               {
                 "type": false // place types import/export below everything else
-              },
-              [
-                "@walter/sanity-atoms/**",
-                ":BLANK_LINE:",
-                "@walter/sanity-blocks/**",
-                ":BLANK_LINE:",
-                "@workspace/**"
-              ]
+              }
             ]
           }
         }

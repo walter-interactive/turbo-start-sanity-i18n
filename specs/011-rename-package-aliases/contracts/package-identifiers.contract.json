@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Package Identifiers Contract",
+  "description": "Expected 'name' fields in package.json files after rename",
+  "type": "object",
+  "required": ["packages"],
+  "properties": {
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["filePath", "expectedName", "currentName"],
+        "properties": {
+          "filePath": {
+            "type": "string",
+            "description": "Absolute or relative path to package.json"
+          },
+          "currentName": {
+            "type": "string",
+            "description": "Current package name (before rename)"
+          },
+          "expectedName": {
+            "type": "string",
+            "description": "Expected package name (after rename)"
+          }
+        }
+      },
+      "minItems": 2,
+      "items": [
+        {
+          "filePath": "packages/sanity-atoms/package.json",
+          "currentName": "@walter/sanity-atoms",
+          "expectedName": "@workspace/sanity-atoms"
+        },
+        {
+          "filePath": "packages/sanity-blocks/package.json",
+          "currentName": "@walter/sanity-blocks",
+          "expectedName": "@workspace/sanity-blocks"
+        }
+      ]
+    }
+  }
+}
