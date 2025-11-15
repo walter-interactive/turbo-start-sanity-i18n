@@ -29,10 +29,10 @@ const imageLinkCardsBlock = /* groq */ `
 
 ### In packages/sanity-blocks/src/image-link-cards.fragment.ts
 ```typescript
-import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
-import { imageFragment } from "@walter/sanity-atoms/fragments/image";
+import { customUrlFragment } from "@workspace/sanity-atoms/fragments/custom-url";
+import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
+import { richTextFragment } from "@workspace/sanity-atoms/fragments/rich-text";
+import { imageFragment } from "@workspace/sanity-atoms/fragments/image";
 
 export const imageLinkCardsFragment = /* groq */ `
   _type == "imageLinkCards" => {
@@ -88,7 +88,7 @@ const subscribeNewsletterBlock = /* groq */ `
 
 ### In packages/sanity-blocks/src/subscribe-newsletter.fragment.ts
 ```typescript
-import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
+import { customUrlFragment } from "@workspace/sanity-atoms/fragments/custom-url";
 
 export const subscribeNewsletterFragment = /* groq */ `
   _type == "subscribeNewsletter" => {
@@ -158,7 +158,7 @@ const featureCardsIconBlock = /* groq */ `
 
 ### In packages/sanity-blocks/src/feature-cards-icon.fragment.ts
 ```typescript
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { richTextFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 
 export const featureCardsIconFragment = /* groq */ `
   _type == "featureCardsIcon" => {

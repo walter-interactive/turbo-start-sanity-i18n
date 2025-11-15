@@ -7,7 +7,7 @@
 
 ## Summary
 
-Migrate all remaining Sanity schema definitions (atoms: button, customUrl; blocks: faqAccordion, featureCardsIcon, imageLinkCards, subscribeNewsletter) from `apps/template-studio` to the monorepo shared packages (`@walter/sanity-atoms`, `@walter/sanity-blocks`). This completes the schema migration started in spec 008, enabling reusability across multiple Sanity Studio instances while following established patterns for schema/fragment organization.
+Migrate all remaining Sanity schema definitions (atoms: button, customUrl; blocks: faqAccordion, featureCardsIcon, imageLinkCards, subscribeNewsletter) from `apps/template-studio` to the monorepo shared packages (`@workspace/sanity-atoms`, `@workspace/sanity-blocks`). This completes the schema migration started in spec 008, enabling reusability across multiple Sanity Studio instances while following established patterns for schema/fragment organization.
 
 ## Technical Context
 
@@ -32,7 +32,7 @@ Migrate all remaining Sanity schema definitions (atoms: button, customUrl; block
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
 ### Principle I: Monorepo Structure & Boundaries
-✅ **PASS** - Migration moves schemas to workspace packages (`@walter/sanity-atoms`, `@walter/sanity-blocks`) with explicit workspace protocol dependencies. Cross-workspace imports will use published package exports (`@walter/sanity-atoms/schemas`), not direct file references.
+✅ **PASS** - Migration moves schemas to workspace packages (`@workspace/sanity-atoms`, `@workspace/sanity-blocks`) with explicit workspace protocol dependencies. Cross-workspace imports will use published package exports (`@workspace/sanity-atoms/schemas`), not direct file references.
 
 ### Principle II: TypeScript Strict Mode & Type Safety
 ✅ **PASS** - All workspaces use TypeScript 5.9.2 with strict mode. Migration preserves existing type definitions, imports will be type-safe across packages. No use of `any` type.
@@ -126,7 +126,7 @@ apps/template-studio/
 └── package.json                 # EXISTING (already has workspace deps)
 ```
 
-**Structure Decision**: Monorepo workspace package structure. Atoms are primitive reusable types with no dependencies, stored in `@walter/sanity-atoms`. Blocks are complex page builder components that depend on atoms, stored in `@walter/sanity-blocks`. Template-studio consumes both packages via workspace protocol dependencies. This follows the established pattern from spec 007/008.
+**Structure Decision**: Monorepo workspace package structure. Atoms are primitive reusable types with no dependencies, stored in `@workspace/sanity-atoms`. Blocks are complex page builder components that depend on atoms, stored in `@workspace/sanity-blocks`. Template-studio consumes both packages via workspace protocol dependencies. This follows the established pattern from spec 007/008.
 
 **Utility Extraction Decision** (from spec clarifications): Apply the **3+ usage criterion** - extract utility functions to shared packages ONLY if 3 or more schemas use the SAME function signature and implementation; otherwise inline the utility in each schema. This balances code reuse (DRY principle) with avoiding premature abstraction. Examples: `buttonsFieldSchema` (3+ usages) → extracted to sanity-atoms; `iconField` (1 usage) → inlined in featureCardsIcon; `capitalize`, `isValidUrl` (<3 usages) → inlined where needed.
 

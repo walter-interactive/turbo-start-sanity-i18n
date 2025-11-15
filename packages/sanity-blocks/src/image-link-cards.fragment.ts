@@ -1,6 +1,6 @@
-import { buttonsFragment } from '@walter/sanity-atoms/fragments/buttons'
-import { imageFragment } from '@walter/sanity-atoms/fragments/image'
-import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
+import { buttonsFragment } from '@workspace/sanity-atoms/fragments/buttons'
+import { imageFragment } from '@workspace/sanity-atoms/fragments/image'
+import { richTextFragment } from '@workspace/sanity-atoms/fragments/rich-text'
 
 export const imageLinkCardsFragment = /* groq */ `
   _type == "imageLinkCards" => {

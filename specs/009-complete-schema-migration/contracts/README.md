@@ -28,14 +28,14 @@ import {
   buttonFragment,
   customUrlFragment,
   richTextFragment
-} from '@walter/sanity-atoms/fragments'
+} from '@workspace/sanity-atoms/fragments'
 
 import {
   faqAccordionFragment,
   featureCardsIconFragment,
   imageLinkCardsFragment,
   subscribeNewsletterFragment
-} from '@walter/sanity-blocks/fragments'
+} from '@workspace/sanity-blocks/fragments'
 ```
 
 ## Testing

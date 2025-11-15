@@ -42,17 +42,17 @@
 ### ✓ Already Using Package Imports (Correct)
 
 ```typescript
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaBlock } from "@walter/sanity-blocks/fragments/cta";
-import { faqSectionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
+import { ctaBlock } from "@workspace/sanity-blocks/fragments/cta";
+import { faqSectionFragment } from "@workspace/sanity-blocks/fragments/faq-accordion";
+import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
+import { richTextFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 ```
 
 ### ❌ Commented Out (Could Be Used)
 
 ```typescript
-// import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
+// import { imageFields, imageFragment } from "@workspace/sanity-atoms/fragments/image";
 ```
 
 Reason: Defined locally in query.ts instead (duplicate)
@@ -98,7 +98,7 @@ packages/sanity-blocks/src/
 
 **Total:** 6 blocks with 6 fragments
 **Has index.ts:** NO
-**Imports:** Must use full path: `@walter/sanity-blocks/fragments/hero-section`
+**Imports:** Must use full path: `@workspace/sanity-blocks/fragments/hero-section`
 
 ### sanity-atoms Structure
 ```
@@ -117,7 +117,7 @@ packages/sanity-atoms/src/
 
 **Total:** 4+ atoms with 5+ fragments
 **Has index.ts:** NO
-**Imports:** Must use full path: `@walter/sanity-atoms/fragments/buttons`
+**Imports:** Must use full path: `@workspace/sanity-atoms/fragments/buttons`
 
 ### template-web Current Structure
 ```
@@ -176,7 +176,7 @@ apps/template-web/src/lib/sanity/
 ### Tier 4: Optional Organization Improvements (NICE TO HAVE)
 
 6. **Create index.ts files** in packages for barrel exports
-   - Allows: `import { heroSectionFragment } from '@walter/sanity-blocks'`
+   - Allows: `import { heroSectionFragment } from '@workspace/sanity-blocks'`
    - Current limitation: Must use full path imports
    - Action: Add index.ts files to both packages
 
@@ -192,7 +192,7 @@ apps/template-web/src/lib/sanity/
 - [ ] **Tier 1: Remove Duplicates**
   - [ ] Delete local `imageFields` from query.ts
   - [ ] Delete local `imageFragment` from query.ts
-  - [ ] Uncomment import from `@walter/sanity-atoms/fragments/image`
+  - [ ] Uncomment import from `@workspace/sanity-atoms/fragments/image`
   - [ ] Test that imports work
   
   - [ ] Analyze `imageLinkCardsBlock` vs `imageLinkCardsFragment` differences

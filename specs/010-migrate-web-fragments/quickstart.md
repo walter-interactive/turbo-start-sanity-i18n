@@ -6,7 +6,7 @@
 
 ## Overview
 
-This guide walks through the complete migration process for moving query fragments from `apps/template-web` to shared packages (`@walter/sanity-blocks` and `@walter/sanity-atoms`).
+This guide walks through the complete migration process for moving query fragments from `apps/template-web` to shared packages (`@workspace/sanity-blocks` and `@workspace/sanity-atoms`).
 
 **Time Estimate**: 2-3 hours (includes testing and verification)
 
@@ -175,9 +175,9 @@ export const imageLinkCardsFragment = /* groq */ `
 
 **Update to** (template-web version - more defensive):
 ```typescript
-import { imageFragment } from "@walter/sanity-atoms/fragments/image";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { imageFragment } from "@workspace/sanity-atoms/fragments/image";
+import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
+import { richTextFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 
 export const imageLinkCardsFragment = /* groq */ `
   _type == "imageLinkCards" => {
@@ -288,27 +288,27 @@ export const richTextFragment = /* groq */ `
 
 **Before**:
 ```typescript
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaBlock } from "@walter/sanity-blocks/fragments/cta";
-import { faqSectionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
+import { ctaBlock } from "@workspace/sanity-blocks/fragments/cta";
+import { faqSectionFragment } from "@workspace/sanity-blocks/fragments/faq-accordion";
+import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
+import { richTextFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 
 // Local fragments defined below...
 ```
 
 **After**:
 ```typescript
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaFragment } from "@walter/sanity-blocks/fragments/cta";  // ← renamed
-import { faqAccordionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
-import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";  // ← NEW
-import { subscribeNewsletterFragment } from "@walter/sanity-blocks/fragments/subscribe-newsletter";  // ← NEW
-import { featureCardsIconFragment } from "@walter/sanity-blocks/fragments/feature-cards-icon";  // ← NEW
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
+import { ctaFragment } from "@workspace/sanity-blocks/fragments/cta";  // ← renamed
+import { faqAccordionFragment } from "@workspace/sanity-blocks/fragments/faq-accordion";
+import { imageLinkCardsFragment } from "@workspace/sanity-blocks/fragments/image-link-cards";  // ← NEW
+import { subscribeNewsletterFragment } from "@workspace/sanity-blocks/fragments/subscribe-newsletter";  // ← NEW
+import { featureCardsIconFragment } from "@workspace/sanity-blocks/fragments/feature-cards-icon";  // ← NEW
 
-import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment, customLinkFragment, markDefsFragment } from "@walter/sanity-atoms/fragments/rich-text";  // ← Added customLinkFragment, markDefsFragment
+import { imageFields, imageFragment } from "@workspace/sanity-atoms/fragments/image";
+import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
+import { richTextFragment, customLinkFragment, markDefsFragment } from "@workspace/sanity-atoms/fragments/rich-text";  // ← Added customLinkFragment, markDefsFragment
 
 import { translationsFragment } from "./i18n";
 ```
@@ -492,7 +492,7 @@ pnpm build
 
 ```markdown
 ## Recent Changes
-- 010-migrate-web-fragments: Migrated query fragments from template-web to shared packages (@walter/sanity-blocks, @walter/sanity-atoms). All schema-coupled fragments now co-located with schemas. Exposed previously hidden fragments (customLinkFragment, markDefsFragment) as public API.
+- 010-migrate-web-fragments: Migrated query fragments from template-web to shared packages (@workspace/sanity-blocks, @workspace/sanity-atoms). All schema-coupled fragments now co-located with schemas. Exposed previously hidden fragments (customLinkFragment, markDefsFragment) as public API.
 ```
 
 ### Step 8.2: Create Completion Notes
@@ -531,7 +531,7 @@ Successfully migrated all query fragments from template-web to shared packages. 
 
 ### Issue: TypeScript Import Errors
 
-**Symptom**: `Cannot find module '@walter/sanity-blocks/fragments/...'`
+**Symptom**: `Cannot find module '@workspace/sanity-blocks/fragments/...'`
 
 **Solution**:
 1. Verify package.json exports field includes `"./fragments/*": "./src/*.fragment.ts"`

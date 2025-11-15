@@ -1,19 +1,19 @@
 // ============================================================================
-// Shared Atoms (from @walter/sanity-atoms)
+// Shared Atoms (from @workspace/sanity-atoms)
 // ============================================================================
-import { buttonSchema } from '@walter/sanity-atoms/schemas/button'
-import { buttonsGroupSchema } from '@walter/sanity-atoms/schemas/buttons'
-import { customUrlSchema } from '@walter/sanity-atoms/schemas/custom-url'
-import { richText } from '@walter/sanity-atoms/schemas/rich-text'
+import { buttonSchema } from '@workspace/sanity-atoms/schemas/button'
+import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas/buttons'
+import { customUrlSchema } from '@workspace/sanity-atoms/schemas/custom-url'
+import { richText } from '@workspace/sanity-atoms/schemas/rich-text'
 // ============================================================================
-// Shared Blocks (from @walter/sanity-blocks)
+// Shared Blocks (from @workspace/sanity-blocks)
 // ============================================================================
-import { ctaSchema } from '@walter/sanity-blocks/schemas/cta'
-import { faqAccordionSchema } from '@walter/sanity-blocks/schemas/faq-accordion'
-import { featureCardsIconSchema } from '@walter/sanity-blocks/schemas/feature-cards-icon'
-import { heroSectionSchema } from '@walter/sanity-blocks/schemas/hero-section'
-import { imageLinkCardsSchema } from '@walter/sanity-blocks/schemas/image-link-cards'
-import { subscribeNewsletterSchema } from '@walter/sanity-blocks/schemas/subscribe-newsletter'
+import { ctaSchema } from '@workspace/sanity-blocks/schemas/cta'
+import { faqAccordionSchema } from '@workspace/sanity-blocks/schemas/faq-accordion'
+import { featureCardsIconSchema } from '@workspace/sanity-blocks/schemas/feature-cards-icon'
+import { heroSectionSchema } from '@workspace/sanity-blocks/schemas/hero-section'
+import { imageLinkCardsSchema } from '@workspace/sanity-blocks/schemas/image-link-cards'
+import { subscribeNewsletterSchema } from '@workspace/sanity-blocks/schemas/subscribe-newsletter'
 // ============================================================================
 // Collections (multi-instance documents)
 // ============================================================================

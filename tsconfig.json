@@ -4,16 +4,16 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
-      "@walter/sanity-atoms/schemas/*": [
+      "@workspace/sanity-atoms/schemas/*": [
         "./packages/sanity-atoms/src/*.schema.ts"
       ],
-      "@walter/sanity-atoms/fragments/*": [
+      "@workspace/sanity-atoms/fragments/*": [
         "./packages/sanity-atoms/src/*.fragment.ts"
       ],
-      "@walter/sanity-blocks/schemas/*": [
+      "@workspace/sanity-blocks/schemas/*": [
         "./packages/sanity-blocks/src/*.schema.ts"
       ],
-      "@walter/sanity-blocks/fragments/*": [
+      "@workspace/sanity-blocks/fragments/*": [
         "./packages/sanity-blocks/src/*.fragment.ts"
       ]
     }

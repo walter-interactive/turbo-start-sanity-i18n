@@ -6,7 +6,7 @@
 
 ## Overview
 
-This guide walks through migrating Sanity schema definitions from `apps/template-studio` to shared workspace packages (`@walter/sanity-atoms`, `@walter/sanity-blocks`) following the established pattern from spec 007/008.
+This guide walks through migrating Sanity schema definitions from `apps/template-studio` to shared workspace packages (`@workspace/sanity-atoms`, `@workspace/sanity-blocks`) following the established pattern from spec 007/008.
 
 ## Quick Reference
 
@@ -87,7 +87,7 @@ export const buttonSchema = defineType({ ... })
 **Target**: `packages/sanity-atoms/src/button.fragment.ts`
 
 ```typescript
-import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
+import { customUrlFragment } from "@workspace/sanity-atoms/fragments/custom-url";
 
 export const buttonFragment = /* groq */ `
   variant,
@@ -188,8 +188,8 @@ export const customUrlFragment = /* groq */ `
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@walter/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"],
-      "@walter/sanity-atoms/fragments/*": ["./packages/sanity-atoms/src/*.fragment.ts"]
+      "@workspace/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"],
+      "@workspace/sanity-atoms/fragments/*": ["./packages/sanity-atoms/src/*.fragment.ts"]
     }
   }
 }
@@ -201,7 +201,7 @@ export const customUrlFragment = /* groq */ `
 
 ```bash
 # Type check
-pnpm --filter @walter/sanity-atoms check-types
+pnpm --filter @workspace/sanity-atoms check-types
 
 # Should output: No errors
 ```
@@ -225,7 +225,7 @@ pnpm --filter @walter/sanity-atoms check-types
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
+import { customRichText } from "@workspace/sanity-atoms/schemas/rich-text";
 ```
 
 3. Rename export:
@@ -277,7 +277,7 @@ fields: [
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
+import { customRichText } from "@workspace/sanity-atoms/schemas/rich-text";
 ```
 
 4. Rename export:
@@ -300,8 +300,8 @@ import { buttonsField } from "../common";
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import { buttonsFieldSchema } from "@walter/sanity-atoms/schemas/buttons";
-import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
+import { buttonsFieldSchema } from "@workspace/sanity-atoms/schemas/buttons";
+import { customRichText } from "@workspace/sanity-atoms/schemas/rich-text";
 ```
 
 3. Update field reference:
@@ -332,7 +332,7 @@ export const imageLinkCardsSchema = defineType({ ... })
 import { customRichText } from "../definitions/rich-text";
 
 // After
-import { customRichText } from "@walter/sanity-atoms/schemas/rich-text";
+import { customRichText } from "@workspace/sanity-atoms/schemas/rich-text";
 ```
 
 3. Rename export:
@@ -352,7 +352,7 @@ export const subscribeNewsletterSchema = defineType({ ... })
 
 **Pattern** (example for faqAccordion):
 ```typescript
-import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
+import { customUrlFragment } from "@workspace/sanity-atoms/fragments/custom-url";
 
 export const faqAccordionFragment = /* groq */ `
   _type == "faqAccordion" => {
@@ -373,13 +373,13 @@ export const faqAccordionFragment = /* groq */ `
 `;
 ```
 
-**Note**: Always use direct file imports with wildcard pattern (e.g., `@walter/sanity-atoms/fragments/custom-url`), never barrel exports.
+**Note**: Always use direct file imports with wildcard pattern (e.g., `@workspace/sanity-atoms/fragments/custom-url`), never barrel exports.
 
 #### 2.6 Verify Block Migration
 
 ```bash
 # Type check
-pnpm --filter @walter/sanity-blocks check-types
+pnpm --filter @workspace/sanity-blocks check-types
 
 # Should output: No errors
 ```
@@ -404,8 +404,8 @@ export const definitions = [
 ];
 
 // After
-import { buttonSchema } from "@walter/sanity-atoms/schemas/button";
-import { customUrlSchema } from "@walter/sanity-atoms/schemas/custom-url";
+import { buttonSchema } from "@workspace/sanity-atoms/schemas/button";
+import { customUrlSchema } from "@workspace/sanity-atoms/schemas/custom-url";
 
 export const definitions = [
   buttonSchema,
@@ -435,12 +435,12 @@ export const pageBuilderBlocks = [
 ];
 
 // After
-import { heroSectionSchema } from "@walter/sanity-blocks/schemas/hero-section";
-import { ctaSchema } from "@walter/sanity-blocks/schemas/cta";
-import { faqAccordionSchema } from "@walter/sanity-blocks/schemas/faq-accordion";
-import { featureCardsIconSchema } from "@walter/sanity-blocks/schemas/feature-cards-icon";
-import { imageLinkCardsSchema } from "@walter/sanity-blocks/schemas/image-link-cards";
-import { subscribeNewsletterSchema } from "@walter/sanity-blocks/schemas/subscribe-newsletter";
+import { heroSectionSchema } from "@workspace/sanity-blocks/schemas/hero-section";
+import { ctaSchema } from "@workspace/sanity-blocks/schemas/cta";
+import { faqAccordionSchema } from "@workspace/sanity-blocks/schemas/faq-accordion";
+import { featureCardsIconSchema } from "@workspace/sanity-blocks/schemas/feature-cards-icon";
+import { imageLinkCardsSchema } from "@workspace/sanity-blocks/schemas/image-link-cards";
+import { subscribeNewsletterSchema } from "@workspace/sanity-blocks/schemas/subscribe-newsletter";
 
 export const pageBuilderBlocks = [
   heroSectionSchema,
@@ -566,7 +566,7 @@ pnpm --filter template-studio dev
 
 ## Common Issues & Solutions
 
-### Issue: "Cannot find module '@walter/sanity-atoms/schemas/button'"
+### Issue: "Cannot find module '@workspace/sanity-atoms/schemas/button'"
 
 **Cause**: Package not installed, TypeScript not resolving workspace dependencies, or wildcard paths not configured
 
@@ -576,12 +576,12 @@ pnpm --filter template-studio dev
 pnpm install
 
 # Verify package.json has workspace dependency
-cat apps/template-studio/package.json | grep "@walter/sanity-atoms"
-# Should show: "@walter/sanity-atoms": "workspace:*"
+cat apps/template-studio/package.json | grep "@workspace/sanity-atoms"
+# Should show: "@workspace/sanity-atoms": "workspace:*"
 
 # Verify tsconfig.json has wildcard path mappings
-cat tsconfig.json | grep "@walter/sanity-atoms/schemas"
-# Should show: "@walter/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"]
+cat tsconfig.json | grep "@workspace/sanity-atoms/schemas"
+# Should show: "@workspace/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"]
 ```
 
 ---
@@ -596,7 +596,7 @@ cat tsconfig.json | grep "@walter/sanity-atoms/schemas"
 export const buttonSchema = defineType({ name: "button", ... })
 
 // In template-studio (use direct file import)
-import { buttonSchema } from "@walter/sanity-atoms/schemas/button"
+import { buttonSchema } from "@workspace/sanity-atoms/schemas/button"
 ```
 
 ---
@@ -641,7 +641,7 @@ export const pagebuilder = defineType({
 After completing migration:
 
 1. **Update Frontend Queries** (`apps/template-web`):
-   - Import fragments using direct file imports (e.g., `@walter/sanity-atoms/fragments/custom-url`, `@walter/sanity-blocks/fragments/faq-accordion`)
+   - Import fragments using direct file imports (e.g., `@workspace/sanity-atoms/fragments/custom-url`, `@workspace/sanity-blocks/fragments/faq-accordion`)
    - Update pageBuilder query to include new block fragments
 
 2. **Create Frontend Components** (if not exists):
@@ -673,8 +673,8 @@ pnpm --filter template-studio type
 ## Success Criteria
 
 Migration is complete when:
-- ✅ All 2 atom schemas migrated to `@walter/sanity-atoms`
-- ✅ All 4 block schemas migrated to `@walter/sanity-blocks`
+- ✅ All 2 atom schemas migrated to `@workspace/sanity-atoms`
+- ✅ All 4 block schemas migrated to `@workspace/sanity-blocks`
 - ✅ All 6 fragments created (2 atoms + 4 blocks)
 - ✅ Template-studio imports from packages (no local files)
 - ✅ All duplicate files deleted

@@ -7,7 +7,7 @@
  * collect email addresses for marketing campaigns.
  */
 
-import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { customRichText } from '@workspace/sanity-atoms/schemas/rich-text'
 import { Mail } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 

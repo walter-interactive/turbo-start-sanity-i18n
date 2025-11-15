@@ -7,8 +7,8 @@
  * user engagement or conversions.
  */
 
-import { buttonsGroupSchema } from '@walter/sanity-atoms/schemas/buttons'
-import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas/buttons'
+import { customRichText } from '@workspace/sanity-atoms/schemas/rich-text'
 import { PhoneIcon } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 

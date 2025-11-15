@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "module": "ESNext",
     "paths": {
-      "@walter/sanity-atoms/*": ["./src/*"]
+      "@workspace/sanity-atoms/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],

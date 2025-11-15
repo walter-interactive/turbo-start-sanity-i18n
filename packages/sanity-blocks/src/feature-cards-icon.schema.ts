@@ -7,7 +7,7 @@
  * organized layout.
  */
 
-import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { customRichText } from '@workspace/sanity-atoms/schemas/rich-text'
 import { LayoutGrid } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 import { preview } from 'sanity-plugin-icon-picker'

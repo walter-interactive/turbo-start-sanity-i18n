@@ -422,11 +422,11 @@ const ogFieldsFragment = /* groq */ `
 
 **Usage Pattern** (template-web/query.ts:3-8):
 ```typescript
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaBlock } from "@walter/sanity-blocks/fragments/cta";
-import { faqSectionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
+import { ctaBlock } from "@workspace/sanity-blocks/fragments/cta";
+import { faqSectionFragment } from "@workspace/sanity-blocks/fragments/faq-accordion";
+import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
+import { richTextFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 ```
 
 **Analysis**:
@@ -549,7 +549,7 @@ All fragment imports in template-web/query.ts must change from local to shared p
 const imageLinkCardsBlock = /* groq */ `...`;
 
 // AFTER
-import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";
+import { imageLinkCardsFragment } from "@workspace/sanity-blocks/fragments/image-link-cards";
 ```
 
 ---

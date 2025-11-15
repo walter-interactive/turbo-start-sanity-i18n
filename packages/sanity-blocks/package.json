@@ -1,5 +1,5 @@
 {
-  "name": "@walter/sanity-blocks",
+  "name": "@workspace/sanity-blocks",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -13,7 +13,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@walter/sanity-atoms": "workspace:*"
+    "@workspace/sanity-atoms": "workspace:*"
   },
   "peerDependencies": {
     "@sanity/icons": "^3.6.0",

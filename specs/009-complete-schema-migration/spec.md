@@ -23,12 +23,12 @@ As a developer working on the monorepo, I need all reusable atom definitions (bu
 
 **Why this priority**: Atoms are the foundational building blocks referenced by all blocks. They must be migrated first to avoid circular dependencies and ensure blocks can properly reference them.
 
-**Independent Test**: Create a new Sanity project, add `@walter/sanity-atoms` as a dependency, import and use the `button` and `customUrl` schemas, and verify they work in the Sanity Studio interface.
+**Independent Test**: Create a new Sanity project, add `@workspace/sanity-atoms` as a dependency, import and use the `button` and `customUrl` schemas, and verify they work in the Sanity Studio interface.
 
 **Acceptance Scenarios**:
 
 1. **Given** template-studio has `button.ts` and `custom-url.ts` definitions, **When** migration completes, **Then** both schemas exist in `packages/sanity-atoms/src/` with `.schema.ts` suffix and matching fragments in `.fragment.ts` files
-2. **Given** atoms are migrated to the package, **When** template-studio imports them from `@walter/sanity-atoms/schemas`, **Then** all blocks and documents using these atoms continue to function without errors
+2. **Given** atoms are migrated to the package, **When** template-studio imports them from `@workspace/sanity-atoms/schemas`, **Then** all blocks and documents using these atoms continue to function without errors
 3. **Given** button and customUrl schemas are in the shared package, **When** a developer runs type checking, **Then** all TypeScript types resolve correctly across workspace boundaries
 4. **Given** atom schemas include helper utilities (like `createRadioListLayout`), **When** migrating to the package, **Then** utilities used by 3+ schemas are extracted to the package; utilities used by fewer than 3 schemas are inlined directly in each schema
 
@@ -45,10 +45,10 @@ As a content editor, I need all page builder blocks (FAQ accordion, feature card
 **Acceptance Scenarios**:
 
 1. **Given** template-studio has 4 unmigrated blocks (faqAccordion, featureCardsIcon, imageLinkCards, subscribeNewsletter), **When** migration completes, **Then** all 4 blocks exist in `packages/sanity-blocks/src/` with both `.schema.ts` and `.fragment.ts` files
-2. **Given** blocks reference atoms like `customUrl` and `button`, **When** blocks are migrated, **Then** they import atom definitions from `@walter/sanity-atoms/schemas/*` (direct file imports, e.g., `@walter/sanity-atoms/schemas/buttons`) instead of local paths
+2. **Given** blocks reference atoms like `customUrl` and `button`, **When** blocks are migrated, **Then** they import atom definitions from `@workspace/sanity-atoms/schemas/*` (direct file imports, e.g., `@workspace/sanity-atoms/schemas/buttons`) instead of local paths
 3. **Given** blocks use shared utilities like `iconField` from `common.ts`, **When** migration completes, **Then** utilities used by 3+ schemas are extracted to packages; utilities used by fewer than 3 schemas are inlined in each block that needs them
 4. **Given** faqAccordion.schema.ts exists but is empty in the package, **When** migration completes, **Then** it contains the complete schema from template-studio with all fields and validation rules
-5. **Given** all blocks are migrated, **When** template-studio imports blocks from `@walter/sanity-blocks/schemas/*` (direct file imports), **Then** pageBuilder array displays all 6 blocks (hero, CTA, FAQ, features, image cards, newsletter)
+5. **Given** all blocks are migrated, **When** template-studio imports blocks from `@workspace/sanity-blocks/schemas/*` (direct file imports), **Then** pageBuilder array displays all 6 blocks (hero, CTA, FAQ, features, image cards, newsletter)
 
 ---
 
@@ -58,12 +58,12 @@ As a frontend developer, I need GROQ query fragments for all migrated blocks so 
 
 **Why this priority**: Fragments enable efficient data fetching but aren't required for Studio functionality. They can be added after schemas are working.
 
-**Independent Test**: Import `allBlockFragments` from `@walter/sanity-blocks/fragments`, use it in a GROQ query to fetch page content, and verify the response includes complete data for all block types with no missing fields.
+**Independent Test**: Import `allBlockFragments` from `@workspace/sanity-blocks/fragments`, use it in a GROQ query to fetch page content, and verify the response includes complete data for all block types with no missing fields.
 
 **Acceptance Scenarios**:
 
 1. **Given** blocks are migrated to the package, **When** fragment files are created, **Then** each block has a corresponding `.fragment.ts` file exporting a GROQ fragment string
-2. **Given** fragments reference atom fragments (like `buttonsFragment`), **When** block fragments are written, **Then** they import and compose atom fragments from `@walter/sanity-atoms/fragments/*` (direct file imports, e.g., `@walter/sanity-atoms/fragments/buttons`)
+2. **Given** fragments reference atom fragments (like `buttonsFragment`), **When** block fragments are written, **Then** they import and compose atom fragments from `@workspace/sanity-atoms/fragments/*` (direct file imports, e.g., `@workspace/sanity-atoms/fragments/buttons`)
 3. **Given** all block fragments exist, **When** developers import fragments, **Then** each fragment is imported directly from its source file (no barrel exports)
 4. **Given** a GROQ query uses block fragments, **When** data is fetched from Sanity, **Then** nested fields (buttons, customUrl, rich text) are fully populated with no undefined values
 
@@ -79,8 +79,8 @@ As a developer maintaining code quality, I need template-studio to import all mi
 
 **Acceptance Scenarios**:
 
-1. **Given** schemas are migrated to packages, **When** template-studio/schemaTypes/definitions/index.ts is updated, **Then** it imports `buttonSchema` from `@walter/sanity-atoms/schemas/button` and `customUrlSchema` from `@walter/sanity-atoms/schemas/custom-url` (direct file imports) instead of local files
-2. **Given** schemas are migrated to packages, **When** template-studio/schemaTypes/blocks/index.ts is updated, **Then** it imports all 6 blocks from `@walter/sanity-blocks/schemas/*` (direct file imports, e.g., `@walter/sanity-blocks/schemas/hero-section`)
+1. **Given** schemas are migrated to packages, **When** template-studio/schemaTypes/definitions/index.ts is updated, **Then** it imports `buttonSchema` from `@workspace/sanity-atoms/schemas/button` and `customUrlSchema` from `@workspace/sanity-atoms/schemas/custom-url` (direct file imports) instead of local files
+2. **Given** schemas are migrated to packages, **When** template-studio/schemaTypes/blocks/index.ts is updated, **Then** it imports all 6 blocks from `@workspace/sanity-blocks/schemas/*` (direct file imports, e.g., `@workspace/sanity-blocks/schemas/hero-section`)
 3. **Given** imports are updated, **When** local duplicate files are deleted, **Then** the following files are removed: `definitions/button.ts`, `definitions/custom-url.ts`, `blocks/faq-accordion.ts`, `blocks/feature-cards-icon.ts`, `blocks/image-link-cards.ts`, `blocks/subscribe-newsletter.ts`
 4. **Given** duplicate files are removed, **When** `pnpm check-types` runs at workspace root, **Then** all type checking passes with no errors
 5. **Given** migration is complete, **When** developer runs `pnpm --filter template-studio dev`, **Then** Sanity Studio starts without errors and all blocks appear correctly in the UI
@@ -99,7 +99,7 @@ As a developer maintaining code quality, I need template-studio to import all mi
   *The pagebuilder definition remains in template-studio as a Studio-specific registry. Each Studio instance can choose which blocks to enable by importing them from the shared packages. The shared packages provide block definitions; the Studio decides which to use.*
 
 - **How does the system handle blocks that import from relative paths** like `../common` or `../definitions/rich-text`?  
-  *All relative imports to local template-studio files must be replaced with package imports (e.g., `@walter/sanity-atoms/schemas`) or made workspace-local if the dependency is Studio-specific.*
+  *All relative imports to local template-studio files must be replaced with package imports (e.g., `@workspace/sanity-atoms/schemas`) or made workspace-local if the dependency is Studio-specific.*
 
 - **What happens when a GROQ fragment references fields that don't exist** in the corresponding schema?
   *GROQ fragments are treated as developer contracts. Code review and manual testing in Sanity Vision tab are sufficient to verify fragments query valid schema fields. Automated fragment validation is out of scope for this migration.*
@@ -116,10 +116,10 @@ As a developer maintaining code quality, I need template-studio to import all mi
 - **FR-006**: System MUST configure package exports to use wildcard patterns: `"./schemas/*": "./src/*.schema.ts"` and `"./fragments/*": "./src/*.fragment.ts"` (NO barrel exports)
 - **FR-007**: System MUST verify TypeScript path mappings in both root and studio tsconfig.json resolve wildcard patterns correctly (configuration already in place from spec 008)
 - **FR-008**: System MUST remove barrel export files: `schemas.ts` and `fragments.ts` from both packages
-- **FR-009**: System MUST update template-studio imports to use direct file imports (e.g., `@walter/sanity-atoms/schemas/button`) instead of local file paths
+- **FR-009**: System MUST update template-studio imports to use direct file imports (e.g., `@workspace/sanity-atoms/schemas/button`) instead of local file paths
 - **FR-010**: System MUST delete duplicate schema files from template-studio after imports are verified working
-- **FR-011**: Block schemas MUST import atom dependencies from `@walter/sanity-atoms/schemas/*` using direct file paths (e.g., `@walter/sanity-atoms/schemas/buttons`)
-- **FR-012**: Block fragments MUST import and compose atom fragments from `@walter/sanity-atoms/fragments/*` using direct file paths (e.g., `@walter/sanity-atoms/fragments/buttons`)
+- **FR-011**: Block schemas MUST import atom dependencies from `@workspace/sanity-atoms/schemas/*` using direct file paths (e.g., `@workspace/sanity-atoms/schemas/buttons`)
+- **FR-012**: Block fragments MUST import and compose atom fragments from `@workspace/sanity-atoms/fragments/*` using direct file paths (e.g., `@workspace/sanity-atoms/fragments/buttons`)
 - **FR-014**: System MUST verify the `customRichText` helper function is exported from `packages/sanity-atoms/src/rich-text.schema.ts` for use by blocks (already exists from spec 008)
 - **FR-015**: System MUST handle template-studio specific utilities using the 3+ usage criterion: extract to packages ONLY if 3 or more schemas use identical function signature and implementation; otherwise inline the utility in each schema that needs it
 
@@ -135,7 +135,7 @@ As a developer maintaining code quality, I need template-studio to import all mi
 
 ### Measurable Outcomes
 
-- **SC-001**: Developers can discover and import individual page builder block schemas using direct imports (e.g., `@walter/sanity-blocks/schemas/faq-accordion`) in under 5 seconds of discovery time
+- **SC-001**: Developers can discover and import individual page builder block schemas using direct imports (e.g., `@workspace/sanity-blocks/schemas/faq-accordion`) in under 5 seconds of discovery time
 - **SC-002**: Type validation passes across all workspace packages with zero errors after migration completes
 - **SC-003**: Template-studio development server starts successfully with all blocks appearing in the pageBuilder block menu
 - **SC-004**: Build processes complete successfully for both template-studio and root workspace with no schema-related errors
@@ -156,7 +156,7 @@ As a developer maintaining code quality, I need template-studio to import all mi
 
 ## Dependencies *(optional)*
 
-- **Workspace Protocol**: Packages must use workspace protocol for internal dependencies (e.g., `"@walter/sanity-atoms": "workspace:*"`)
+- **Workspace Protocol**: Packages must use workspace protocol for internal dependencies (e.g., `"@workspace/sanity-atoms": "workspace:*"`)
 - **Previous Migration**: Completion of T001-T054 (spec 008) which migrated hero and CTA blocks and established the package structure
 - **Sanity Plugins**: `sanity-plugin-icon-picker` must remain available for blocks using iconField
 - **TypeScript Configuration**: Workspace TypeScript config must support cross-package type resolution (wildcard path mappings already configured in spec 008)

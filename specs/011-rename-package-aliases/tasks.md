@@ -38,15 +38,15 @@ This feature cannot be delivered incrementally - all changes must be applied ato
   - Command: `git branch --show-current`
   - Expected: `011-rename-package-aliases`
 
-- [ ] T002 Verify clean working tree (no uncommitted changes)
+- [x] T002 Verify clean working tree (no uncommitted changes)
   - Command: `git status`
   - Expected: "nothing to commit, working tree clean"
 
-- [ ] T003 Backup current pnpm-lock.yaml for rollback safety
+- [x] T003 Backup current pnpm-lock.yaml for rollback safety
   - Command: `cp pnpm-lock.yaml pnpm-lock.yaml.backup`
   - File: `/Users/walter-mac/walter-interactive/turbo-start-sanity-i18n/pnpm-lock.yaml`
 
-- [ ] T004 Identify all files requiring updates via grep
+- [x] T004 Identify all files requiring updates via grep
   - Run validation queries from data-model.md to confirm scope:
     - Package identifiers: `grep -r '"name":.*@walter/sanity' --include="package.json"`
     - Dependencies: `grep -r '"@walter/sanity-atoms"\|"@walter/sanity-blocks"' --include="package.json"`
@@ -76,36 +76,36 @@ This feature cannot be delivered incrementally - all changes must be applied ato
 
 #### 2.1 Update Package Identifiers (Entity 1)
 
-- [ ] T005 [US1][US2][US3] Update sanity-atoms package name in packages/sanity-atoms/package.json
+- [x] T005 [US1][US2][US3] Update sanity-atoms package name in packages/sanity-atoms/package.json
   - File: `packages/sanity-atoms/package.json`
   - Change: `"name": "@walter/sanity-atoms"` → `"name": "@workspace/sanity-atoms"`
   - Line: ~2 (package.json "name" field)
 
-- [ ] T006 [US1][US2][US3] Update sanity-blocks package name in packages/sanity-blocks/package.json
+- [x] T006 [US1][US2][US3] Update sanity-blocks package name in packages/sanity-blocks/package.json
   - File: `packages/sanity-blocks/package.json`
   - Change: `"name": "@walter/sanity-blocks"` → `"name": "@workspace/sanity-blocks"`
   - Line: ~2 (package.json "name" field)
 
 #### 2.2 Update Package Dependency References (Entity 2)
 
-- [ ] T007 [US2] Update sanity-blocks dependency on sanity-atoms in packages/sanity-blocks/package.json
+- [x] T007 [US2] Update sanity-blocks dependency on sanity-atoms in packages/sanity-blocks/package.json
   - File: `packages/sanity-blocks/package.json`
   - Change: `"@walter/sanity-atoms": "workspace:*"` → `"@workspace/sanity-atoms": "workspace:*"`
   - Section: `dependencies`
 
-- [ ] T008 [US2] Update template-studio dependencies in apps/template-studio/package.json
+- [x] T008 [US2] Update template-studio dependencies in apps/template-studio/package.json
   - File: `apps/template-studio/package.json`
   - Change: Both `@walter/sanity-atoms` and `@walter/sanity-blocks` → `@workspace/*` versions
   - Section: `dependencies` or `devDependencies`
 
-- [ ] T009 [US2] Update template-web dependencies in apps/template-web/package.json
+- [x] T009 [US2] Update template-web dependencies in apps/template-web/package.json
   - File: `apps/template-web/package.json`
   - Change: Both `@walter/sanity-atoms` and `@walter/sanity-blocks` → `@workspace/*` versions
   - Section: `dependencies` or `devDependencies`
 
 #### 2.3 Update TypeScript Path Mappings (Entity 3)
 
-- [ ] T010 [US3] Update root tsconfig.json path mappings in tsconfig.json
+- [x] T010 [US3] Update root tsconfig.json path mappings in tsconfig.json
   - File: `tsconfig.json` (root)
   - Change: Update all 4 path mappings in `compilerOptions.paths`:
     - `@walter/sanity-atoms/schemas/*` → `@workspace/sanity-atoms/schemas/*`
@@ -113,14 +113,14 @@ This feature cannot be delivered incrementally - all changes must be applied ato
     - `@walter/sanity-blocks/schemas/*` → `@workspace/sanity-blocks/schemas/*`
     - `@walter/sanity-blocks/fragments/*` → `@workspace/sanity-blocks/fragments/*`
 
-- [ ] T011 [US3] Check and update workspace-specific tsconfig.json files (if any have custom overrides)
+- [x] T011 [US3] Check and update workspace-specific tsconfig.json files (if any have custom overrides)
   - Files: Check `apps/template-studio/tsconfig.json`, `apps/template-web/tsconfig.json`, `packages/sanity-atoms/tsconfig.json`, `packages/sanity-blocks/tsconfig.json`
   - Method: Grep for `@walter/sanity-` in each file, update if found
   - Expected: Most likely no custom overrides (root config should be sufficient)
 
 #### 2.4 Update Import Statements (Entity 4)
 
-- [ ] T012 [US1] Bulk find-replace import statements in all TypeScript files
+- [x] T012 [US1] Bulk find-replace import statements in all TypeScript files
   - **Option A (VS Code)**:
     1. Press `Cmd+Shift+F` (Mac) or `Ctrl+Shift+H` (Windows/Linux)
     2. Search: `@walter/sanity-atoms`, Replace: `@workspace/sanity-atoms`, click "Replace All"
@@ -152,54 +152,54 @@ This feature cannot be delivered incrementally - all changes must be applied ato
 
 #### 3.1 Reinstall Dependencies
 
-- [ ] T013 [US2] Reinstall pnpm dependencies to regenerate lockfile and symlinks
+- [x] T013 [US2] Reinstall pnpm dependencies to regenerate lockfile and symlinks
   - Command: `pnpm install`
   - Expected: Success, no errors
   - Validates: pnpm workspace resolution contract
 
-- [ ] T014 [US2] Verify new workspace symlinks exist
+- [x] T014 [US2] Verify new workspace symlinks exist
   - Command: `ls -la node_modules/@workspace/sanity-atoms && ls -la node_modules/@workspace/sanity-blocks`
   - Expected: Both symlinks present
 
-- [ ] T015 [US2] Verify old workspace symlinks are removed
+- [x] T015 [US2] Verify old workspace symlinks are removed
   - Command: `ls node_modules/@walter 2>&1 | grep "No such file or directory"`
   - Expected: Directory does not exist
 
-- [ ] T016 [US2] Verify dependency tree shows new package names
+- [x] T016 [US2] Verify dependency tree shows new package names
   - Command: `pnpm list --depth=0 | grep @workspace/sanity`
   - Expected: Shows `@workspace/sanity-atoms` and `@workspace/sanity-blocks`
 
 #### 3.2 Type Checking & Build Validation
 
-- [ ] T017 [US1][US3] Run type checking across all workspaces
+- [x] T017 [US1][US3] Run type checking across all workspaces
   - Command: `pnpm check-types`
   - Expected: Success with 0 TypeScript errors
   - Validates: All import statements resolve correctly, path mappings work
   - **Success Criteria**: SC-001 (zero TypeScript compilation errors)
 
-- [ ] T018 [US1] Build all workspaces
+- [x] T018 [US1] Build all workspaces
   - Command: `pnpm build`
   - Expected: Success, all workspaces build without errors
   - **Success Criteria**: SC-002 (zero build failures)
 
 #### 3.3 Contract Validation via Grep
 
-- [ ] T019 [US1][US2][US3] Validate package identifiers contract
+- [x] T019 [US1][US2][US3] Validate package identifiers contract
   - Command: `grep -r '"name":.*@walter/sanity' --include="package.json"`
   - Expected: 0 matches (exit code 1)
   - Contract: contracts/package-identifiers.contract.json
 
-- [ ] T020 [US2] Validate package dependencies contract
+- [x] T020 [US2] Validate package dependencies contract
   - Command: `grep -r '"@walter/sanity-atoms"\|"@walter/sanity-blocks"' --include="package.json"`
   - Expected: 0 matches
   - Contract: contracts/package-dependencies.contract.json
 
-- [ ] T021 [US3] Validate TypeScript path mappings contract
+- [x] T021 [US3] Validate TypeScript path mappings contract
   - Command: `grep -r '@walter/sanity-atoms\|@walter/sanity-blocks' --include="tsconfig.json"`
   - Expected: 0 matches
   - Contract: contracts/tsconfig-paths.contract.json
 
-- [ ] T022 [US1] Validate import statements contract
+- [x] T022 [US1] Validate import statements contract
   - Command: `grep -rn '@walter/sanity-atoms\|@walter/sanity-blocks' --include="*.ts" --include="*.tsx" --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=dist`
   - Expected: 0 matches
   - **Success Criteria**: SC-004 (100% of import statements use new alias)
@@ -207,7 +207,7 @@ This feature cannot be delivered incrementally - all changes must be applied ato
 
 #### 3.4 Manual IDE Test
 
-- [ ] T023 [US3] Test IDE autocomplete with new aliases
+- [x] T023 [US3] Test IDE autocomplete with new aliases
   - File: Any TypeScript file (e.g., `apps/template-studio/schemaTypes/index.ts`)
   - Action: Start typing `import { imageSchema } from '@workspace/`
   - Expected: IDE suggests `@workspace/sanity-atoms/schemas/...` with autocomplete

@@ -13,7 +13,7 @@ This document breaks down the schema migration into actionable tasks organized b
 **Parallelization Opportunities**: 24 tasks can run in parallel (marked with [P])
 **Estimated Duration**: 2-3 hours for full implementation
 
-**⚠️ IMPORTANT ARCHITECTURAL DECISION**: This migration uses **wildcard package exports with direct imports** instead of barrel exports. All imports must reference the actual source file directly (e.g., `@walter/sanity-atoms/schemas/button`), never barrel files. See [research.md Q5](./research.md#q5-should-we-use-barrel-exports-or-direct-file-imports-for-workspace-packages) for full technical details on why this approach was chosen.
+**⚠️ IMPORTANT ARCHITECTURAL DECISION**: This migration uses **wildcard package exports with direct imports** instead of barrel exports. All imports must reference the actual source file directly (e.g., `@workspace/sanity-atoms/schemas/button`), never barrel files. See [research.md Q5](./research.md#q5-should-we-use-barrel-exports-or-direct-file-imports-for-workspace-packages) for full technical details on why this approach was chosen.
 
 ---
 
@@ -39,7 +39,7 @@ This document breaks down the schema migration into actionable tasks organized b
 **Why P1**: Atoms are foundational building blocks referenced by all blocks. They must be migrated first to avoid circular dependencies.
 
 **Independent Test Criteria**:
-- ✅ Create a new Sanity project, add `@walter/sanity-atoms` as dependency
+- ✅ Create a new Sanity project, add `@workspace/sanity-atoms` as dependency
 - ✅ Import and use `button` and `customUrl` schemas
 - ✅ Verify they work in Sanity Studio interface
 
@@ -51,7 +51,7 @@ This document breaks down the schema migration into actionable tasks organized b
 - [x] T008 [US1] In packages/sanity-atoms/src/custom-url.schema.ts, inline isValidUrl helper in validation function
 - [x] T009 [US1] In packages/sanity-atoms/src/custom-url.schema.ts, rename export from `customUrl` to `customUrlSchema`
 - [x] T010 [P] [US1] Create packages/sanity-atoms/src/custom-url.fragment.ts with GROQ fragment (see contracts/atoms.groq)
-- [x] T011 [US1] Run `pnpm --filter @walter/sanity-atoms check-types` to verify customUrl migration
+- [x] T011 [US1] Run `pnpm --filter @workspace/sanity-atoms check-types` to verify customUrl migration
 
 ### T012-T017: Migrate button Atom (Second - Depends on customUrl)
 - [x] T012 [P] [US1] Create packages/sanity-atoms/src/button.schema.ts by copying from apps/template-studio/schemaTypes/definitions/button.ts
@@ -59,17 +59,17 @@ This document breaks down the schema migration into actionable tasks organized b
 - [x] T014 [US1] In packages/sanity-atoms/src/button.schema.ts, rename export from `button` to `buttonSchema`
 - [x] T015 [US1] In packages/sanity-atoms/src/button.schema.ts, verify schema `name` property remains "button"
 - [x] T016 [P] [US1] Create packages/sanity-atoms/src/button.fragment.ts with GROQ fragment composing customUrlFragment (see contracts/atoms.groq)
-- [x] T017 [US1] Run `pnpm --filter @walter/sanity-atoms check-types` to verify button migration
+- [x] T017 [US1] Run `pnpm --filter @workspace/sanity-atoms check-types` to verify button migration
 
 ### T018-T020: Verify Atom Package Exports
 - [ ] T018 [US1] ~~OBSOLETE~~ No barrel exports needed - wildcard pattern configured in package.json
 - [ ] T019 [US1] ~~OBSOLETE~~ No barrel exports needed - wildcard pattern configured in package.json
 - [x] T019a [US1] Delete barrel export files if they exist: `packages/sanity-atoms/src/schemas.ts` and `packages/sanity-atoms/src/fragments.ts` (addresses FR-008)
-- [x] T020 [US1] Run `pnpm --filter @walter/sanity-atoms check-types` to verify all atom exports resolve
+- [x] T020 [US1] Run `pnpm --filter @workspace/sanity-atoms check-types` to verify all atom exports resolve
 - [x] T020a [US1] Verify package.json wildcard exports configured correctly: `"./schemas/*": "./src/*.schema.ts"` and `"./fragments/*": "./src/*.fragment.ts"` in both packages/sanity-atoms/package.json and packages/sanity-blocks/package.json (addresses FR-006)
 
 **Phase 2 Verification** (US1 Independent Test):
-- [x] T021 [US1] Import `buttonSchema` from `@walter/sanity-atoms/schemas/button` and `customUrlSchema` from `@walter/sanity-atoms/schemas/custom-url` in a test file and verify TypeScript resolves types correctly
+- [x] T021 [US1] Import `buttonSchema` from `@workspace/sanity-atoms/schemas/button` and `customUrlSchema` from `@workspace/sanity-atoms/schemas/custom-url` in a test file and verify TypeScript resolves types correctly
 - [x] T022 [US1] Run `pnpm check-types` at workspace root to verify cross-package type resolution
 
 **Parallel Execution** (Phase 2):
@@ -93,26 +93,26 @@ This document breaks down the schema migration into actionable tasks organized b
 
 ### T023-T025: Complete faqAccordion Schema (Currently Empty)
 - [x] T023 [P] [US2] Copy content from apps/template-studio/schemaTypes/blocks/faq-accordion.ts to packages/sanity-blocks/src/faq-accordion.schema.ts
-- [x] T024 [US2] In packages/sanity-blocks/src/faq-accordion.schema.ts, update import to use `customRichText` from `@walter/sanity-atoms/schemas/rich-text` (direct import) - N/A: No richText fields in faqAccordion
+- [x] T024 [US2] In packages/sanity-blocks/src/faq-accordion.schema.ts, update import to use `customRichText` from `@workspace/sanity-atoms/schemas/rich-text` (direct import) - N/A: No richText fields in faqAccordion
 - [x] T025 [US2] In packages/sanity-blocks/src/faq-accordion.schema.ts, rename export from `faqAccordion` to `faqAccordionSchema`
 
 ### T026-T030: Migrate featureCardsIcon Block
 - [x] T026 [P] [US2] Create packages/sanity-blocks/src/feature-cards-icon.schema.ts by copying from apps/template-studio/schemaTypes/blocks/feature-cards-icon.ts
 - [x] T027 [US2] In packages/sanity-blocks/src/feature-cards-icon.schema.ts, remove iconField import and inline definition (7 lines from common.ts)
-- [x] T028 [US2] In packages/sanity-blocks/src/feature-cards-icon.schema.ts, update import to use `customRichText` from `@walter/sanity-atoms/schemas/rich-text` (direct import)
+- [x] T028 [US2] In packages/sanity-blocks/src/feature-cards-icon.schema.ts, update import to use `customRichText` from `@workspace/sanity-atoms/schemas/rich-text` (direct import)
 - [x] T029 [US2] In packages/sanity-blocks/src/feature-cards-icon.schema.ts, rename export from `featureCardsIcon` to `featureCardsIconSchema`
 - [x] T030 [US2] In packages/sanity-blocks/src/feature-cards-icon.schema.ts, verify nested `featureCardIcon` object remains inline (do not extract)
 
 ### T031-T035: Migrate imageLinkCards Block
 - [x] T031 [P] [US2] Create packages/sanity-blocks/src/image-link-cards.schema.ts by copying from apps/template-studio/schemaTypes/blocks/image-link-cards.ts
-- [x] T032 [US2] In packages/sanity-blocks/src/image-link-cards.schema.ts, update imports to use `buttonsFieldSchema` from `@walter/sanity-atoms/schemas/buttons` and `customRichText` from `@walter/sanity-atoms/schemas/rich-text` (direct imports)
+- [x] T032 [US2] In packages/sanity-blocks/src/image-link-cards.schema.ts, update imports to use `buttonsFieldSchema` from `@workspace/sanity-atoms/schemas/buttons` and `customRichText` from `@workspace/sanity-atoms/schemas/rich-text` (direct imports)
 - [x] T033 [US2] In packages/sanity-blocks/src/image-link-cards.schema.ts, replace `buttonsField` reference with `buttonsFieldSchema`
 - [x] T034 [US2] In packages/sanity-blocks/src/image-link-cards.schema.ts, rename export from `imageLinkCards` to `imageLinkCardsSchema`
 - [x] T035 [US2] In packages/sanity-blocks/src/image-link-cards.schema.ts, verify nested `imageLinkCard` object remains inline (do not extract)
 
 ### T036-T039: Migrate subscribeNewsletter Block
 - [x] T036 [P] [US2] Create packages/sanity-blocks/src/subscribe-newsletter.schema.ts by copying from apps/template-studio/schemaTypes/blocks/subscribe-newsletter.ts
-- [x] T037 [US2] In packages/sanity-blocks/src/subscribe-newsletter.schema.ts, update import to use `customRichText` from `@walter/sanity-atoms/schemas/rich-text` (direct import)
+- [x] T037 [US2] In packages/sanity-blocks/src/subscribe-newsletter.schema.ts, update import to use `customRichText` from `@workspace/sanity-atoms/schemas/rich-text` (direct import)
 - [x] T038 [US2] In packages/sanity-blocks/src/subscribe-newsletter.schema.ts, rename export from `subscribeNewsletter` to `subscribeNewsletterSchema`
 - [x] T039 [US2] In packages/sanity-blocks/src/subscribe-newsletter.schema.ts, verify custom richText field names (subTitle, helperText) are preserved
 
@@ -120,10 +120,10 @@ This document breaks down the schema migration into actionable tasks organized b
 - [ ] T040 [US2] ~~OBSOLETE~~ No barrel exports needed - wildcard pattern configured in package.json
 - [ ] T041 [US2] ~~OBSOLETE~~ No barrel exports needed - wildcard pattern configured in package.json
 - [x] T041a [US2] Delete barrel export files if they exist: `packages/sanity-blocks/src/schemas.ts` and `packages/sanity-blocks/src/fragments.ts` (addresses FR-008)
-- [x] T042 [US2] Run `pnpm --filter @walter/sanity-blocks check-types` to verify all block schema exports resolve
+- [x] T042 [US2] Run `pnpm --filter @workspace/sanity-blocks check-types` to verify all block schema exports resolve
 
 **Phase 3 Verification** (US2 Partial - Schemas Only):
-- [x] T043 [US2] Import all 6 block schemas using direct imports (e.g., `@walter/sanity-blocks/schemas/faq-accordion`) in a test file and verify TypeScript resolves types
+- [x] T043 [US2] Import all 6 block schemas using direct imports (e.g., `@workspace/sanity-blocks/schemas/faq-accordion`) in a test file and verify TypeScript resolves types
 - [x] T044 [US2] Run `pnpm check-types` at workspace root to verify cross-package imports work
 
 **Parallel Execution** (Phase 3):
@@ -138,7 +138,7 @@ This document breaks down the schema migration into actionable tasks organized b
 **Why P3**: Fragments enable efficient data fetching but aren't required for Studio functionality. Can be added after schemas are working.
 
 **Independent Test Criteria**:
-- ✅ Import `allBlockFragments` from `@walter/sanity-blocks/fragments`
+- ✅ Import `allBlockFragments` from `@workspace/sanity-blocks/fragments`
 - ✅ Use in GROQ query to fetch page content
 - ✅ Verify response includes complete data for all block types with no missing fields
 
@@ -153,10 +153,10 @@ This document breaks down the schema migration into actionable tasks organized b
 ### T049-T051: Verify Block Package Fragment Exports
 - [ ] T049 [US3] ~~OBSOLETE~~ No barrel exports needed - wildcard pattern configured in package.json
 - [ ] T050 [US3] ~~OBSOLETE~~ No barrel exports needed - wildcard pattern configured in package.json
-- [x] T051 [US3] Run `pnpm --filter @walter/sanity-blocks check-types` to verify fragment exports resolve
+- [x] T051 [US3] Run `pnpm --filter @workspace/sanity-blocks check-types` to verify fragment exports resolve
 
 **Phase 4 Verification** (US3 Independent Test):
-- [x] T052 [US3] Import all 6 block fragments using direct imports (e.g., `@walter/sanity-blocks/fragments/faq-accordion`) and verify they are accessible
+- [x] T052 [US3] Import all 6 block fragments using direct imports (e.g., `@workspace/sanity-blocks/fragments/faq-accordion`) and verify they are accessible
 - [ ] T053 [US3] Manually test GROQ query in Sanity Vision tab using pageBuilderFragment to verify complete data fetching
 
 **Parallel Execution** (Phase 4):
@@ -178,8 +178,8 @@ This document breaks down the schema migration into actionable tasks organized b
 **Tasks**:
 
 ### T054-T056: Update Template-Studio Imports
-- [x] T054 [P] [US4] In apps/template-studio/schemaTypes/definitions/index.ts, replace local imports with `buttonSchema` from `@walter/sanity-atoms/schemas/button` and `customUrlSchema` from `@walter/sanity-atoms/schemas/custom-url` (use direct imports)
-- [x] T055 [P] [US4] In apps/template-studio/schemaTypes/blocks/index.ts, replace local block imports with all 6 schemas using direct imports (e.g., `@walter/sanity-blocks/schemas/faq-accordion`)
+- [x] T054 [P] [US4] In apps/template-studio/schemaTypes/definitions/index.ts, replace local imports with `buttonSchema` from `@workspace/sanity-atoms/schemas/button` and `customUrlSchema` from `@workspace/sanity-atoms/schemas/custom-url` (use direct imports)
+- [x] T055 [P] [US4] In apps/template-studio/schemaTypes/blocks/index.ts, replace local block imports with all 6 schemas using direct imports (e.g., `@workspace/sanity-blocks/schemas/faq-accordion`)
 - [x] T056 [US4] Run `pnpm --filter template-studio check-types` to verify imports resolve correctly
 
 ### T057: Verify Studio Build Before Deletion
@@ -419,7 +419,7 @@ This provides:
 
 ### Issue: Type errors after creating schema files
 
-**Symptom**: TypeScript reports "Cannot find module '@walter/sanity-atoms/schemas/button'"
+**Symptom**: TypeScript reports "Cannot find module '@workspace/sanity-atoms/schemas/button'"
 
 **Solution**:
 1. Verify wildcard pattern is configured in package.json exports: `"./schemas/*": "./src/*.schema.ts"`
@@ -436,7 +436,7 @@ This provides:
 **Symptom**: `pnpm --filter template-studio dev` fails with schema not found
 
 **Solution**:
-1. Verify schema file names match import paths (e.g., `button.schema.ts` → `@walter/sanity-atoms/schemas/button`)
+1. Verify schema file names match import paths (e.g., `button.schema.ts` → `@workspace/sanity-atoms/schemas/button`)
 2. Verify wildcard exports are configured in package.json
 3. Verify package.json has workspace dependency
 4. Check that schema names in `defineType({ name: "button" })` haven't changed
@@ -480,6 +480,6 @@ This provides:
 - Follow quickstart.md for detailed implementation guidance per task
 - Refer to contracts/ directory for exact GROQ fragment syntax
 - Refer to data-model.md for entity definitions and validation rules
-- **CRITICAL**: Always use direct file imports (e.g., `@walter/sanity-atoms/schemas/button`), never barrel exports
+- **CRITICAL**: Always use direct file imports (e.g., `@workspace/sanity-atoms/schemas/button`), never barrel exports
 - Tasks marked ~~OBSOLETE~~ (T018-T019, T040-T041, T049-T050) relate to barrel exports which are not used in this architecture
 - New verification tasks added (T019a, T020a, T041a, T073a) to address coverage gaps identified in /speckit.analyze and ensure complete FR compliance

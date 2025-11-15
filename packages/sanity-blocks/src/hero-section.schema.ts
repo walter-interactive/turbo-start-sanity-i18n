@@ -7,8 +7,8 @@
  * and communicate the primary message immediately upon page load.
  */
 
-import { buttonsGroupSchema } from '@walter/sanity-atoms/schemas/buttons'
-import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas/buttons'
+import { customRichText } from '@workspace/sanity-atoms/schemas/rich-text'
 import { Star } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 

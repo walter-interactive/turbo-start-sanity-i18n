@@ -71,12 +71,12 @@
 
 ### In query.ts (template-web)
 ```typescript
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaBlock } from "@walter/sanity-blocks/fragments/cta";
-import { faqSectionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
-// import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
-import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
-import { richTextFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
+import { ctaBlock } from "@workspace/sanity-blocks/fragments/cta";
+import { faqSectionFragment } from "@workspace/sanity-blocks/fragments/faq-accordion";
+// import { imageFields, imageFragment } from "@workspace/sanity-atoms/fragments/image";
+import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
+import { richTextFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 ```
 
 ### Package Export Patterns (package.json)
@@ -90,8 +90,8 @@ Both packages use the same export strategy:
 ```
 
 This allows imports like:
-- `@walter/sanity-blocks/fragments/hero-section`
-- `@walter/sanity-atoms/fragments/buttons`
+- `@workspace/sanity-blocks/fragments/hero-section`
+- `@workspace/sanity-atoms/fragments/buttons`
 
 ---
 
@@ -270,7 +270,7 @@ Fragments still only in template-web that need new homes:
 
 ### 4. **Import Path Inconsistency**
 
-- Most imports use correct path pattern: `@walter/sanity-blocks/fragments/hero-section`
+- Most imports use correct path pattern: `@workspace/sanity-blocks/fragments/hero-section`
 - One import uses different export name: `ctaBlock` vs expected `ctaFragment`
 
 ---
@@ -327,11 +327,11 @@ Fragments still only in template-web that need new homes:
 ### Import Usage in template-web
 ```typescript
 // This works:
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
 
 // These don't work (no index.ts):
-// import { heroSectionFragment, ctaFragment } from "@walter/sanity-blocks";
-// import { allBlockFragments } from "@walter/sanity-blocks";
+// import { heroSectionFragment, ctaFragment } from "@workspace/sanity-blocks";
+// import { allBlockFragments } from "@workspace/sanity-blocks";
 ```
 
 ---

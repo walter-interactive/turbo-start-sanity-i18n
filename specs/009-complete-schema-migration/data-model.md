@@ -23,7 +23,7 @@ This document defines the data model for all schemas being migrated to shared wo
 ├──────────────────────────────────────────────────────────────┤
 │                                                               │
 │  ┌─────────────────────────────────────────────────┐        │
-│  │   @walter/sanity-atoms (Primitive Types)        │        │
+│  │   @workspace/sanity-atoms (Primitive Types)        │        │
 │  ├─────────────────────────────────────────────────┤        │
 │  │                                                  │        │
 │  │  • button (NEW)                                 │        │
@@ -41,7 +41,7 @@ This document defines the data model for all schemas being migrated to shared wo
 │                          │ imports                           │
 │                          ▼                                    │
 │  ┌─────────────────────────────────────────────────┐        │
-│  │   @walter/sanity-blocks (Complex Types)         │        │
+│  │   @workspace/sanity-blocks (Complex Types)         │        │
 │  ├─────────────────────────────────────────────────┤        │
 │  │                                                  │        │
 │  │  • faqAccordion (TO COMPLETE)                   │        │
@@ -380,8 +380,8 @@ All schemas use TypeScript strict mode:
 
 ### Import Integrity
 
-- All atom imports must resolve to `@walter/sanity-atoms/schemas`
-- All block imports must resolve to `@walter/sanity-atoms/schemas` or `@walter/sanity-blocks/schemas`
+- All atom imports must resolve to `@workspace/sanity-atoms/schemas`
+- All block imports must resolve to `@workspace/sanity-atoms/schemas` or `@workspace/sanity-blocks/schemas`
 - No relative imports to template-studio allowed in package schemas
 
 ---
@@ -396,12 +396,12 @@ All schemas use TypeScript strict mode:
 
 | Schema | Before | After | Compatible? |
 |--------|--------|-------|-------------|
-| button | `apps/template-studio/schemaTypes/definitions/button.ts` | `@walter/sanity-atoms/schemas` | ✅ Yes (same name, fields) |
-| customUrl | `apps/template-studio/schemaTypes/definitions/custom-url.ts` | `@walter/sanity-atoms/schemas` | ✅ Yes (same name, fields) |
-| faqAccordion | `apps/template-studio/schemaTypes/blocks/faq-accordion.ts` | `@walter/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
-| featureCardsIcon | `apps/template-studio/schemaTypes/blocks/feature-cards-icon.ts` | `@walter/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
-| imageLinkCards | `apps/template-studio/schemaTypes/blocks/image-link-cards.ts` | `@walter/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
-| subscribeNewsletter | `apps/template-studio/schemaTypes/blocks/subscribe-newsletter.ts` | `@walter/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
+| button | `apps/template-studio/schemaTypes/definitions/button.ts` | `@workspace/sanity-atoms/schemas` | ✅ Yes (same name, fields) |
+| customUrl | `apps/template-studio/schemaTypes/definitions/custom-url.ts` | `@workspace/sanity-atoms/schemas` | ✅ Yes (same name, fields) |
+| faqAccordion | `apps/template-studio/schemaTypes/blocks/faq-accordion.ts` | `@workspace/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
+| featureCardsIcon | `apps/template-studio/schemaTypes/blocks/feature-cards-icon.ts` | `@workspace/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
+| imageLinkCards | `apps/template-studio/schemaTypes/blocks/image-link-cards.ts` | `@workspace/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
+| subscribeNewsletter | `apps/template-studio/schemaTypes/blocks/subscribe-newsletter.ts` | `@workspace/sanity-blocks/schemas` | ✅ Yes (same name, fields) |
 
 ### Content Migration
 

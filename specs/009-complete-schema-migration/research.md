@@ -15,7 +15,7 @@ This document captures research findings for migrating remaining Sanity schema d
 **Decision**: Use the **3+ usage criterion** - Extract to shared package ONLY if 3 or more schemas use the SAME function signature and implementation; otherwise inline
 
 **Rationale**:
-- Migrated schemas (e.g., `heroSection.schema.ts`) successfully import from `@walter/sanity-atoms/schemas`
+- Migrated schemas (e.g., `heroSection.schema.ts`) successfully import from `@workspace/sanity-atoms/schemas`
 - Helper functions like `createRadioListLayout`, `capitalize`, `isValidUrl` exist in `apps/template-studio/utils/helper.ts`
 - These are Studio-specific utilities, NOT schema logic
 - The 3+ usage threshold balances code reuse (DRY principle) with avoiding premature abstraction
@@ -38,7 +38,7 @@ This document captures research findings for migrating remaining Sanity schema d
 - `createRadioListLayout`: Used by <3 schemas → inline `options` configuration in each schema where needed
 - `capitalize`: Used by <3 schemas → inline in each schema (3-5 lines)
 - `isValidUrl`: Used by <3 schemas → inline in each schema (3-5 lines)
-- `customRichText`: Already exported from `@walter/sanity-atoms/schemas/rich-text` (used by 3+ blocks) ✅
+- `customRichText`: Already exported from `@workspace/sanity-atoms/schemas/rich-text` (used by 3+ blocks) ✅
 
 ### Q2: How should `iconField` and `buttonsField` from `common.ts` be handled?
 
@@ -50,7 +50,7 @@ This document captures research findings for migrating remaining Sanity schema d
 - The 3+ usage criterion clearly dictates extraction vs. inlining decision
 
 **Evidence from Existing Migration**:
-- `buttonsFieldSchema` already exported from `@walter/sanity-atoms/schemas/buttons` (packages/sanity-atoms/src/buttons.schema.ts)
+- `buttonsFieldSchema` already exported from `@workspace/sanity-atoms/schemas/buttons` (packages/sanity-atoms/src/buttons.schema.ts)
 - `heroSectionSchema` successfully imports and uses `buttonsFieldSchema`
 - No `iconField` export exists in packages (correctly kept Studio-specific due to single usage)
 
@@ -64,7 +64,7 @@ This document captures research findings for migrating remaining Sanity schema d
 
 ### Q3: How should `customRichText` helper from `rich-text.ts` be migrated?
 
-**Decision**: Already solved - `customRichText` is exported from `@walter/sanity-atoms/schemas/rich-text` (established in spec 008)
+**Decision**: Already solved - `customRichText` is exported from `@workspace/sanity-atoms/schemas/rich-text` (established in spec 008)
 
 **Evidence**:
 - File exists: `packages/sanity-atoms/src/rich-text.schema.ts`
@@ -73,7 +73,7 @@ This document captures research findings for migrating remaining Sanity schema d
 - Confirmed in spec clarifications: Export already exists from spec 008
 
 **Implementation**:
-- All blocks using `customRichText` will import from `@walter/sanity-atoms/schemas/rich-text`
+- All blocks using `customRichText` will import from `@workspace/sanity-atoms/schemas/rich-text`
 - No migration work required for this utility (verification only)
 
 ### Q4: What GROQ fragment patterns should be used for the new atoms and blocks?
@@ -82,8 +82,8 @@ This document captures research findings for migrating remaining Sanity schema d
 
 **Pattern from `heroSection.fragment.ts`**:
 ```typescript
-import { buttonsFragment } from '@walter/sanity-atoms/fragments/buttons'
-import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
+import { buttonsFragment } from '@workspace/sanity-atoms/fragments/buttons'
+import { richTextFragment } from '@workspace/sanity-atoms/fragments/rich-text'
 
 export const heroSectionFragment = /* groq */ `
   _type == "hero" => {
@@ -137,10 +137,10 @@ Sanity's typegen worker uses `esbuild-register` which doesn't properly resolve *
 {
   "baseUrl": ".",
   "paths": {
-    "@walter/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"],
-    "@walter/sanity-atoms/fragments/*": ["./packages/sanity-atoms/src/*.fragment.ts"],
-    "@walter/sanity-blocks/schemas/*": ["./packages/sanity-blocks/src/*.schema.ts"],
-    "@walter/sanity-blocks/fragments/*": ["./packages/sanity-blocks/src/*.fragment.ts"]
+    "@workspace/sanity-atoms/schemas/*": ["./packages/sanity-atoms/src/*.schema.ts"],
+    "@workspace/sanity-atoms/fragments/*": ["./packages/sanity-atoms/src/*.fragment.ts"],
+    "@workspace/sanity-blocks/schemas/*": ["./packages/sanity-blocks/src/*.schema.ts"],
+    "@workspace/sanity-blocks/fragments/*": ["./packages/sanity-blocks/src/*.fragment.ts"]
   }
 }
 ```
@@ -148,12 +148,12 @@ Sanity's typegen worker uses `esbuild-register` which doesn't properly resolve *
 **Import Pattern** (everywhere):
 ```typescript
 // Schemas - direct imports only
-import { heroSectionSchema } from "@walter/sanity-blocks/schemas/hero-section"
-import { buttonsFieldSchema } from "@walter/sanity-atoms/schemas/buttons"
+import { heroSectionSchema } from "@workspace/sanity-blocks/schemas/hero-section"
+import { buttonsFieldSchema } from "@workspace/sanity-atoms/schemas/buttons"
 
 // Fragments - direct imports only
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section"
-import { imageFragment } from "@walter/sanity-atoms/fragments/image"
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section"
+import { imageFragment } from "@workspace/sanity-atoms/fragments/image"
 ```
 
 **Benefits**:
@@ -172,15 +172,15 @@ import { imageFragment } from "@walter/sanity-atoms/fragments/image"
 
 **Why This Works**:
 - Wildcard exports (`./schemas/*`) map directly to source files
-- TypeScript path mappings (`@walter/sanity-atoms/schemas/*`) resolve the wildcards
+- TypeScript path mappings (`@workspace/sanity-atoms/schemas/*`) resolve the wildcards
 - Sanity's `getResolver()` uses `tsconfig-paths` library internally (transitive dep of @sanity/codegen)
 - No barrel files = no relative imports = no resolution issues
 
 **Implementation Rule**:
 > **Every import must reference the actual source file directly. No exceptions.**
 >
-> ✅ `import { x } from "@walter/sanity-atoms/schemas/button"`
-> ❌ `import { x } from "@walter/sanity-atoms/schemas"`
+> ✅ `import { x } from "@workspace/sanity-atoms/schemas/button"`
+> ❌ `import { x } from "@workspace/sanity-atoms/schemas"`
 
 **Atom Fragments to Create**:
 
@@ -236,10 +236,10 @@ export const customUrlFragment = /* groq */ `
 **Decision**: Use package subpath exports as configured in package.json
 
 **Current Package Structure**:
-- `@walter/sanity-atoms/schemas` → `packages/sanity-atoms/src/schemas.ts`
-- `@walter/sanity-atoms/fragments` → `packages/sanity-atoms/src/fragments.ts`
-- `@walter/sanity-blocks/schemas` → `packages/sanity-blocks/src/schemas.ts`
-- `@walter/sanity-blocks/fragments` → `packages/sanity-blocks/src/fragments.ts`
+- `@workspace/sanity-atoms/schemas` → `packages/sanity-atoms/src/schemas.ts`
+- `@workspace/sanity-atoms/fragments` → `packages/sanity-atoms/src/fragments.ts`
+- `@workspace/sanity-blocks/schemas` → `packages/sanity-blocks/src/schemas.ts`
+- `@workspace/sanity-blocks/fragments` → `packages/sanity-blocks/src/fragments.ts`
 
 **Why This Structure**:
 - Separates schema definitions (React components, Studio-specific) from fragments (pure GROQ strings)
@@ -247,8 +247,8 @@ export const customUrlFragment = /* groq */ `
 - Follows Sanity best practices for separating concerns
 
 **Implementation**:
-- Template-studio imports schemas: `import { button, customUrl } from '@walter/sanity-atoms/schemas'`
-- Template-web imports fragments: `import { buttonFragment } from '@walter/sanity-atoms/fragments'`
+- Template-studio imports schemas: `import { button, customUrl } from '@workspace/sanity-atoms/schemas'`
+- Template-web imports fragments: `import { buttonFragment } from '@workspace/sanity-atoms/fragments'`
 
 ### Q7: Should inline nested objects (like `imageLinkCard`, `featureCardIcon`) be extracted to separate schemas?
 
@@ -305,7 +305,7 @@ export const customUrlFragment = /* groq */ `
 ### Import Statements in Migrated Schemas
 ```typescript
 // Correct: Import from shared packages
-import { buttonsFieldSchema, customRichText } from '@walter/sanity-atoms/schemas'
+import { buttonsFieldSchema, customRichText } from '@workspace/sanity-atoms/schemas'
 
 // Incorrect: Relative imports to template-studio
 import { buttonsField } from '../common'  // ❌ Wrong

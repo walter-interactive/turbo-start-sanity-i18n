@@ -1,15 +1,15 @@
-import { buttonsFragment } from '@walter/sanity-atoms/fragments/buttons'
+import { buttonsFragment } from '@workspace/sanity-atoms/fragments/buttons'
 import {
   imageFields,
   imageFragment
-} from '@walter/sanity-atoms/fragments/image'
-import { richTextFragment } from '@walter/sanity-atoms/fragments/rich-text'
-import { ctaFragment } from '@walter/sanity-blocks/fragments/cta'
-import { faqSectionFragment } from '@walter/sanity-blocks/fragments/faq-accordion'
-import { featureCardsIconFragment } from '@walter/sanity-blocks/fragments/feature-cards-icon'
-import { heroSectionFragment } from '@walter/sanity-blocks/fragments/hero-section'
-import { imageLinkCardsFragment } from '@walter/sanity-blocks/fragments/image-link-cards'
-import { subscribeNewsletterFragment } from '@walter/sanity-blocks/fragments/subscribe-newsletter'
+} from '@workspace/sanity-atoms/fragments/image'
+import { richTextFragment } from '@workspace/sanity-atoms/fragments/rich-text'
+import { ctaFragment } from '@workspace/sanity-blocks/fragments/cta'
+import { faqSectionFragment } from '@workspace/sanity-blocks/fragments/faq-accordion'
+import { featureCardsIconFragment } from '@workspace/sanity-blocks/fragments/feature-cards-icon'
+import { heroSectionFragment } from '@workspace/sanity-blocks/fragments/hero-section'
+import { imageLinkCardsFragment } from '@workspace/sanity-blocks/fragments/image-link-cards'
+import { subscribeNewsletterFragment } from '@workspace/sanity-blocks/fragments/subscribe-newsletter'
 import { defineQuery } from 'next-sanity'
 import { translationsFragment } from './i18n'
 

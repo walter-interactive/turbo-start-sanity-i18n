@@ -34,7 +34,7 @@
  * - Frontend queries: apps/web likely queries by language for FAQ display
  */
 
-import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { customRichText } from '@workspace/sanity-atoms/schemas/rich-text'
 import { MessageCircle } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 import { parseRichTextToString } from '../../utils/helper'

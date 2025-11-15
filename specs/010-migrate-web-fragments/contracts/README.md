@@ -11,7 +11,7 @@ This feature is a **pure code organization refactor** with **zero API contract c
 
 While there are no external API changes, the internal package export contracts are being formalized.
 
-### Package: @walter/sanity-blocks
+### Package: @workspace/sanity-blocks
 
 **Export Contract** (package.json):
 ```json
@@ -26,31 +26,31 @@ While there are no external API changes, the internal package export contracts a
 **Fragment Exports** (TypeScript):
 
 ```typescript
-// Fragments exported from @walter/sanity-blocks/fragments/[name]
+// Fragments exported from @workspace/sanity-blocks/fragments/[name]
 
 // Hero Section
 export const heroSectionFragment: string;
-// Usage: import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
+// Usage: import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
 
 // CTA (renamed from ctaBlock for consistency)
 export const ctaFragment: string;
-// Usage: import { ctaFragment } from "@walter/sanity-blocks/fragments/cta";
+// Usage: import { ctaFragment } from "@workspace/sanity-blocks/fragments/cta";
 
 // FAQ Accordion (renamed from faqSectionFragment to match schema)
 export const faqAccordionFragment: string;
-// Usage: import { faqAccordionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";
+// Usage: import { faqAccordionFragment } from "@workspace/sanity-blocks/fragments/faq-accordion";
 
 // Image Link Cards (updated implementation)
 export const imageLinkCardsFragment: string;
-// Usage: import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";
+// Usage: import { imageLinkCardsFragment } from "@workspace/sanity-blocks/fragments/image-link-cards";
 
 // Subscribe Newsletter
 export const subscribeNewsletterFragment: string;
-// Usage: import { subscribeNewsletterFragment } from "@walter/sanity-blocks/fragments/subscribe-newsletter";
+// Usage: import { subscribeNewsletterFragment } from "@workspace/sanity-blocks/fragments/subscribe-newsletter";
 
 // Feature Cards Icon
 export const featureCardsIconFragment: string;
-// Usage: import { featureCardsIconFragment } from "@walter/sanity-blocks/fragments/feature-cards-icon";
+// Usage: import { featureCardsIconFragment } from "@workspace/sanity-blocks/fragments/feature-cards-icon";
 ```
 
 **Contract Guarantees**:
@@ -61,7 +61,7 @@ export const featureCardsIconFragment: string;
 
 ---
 
-### Package: @walter/sanity-atoms
+### Package: @workspace/sanity-atoms
 
 **Export Contract** (package.json):
 ```json
@@ -76,30 +76,30 @@ export const featureCardsIconFragment: string;
 **Fragment Exports** (TypeScript):
 
 ```typescript
-// Fragments exported from @walter/sanity-atoms/fragments/[name]
+// Fragments exported from @workspace/sanity-atoms/fragments/[name]
 
 // Image (primitive fields)
 export const imageFields: string;
 export const imageFragment: string;
-// Usage: import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";
+// Usage: import { imageFields, imageFragment } from "@workspace/sanity-atoms/fragments/image";
 
 // Buttons
 export const buttonsFragment: string;
-// Usage: import { buttonsFragment } from "@walter/sanity-atoms/fragments/buttons";
+// Usage: import { buttonsFragment } from "@workspace/sanity-atoms/fragments/buttons";
 
 // Button (individual)
 export const buttonFragment: string;
-// Usage: import { buttonFragment } from "@walter/sanity-atoms/fragments/button";
+// Usage: import { buttonFragment } from "@workspace/sanity-atoms/fragments/button";
 
 // Custom URL
 export const customUrlFragment: string;
-// Usage: import { customUrlFragment } from "@walter/sanity-atoms/fragments/custom-url";
+// Usage: import { customUrlFragment } from "@workspace/sanity-atoms/fragments/custom-url";
 
 // Rich Text (NEW: exposing hidden fragments)
 export const richTextFragment: string;
 export const customLinkFragment: string;  // ← Now public
 export const markDefsFragment: string;    // ← Now public
-// Usage: import { richTextFragment, customLinkFragment, markDefsFragment } from "@walter/sanity-atoms/fragments/rich-text";
+// Usage: import { richTextFragment, customLinkFragment, markDefsFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 ```
 
 **Contract Guarantees**:
@@ -169,10 +169,10 @@ const markDefsFragment = /* groq */ `...`;
 **After**:
 ```typescript
 // Shared package imports
-import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";
-import { subscribeNewsletterFragment } from "@walter/sanity-blocks/fragments/subscribe-newsletter";
-import { featureCardsIconFragment } from "@walter/sanity-blocks/fragments/feature-cards-icon";
-import { customLinkFragment, markDefsFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { imageLinkCardsFragment } from "@workspace/sanity-blocks/fragments/image-link-cards";
+import { subscribeNewsletterFragment } from "@workspace/sanity-blocks/fragments/subscribe-newsletter";
+import { featureCardsIconFragment } from "@workspace/sanity-blocks/fragments/feature-cards-icon";
+import { customLinkFragment, markDefsFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 ```
 
 **Breaking?**: No - changes are internal to template-web only.

@@ -6,8 +6,8 @@
  * Used for showcasing related content, categories, or navigation sections with visual appeal.
  */
 
-import { buttonsGroupSchema } from '@walter/sanity-atoms/schemas/buttons'
-import { customRichText } from '@walter/sanity-atoms/schemas/rich-text'
+import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas/buttons'
+import { customRichText } from '@workspace/sanity-atoms/schemas/rich-text'
 import { ImageIcon } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 

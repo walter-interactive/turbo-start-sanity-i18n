@@ -37,7 +37,7 @@
  * - Frontend: Header/navigation component queries navbar by language
  */
 
-import { buttonsGroupSchema } from '@walter/sanity-atoms/schemas/buttons'
+import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas/buttons'
 import { LayoutPanelLeft, Link, PanelTop } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 import { iconField, languageField } from '../common'

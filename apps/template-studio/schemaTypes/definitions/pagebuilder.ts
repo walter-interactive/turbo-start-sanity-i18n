@@ -29,12 +29,12 @@
  * - Any document type needing flexible content composition
  */
 
-import { ctaSchema } from '@walter/sanity-blocks/schemas/cta'
-import { faqAccordionSchema } from '@walter/sanity-blocks/schemas/faq-accordion'
-import { featureCardsIconSchema } from '@walter/sanity-blocks/schemas/feature-cards-icon'
-import { heroSectionSchema } from '@walter/sanity-blocks/schemas/hero-section'
-import { imageLinkCardsSchema } from '@walter/sanity-blocks/schemas/image-link-cards'
-import { subscribeNewsletterSchema } from '@walter/sanity-blocks/schemas/subscribe-newsletter'
+import { ctaSchema } from '@workspace/sanity-blocks/schemas/cta'
+import { faqAccordionSchema } from '@workspace/sanity-blocks/schemas/faq-accordion'
+import { featureCardsIconSchema } from '@workspace/sanity-blocks/schemas/feature-cards-icon'
+import { heroSectionSchema } from '@workspace/sanity-blocks/schemas/hero-section'
+import { imageLinkCardsSchema } from '@workspace/sanity-blocks/schemas/image-link-cards'
+import { subscribeNewsletterSchema } from '@workspace/sanity-blocks/schemas/subscribe-newsletter'
 import { defineArrayMember, defineType } from 'sanity'
 
 const pageBuilderBlocks = [

@@ -2,7 +2,7 @@
 
 **Feature**: 010-migrate-web-fragments
 **Branch**: `010-migrate-web-fragments`
-**Tech Stack**: TypeScript 5.9.2, Next.js 15.x, next-sanity 10.x, @walter/sanity-blocks, @walter/sanity-atoms
+**Tech Stack**: TypeScript 5.9.2, Next.js 15.x, next-sanity 10.x, @workspace/sanity-blocks, @workspace/sanity-atoms
 **Related Docs**: [spec.md](./spec.md), [plan.md](./plan.md), [research.md](./research.md), [data-model.md](./data-model.md), [quickstart.md](./quickstart.md)
 
 ---
@@ -38,7 +38,7 @@ This is a code organization refactor to co-locate query fragments with their cor
 
 **Story**: US3 - Eliminate Fragment Duplication (Priority: P2)
 
-**Independent Test**: After completing this phase, verify customLinkFragment and markDefsFragment can be imported from @walter/sanity-atoms/fragments/rich-text without errors
+**Independent Test**: After completing this phase, verify customLinkFragment and markDefsFragment can be imported from @workspace/sanity-atoms/fragments/rich-text without errors
 
 **Tasks**:
 
@@ -65,7 +65,7 @@ This is a code organization refactor to co-locate query fragments with their cor
 
 - [X] T011 [P] [US2] Read current template-web implementation in apps/template-web/src/lib/sanity/query.ts (lines 79-99)
 - [X] T012 [US2] Update packages/sanity-blocks/src/image-link-cards.fragment.ts to match template-web version (use spread operator `...`, array::compact, inline URL logic per research.md section 2.5)
-- [X] T013 [US2] Verify fragment compiles: Run `pnpm --filter @walter/sanity-blocks check-types`
+- [X] T013 [US2] Verify fragment compiles: Run `pnpm --filter @workspace/sanity-blocks check-types`
 
 ### Task Group B: subscribeNewsletterFragment Verification
 
@@ -93,7 +93,7 @@ This is a code organization refactor to co-locate query fragments with their cor
 
 - [X] T018 [P] [US4] Rename `ctaBlock` to `ctaFragment` in packages/sanity-blocks/src/cta.fragment.ts
 - [X] T019 [P] [US4] Rename `faqSectionFragment` to `faqAccordionFragment` in packages/sanity-blocks/src/faq-accordion.fragment.ts (optional - see research.md Q1, legacy naming acceptable) - SKIPPED (legacy naming kept)
-- [X] T020 [US4] Run `pnpm --filter @walter/sanity-blocks check-types` to verify renames compile
+- [X] T020 [US4] Run `pnpm --filter @workspace/sanity-blocks check-types` to verify renames compile
 
 **Checkpoint**: ✅ Fragment naming standardized - ctaFragment renamed, faqSectionFragment kept as legacy name (acceptable per research.md)
 
@@ -113,13 +113,13 @@ This is a code organization refactor to co-locate query fragments with their cor
 
 ### Task Group A: Add Shared Package Imports
 
-- [X] T021 [US1] Add import for imageLinkCardsFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";`
-- [X] T022 [P] [US1] Add import for subscribeNewsletterFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { subscribeNewsletterFragment } from "@walter/sanity-blocks/fragments/subscribe-newsletter";`
-- [X] T023 [P] [US1] Add import for featureCardsIconFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { featureCardsIconFragment } from "@walter/sanity-blocks/fragments/feature-cards-icon";`
-- [X] T024 [US1] Update existing ctaBlock import to ctaFragment in apps/template-web/src/lib/sanity/query.ts (line 4): Change to `import { ctaFragment } from "@walter/sanity-blocks/fragments/cta";`
-- [X] T025 [P] [US1] Update existing faqSectionFragment import to faqAccordionFragment in apps/template-web/src/lib/sanity/query.ts (line 5): Change to `import { faqAccordionFragment } from "@walter/sanity-blocks/fragments/faq-accordion";` (if renamed in T019, else keep as-is) - KEPT as faqSectionFragment
-- [X] T026 [US3] Add imports for imageFields and imageFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { imageFields, imageFragment } from "@walter/sanity-atoms/fragments/image";`
-- [X] T027 [P] [US3] Add imports for customLinkFragment and markDefsFragment to apps/template-web/src/lib/sanity/query.ts (line 3): Update existing richTextFragment import to `import { richTextFragment, customLinkFragment, markDefsFragment } from "@walter/sanity-atoms/fragments/rich-text";`
+- [X] T021 [US1] Add import for imageLinkCardsFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { imageLinkCardsFragment } from "@workspace/sanity-blocks/fragments/image-link-cards";`
+- [X] T022 [P] [US1] Add import for subscribeNewsletterFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { subscribeNewsletterFragment } from "@workspace/sanity-blocks/fragments/subscribe-newsletter";`
+- [X] T023 [P] [US1] Add import for featureCardsIconFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { featureCardsIconFragment } from "@workspace/sanity-blocks/fragments/feature-cards-icon";`
+- [X] T024 [US1] Update existing ctaBlock import to ctaFragment in apps/template-web/src/lib/sanity/query.ts (line 4): Change to `import { ctaFragment } from "@workspace/sanity-blocks/fragments/cta";`
+- [X] T025 [P] [US1] Update existing faqSectionFragment import to faqAccordionFragment in apps/template-web/src/lib/sanity/query.ts (line 5): Change to `import { faqAccordionFragment } from "@workspace/sanity-blocks/fragments/faq-accordion";` (if renamed in T019, else keep as-is) - KEPT as faqSectionFragment
+- [X] T026 [US3] Add imports for imageFields and imageFragment to apps/template-web/src/lib/sanity/query.ts (line 3): `import { imageFields, imageFragment } from "@workspace/sanity-atoms/fragments/image";`
+- [X] T027 [P] [US3] Add imports for customLinkFragment and markDefsFragment to apps/template-web/src/lib/sanity/query.ts (line 3): Update existing richTextFragment import to `import { richTextFragment, customLinkFragment, markDefsFragment } from "@workspace/sanity-atoms/fragments/rich-text";`
 
 ### Task Group B: Remove Local Fragment Definitions
 
@@ -157,8 +157,8 @@ This is a code organization refactor to co-locate query fragments with their cor
 ### Task Group A: TypeScript & Build Validation
 
 - [X] T036 [US2] Run type-check on template-web: `pnpm --filter template-web typecheck` - ✅ PASSED with zero errors
-- [X] T037 [P] [US2] Run type-check on sanity-blocks: `pnpm --filter @walter/sanity-blocks check-types` - ✅ PASSED
-- [X] T038 [P] [US2] Run type-check on sanity-atoms: `pnpm --filter @walter/sanity-atoms check-types` - ✅ PASSED
+- [X] T037 [P] [US2] Run type-check on sanity-blocks: `pnpm --filter @workspace/sanity-blocks check-types` - ✅ PASSED
+- [X] T038 [P] [US2] Run type-check on sanity-atoms: `pnpm --filter @workspace/sanity-atoms check-types` - ✅ PASSED
 - [X] T039 [US2] Run full monorepo type-check: `pnpm check-types` - ✅ PASSED (template-web, sanity-blocks, sanity-atoms all pass)
 - [X] T040 [US2] Build template-web: `pnpm --filter template-web build` - ✅ PASSED without errors
 - [X] T041 [P] [US2] Build all workspaces: `pnpm build` - ✅ PASSED
@@ -192,7 +192,7 @@ This is a code organization refactor to co-locate query fragments with their cor
 
 **Tasks**:
 
-- [X] T055 [P] Update CLAUDE.md with migration summary: Add to "Recent Changes" section: "010-migrate-web-fragments: Migrated query fragments from template-web to shared packages (@walter/sanity-blocks, @walter/sanity-atoms). All schema-coupled fragments now co-located with schemas. Exposed previously hidden fragments (customLinkFragment, markDefsFragment) as public API."
+- [X] T055 [P] Update CLAUDE.md with migration summary: Add to "Recent Changes" section: "010-migrate-web-fragments: Migrated query fragments from template-web to shared packages (@workspace/sanity-blocks, @workspace/sanity-atoms). All schema-coupled fragments now co-located with schemas. Exposed previously hidden fragments (customLinkFragment, markDefsFragment) as public API."
 - [X] T056 Create completion notes at specs/010-migrate-web-fragments/completion-notes.md documenting:
   - Migration date and status
   - Fragments migrated count (7 duplicates resolved)

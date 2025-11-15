@@ -51,7 +51,7 @@ A query fragment is a reusable GROQ query snippet that defines how to fetch data
 └──────────────────────────┼───────────────────────────────┘
                            │
 ┌──────────────────────────┼───────────────────────────────┐
-│ Block Layer (@walter/sanity-blocks)                      │
+│ Block Layer (@workspace/sanity-blocks)                      │
 │ ┌────────────────────────┴─────────────────────────────┐ │
 │ │ Block Fragments (schema-coupled)                     │ │
 │ │ - heroSectionFragment                                │ │
@@ -66,7 +66,7 @@ A query fragment is a reusable GROQ query snippet that defines how to fetch data
 └──────────────────────────┼───────────────────────────────┘
                            │
 ┌──────────────────────────┼───────────────────────────────┐
-│ Atom Layer (@walter/sanity-atoms)                        │
+│ Atom Layer (@workspace/sanity-atoms)                        │
 │ ┌────────────────────────┴─────────────────────────────┐ │
 │ │ Atomic Fragments (schema-coupled & primitives)       │ │
 │ │ - imageFragment (schema: image)                      │ │
@@ -282,10 +282,10 @@ ogFieldsFragment
 **Test Script**:
 ```typescript
 // Verify all fragments are accessible
-import { heroSectionFragment } from "@walter/sanity-blocks/fragments/hero-section";
-import { ctaFragment } from "@walter/sanity-blocks/fragments/cta";
-import { imageLinkCardsFragment } from "@walter/sanity-blocks/fragments/image-link-cards";
-import { customLinkFragment, markDefsFragment } from "@walter/sanity-atoms/fragments/rich-text";
+import { heroSectionFragment } from "@workspace/sanity-blocks/fragments/hero-section";
+import { ctaFragment } from "@workspace/sanity-blocks/fragments/cta";
+import { imageLinkCardsFragment } from "@workspace/sanity-blocks/fragments/image-link-cards";
+import { customLinkFragment, markDefsFragment } from "@workspace/sanity-atoms/fragments/rich-text";
 // ... etc
 ```
 

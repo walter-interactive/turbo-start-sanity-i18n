@@ -7,12 +7,12 @@
 
 ## Summary
 
-This is a code organization refactor to co-locate query fragments with their corresponding schemas in shared packages (`@walter/sanity-blocks` and `@walter/sanity-atoms`). Currently, fragments are defined locally in `apps/template-web/src/lib/sanity/query.ts`, creating maintenance burden and preventing discoverability. The migration will move fragments to shared packages, resolve duplicates, expose hidden fragments as public API, and maintain 100% query result equivalence through snapshot testing.
+This is a code organization refactor to co-locate query fragments with their corresponding schemas in shared packages (`@workspace/sanity-blocks` and `@workspace/sanity-atoms`). Currently, fragments are defined locally in `apps/template-web/src/lib/sanity/query.ts`, creating maintenance burden and preventing discoverability. The migration will move fragments to shared packages, resolve duplicates, expose hidden fragments as public API, and maintain 100% query result equivalence through snapshot testing.
 
 ## Technical Context
 
 **Language/Version**: TypeScript 5.9.2, Node.js 20+
-**Primary Dependencies**: Next.js 15.x (App Router), next-sanity 10.x (GROQ queries), @walter/sanity-blocks (workspace), @walter/sanity-atoms (workspace)
+**Primary Dependencies**: Next.js 15.x (App Router), next-sanity 10.x (GROQ queries), @workspace/sanity-blocks (workspace), @workspace/sanity-atoms (workspace)
 **Storage**: Sanity Content Lake (cloud-hosted CMS, no schema changes required)
 **Testing**: Snapshot testing for query result verification (TypeScript compilation as baseline)
 **Target Platform**: Next.js web application (template-web workspace), Turborepo monorepo
@@ -27,7 +27,7 @@ This is a code organization refactor to co-locate query fragments with their cor
 
 | Principle | Compliance | Notes |
 |-----------|------------|-------|
-| **I. Monorepo Structure & Boundaries** | ✅ PASS | Migration strengthens boundaries by properly organizing shared code in workspace packages with explicit dependencies. No cross-workspace file references - all imports go through `@walter/sanity-blocks` and `@walter/sanity-atoms` package exports. |
+| **I. Monorepo Structure & Boundaries** | ✅ PASS | Migration strengthens boundaries by properly organizing shared code in workspace packages with explicit dependencies. No cross-workspace file references - all imports go through `@workspace/sanity-blocks` and `@workspace/sanity-atoms` package exports. |
 | **II. TypeScript Strict Mode** | ✅ PASS | TypeScript strict mode enabled. Migration maintains type safety through auto-generated types from schemas. Type-check must pass before/after migration (`pnpm check-types`). No `any` types introduced. |
 | **III. Test Coverage (MANDATORY)** | ⚠️ PARTIAL | Snapshot testing will verify query result equivalence (FR-002). However, this is a refactor with zero functional changes, so existing test coverage remains unchanged. New tests: snapshot comparisons for all document types (home, page, blog, navbar, footer, settings). |
 | **IV. Component Modularity** | ✅ PASS | Migration improves modularity by co-locating fragments with schemas. No component changes - this is backend query organization only. |

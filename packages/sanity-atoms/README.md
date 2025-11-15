@@ -1,4 +1,4 @@
-# @walter/sanity-atoms
+# @workspace/sanity-atoms
 
 Atomic Sanity content types (primitive field definitions) used across blocks and documents.
 
@@ -11,7 +11,7 @@ Atomic Sanity content types (primitive field definitions) used across blocks and
 ## Usage
 
 ```typescript
-import { buttonsSchema, imageSchema, richTextSchema } from '@walter/sanity-atoms/schemas'
+import { buttonsSchema, imageSchema, richTextSchema } from '@workspace/sanity-atoms/schemas'
 ```
 
 ## Package Structure
