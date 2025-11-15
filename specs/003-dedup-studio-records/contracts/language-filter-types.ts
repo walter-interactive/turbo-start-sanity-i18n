@@ -8,8 +8,8 @@
  * Location: apps/studio/components/language-filter.ts (implementation)
  */
 
-import type { Locale } from '@workspace/i18n-config'
 import type { SanityClient } from '@sanity/client'
+import type { Locale } from '@workspace/i18n-config'
 
 // ============================================================================
 // DOCUMENT TYPES

@@ -72,7 +72,7 @@ const richTextMembers = [
   })
 ]
 
-export const richText = defineType({
+export const richTextSchema = defineType({
   name: 'richText',
   type: 'array',
   of: richTextMembers

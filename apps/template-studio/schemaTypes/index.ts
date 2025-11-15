@@ -4,7 +4,7 @@
 import { buttonSchema } from '@workspace/sanity-atoms/schemas/button'
 import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas/buttons'
 import { customUrlSchema } from '@workspace/sanity-atoms/schemas/custom-url'
-import { richText } from '@workspace/sanity-atoms/schemas/rich-text'
+import { richTextSchema } from '@workspace/sanity-atoms/schemas/rich-text'
 // ============================================================================
 // Shared Blocks (from @workspace/sanity-blocks)
 // ============================================================================
@@ -14,6 +14,7 @@ import { featureCardsIconSchema } from '@workspace/sanity-blocks/schemas/feature
 import { heroSectionSchema } from '@workspace/sanity-blocks/schemas/hero-section'
 import { imageLinkCardsSchema } from '@workspace/sanity-blocks/schemas/image-link-cards'
 import { subscribeNewsletterSchema } from '@workspace/sanity-blocks/schemas/subscribe-newsletter'
+import { defineArrayMember, defineType } from 'sanity'
 // ============================================================================
 // Collections (multi-instance documents)
 // ============================================================================
@@ -25,7 +26,8 @@ import { redirect } from './collections/redirect'
 // ============================================================================
 // Local Definitions (studio-specific)
 // ============================================================================
-import { pageBuilder } from './definitions/pagebuilder'
+// import { custom-block } from './blocks'
+// import { custom-definitions } from './definitions'
 // ============================================================================
 // Singletons (single-instance documents)
 // ============================================================================
@@ -34,6 +36,29 @@ import { footer } from './singletons/footer'
 import { homePage } from './singletons/home-page'
 import { navbar } from './singletons/navbar'
 import { settings } from './singletons/settings'
+
+// ============================================================================
+// Page Builder + Blocks
+// ============================================================================
+
+const pageBuilderBlocks = [
+  heroSectionSchema,
+  ctaSchema,
+  featureCardsIconSchema,
+  faqAccordionSchema,
+  imageLinkCardsSchema,
+  subscribeNewsletterSchema
+]
+
+export const pagebuilderBlockTypes = pageBuilderBlocks.map(({ name }) => ({
+  type: name
+}))
+
+export const pageBuilder = defineType({
+  name: 'pageBuilder',
+  type: 'array',
+  of: pagebuilderBlockTypes.map((block) => defineArrayMember(block))
+})
 
 // ============================================================================
 // Schema Registration
@@ -45,19 +70,10 @@ export const singletons = [homePage, blogIndex, settings, footer, navbar]
 const documents = [...collections, ...singletons]
 const atoms = [
   customUrlSchema,
-  richText,
+  richTextSchema,
   buttonSchema,
   pageBuilder,
   buttonsGroupSchema
-]
-
-const pageBuilderBlocks = [
-  heroSectionSchema,
-  ctaSchema,
-  featureCardsIconSchema,
-  faqAccordionSchema,
-  imageLinkCardsSchema,
-  subscribeNewsletterSchema
 ]
 
 export const schemaTypes = [...documents, ...atoms, ...pageBuilderBlocks]

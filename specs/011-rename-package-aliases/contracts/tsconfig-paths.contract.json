@@ -59,10 +59,7 @@
       "items": {
         "type": "string"
       },
-      "items": [
-        "@walter/sanity-atoms",
-        "@walter/sanity-blocks"
-      ]
+      "items": ["@walter/sanity-atoms", "@walter/sanity-blocks"]
     }
   }
 }
