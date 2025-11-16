@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server'
 import { PageBuilder } from '@/components/pagebuilder'
 import { sanityFetch } from '@/lib/sanity/live'
-import { queryHomePageData } from '@/lib/sanity/query'
+import { queryHomePageData } from '@/lib/sanity/queries'
 import { getSEOMetadata } from '@/lib/seo'
 import type { Locale } from '@/i18n/routing'
 

@@ -1,6 +1,6 @@
 import { stegaClean } from 'next-sanity'
 import { client, urlFor } from '@/lib/sanity/client'
-import { querySettingsData } from '@/lib/sanity/query'
+import { querySettingsData } from '@/lib/sanity/queries'
 import { getBaseUrl, handleErrors } from '@/utils'
 import type {
   Answer,

@@ -1,5 +1,5 @@
 import { sanityFetch } from './sanity/live'
-import { queryGlobalSeoSettings, queryNavbarData } from './sanity/query'
+import { queryGlobalSeoSettings, queryNavbarData } from './sanity/queries'
 import type { Locale } from '@/i18n/routing'
 
 export const getNavigationData = async (locale: Locale) => {

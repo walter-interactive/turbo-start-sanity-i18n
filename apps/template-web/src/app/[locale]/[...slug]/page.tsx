@@ -4,7 +4,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { PageBuilder } from '@/components/pagebuilder'
 import { client } from '@/lib/sanity/client'
 import { sanityFetch } from '@/lib/sanity/live'
-import { querySlugPageData, querySlugPagePaths } from '@/lib/sanity/query'
+import { querySlugPageData, querySlugPagePaths } from '@/lib/sanity/queries'
 import { getSEOMetadata } from '@/lib/seo'
 import type { Locale } from '@/i18n/routing'
 

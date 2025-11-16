@@ -1,6 +1,6 @@
 import { LOCALES } from '@/i18n/routing'
 import { client } from '@/lib/sanity/client'
-import { querySitemapData } from '@/lib/sanity/query'
+import { querySitemapData } from '@/lib/sanity/queries'
 import { getBaseUrl } from '@/utils'
 import type { MetadataRoute } from 'next'
 import type { QuerySitemapDataResult } from '@/lib/sanity/sanity.types'

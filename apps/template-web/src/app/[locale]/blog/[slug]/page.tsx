@@ -7,7 +7,7 @@ import { TableOfContent } from '@/components/elements/table-of-content'
 import { ArticleJsonLd } from '@/components/json-ld'
 import { client } from '@/lib/sanity/client'
 import { sanityFetch } from '@/lib/sanity/live'
-import { queryBlogPaths, queryBlogSlugPageData } from '@/lib/sanity/query'
+import { queryBlogPaths, queryBlogSlugPageData } from '@/lib/sanity/queries'
 import { getSEOMetadata } from '@/lib/seo'
 import type { Locale } from '@/i18n/routing'
 

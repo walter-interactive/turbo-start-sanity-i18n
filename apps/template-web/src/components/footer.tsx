@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getInternalLinkHref } from '@/lib/sanity/link-helpers'
 import { sanityFetch } from '@/lib/sanity/live'
-import { queryFooterData, queryGlobalSeoSettings } from '@/lib/sanity/query'
+import { queryFooterData, queryGlobalSeoSettings } from '@/lib/sanity/queries'
 import { Logo } from './logo'
 import {
   FacebookIcon,

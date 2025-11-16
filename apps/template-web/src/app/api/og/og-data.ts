@@ -4,7 +4,7 @@ import {
   queryGenericPageOGData,
   queryHomePageOGData,
   querySlugPageOGData
-} from '@/lib/sanity/query'
+} from '@/lib/sanity/queries'
 import { handleErrors } from '@/utils'
 
 export async function getHomePageOGData(id: string) {
