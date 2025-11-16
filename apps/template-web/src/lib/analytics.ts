@@ -11,6 +11,8 @@
  * analytics.track('page_view', { path: '/about', locale: 'fr' })
  */
 
+import { logger } from '@workspace/logger'
+
 interface AnalyticsEvent {
   name: string
   properties?: Record<string, string | number | boolean | undefined>
@@ -57,11 +59,11 @@ function sendToPlausible(event: AnalyticsEvent): void {
  */
 function logToConsole(event: AnalyticsEvent): void {
   if (process.env.NODE_ENV === 'development') {
-    console.log(
-      `[Analytics] ${event.name}`,
-      event.properties || {},
-      `at ${event.timestamp}`
-    )
+    logger.debug('Analytics event tracked', {
+      eventName: event.name,
+      ...event.properties,
+      timestamp: event.timestamp
+    })
   }
 }
 

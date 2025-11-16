@@ -1,5 +1,6 @@
 'use client'
 import { cn } from '@workspace/ui/lib/utils'
+import { logger } from '@workspace/logger'
 import Link from 'next/link'
 import {
   PortableText,
@@ -128,7 +129,7 @@ export function RichText<T>({
       <PortableText
         components={components}
         onMissingComponent={(_, { nodeType, type }) => {
-          console.warn(`Missing component: ${nodeType} for type: ${type}`)
+          logger.warn('Missing PortableText component', { nodeType, type })
         }}
         value={richText as unknown as PortableTextBlock[]}
       />

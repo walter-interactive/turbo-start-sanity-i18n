@@ -1,3 +1,4 @@
+import { logger } from '@workspace/logger'
 import { notFound } from 'next/navigation'
 import { setRequestLocale } from 'next-intl/server'
 import { RichText } from '@/components/elements/rich-text'
@@ -43,7 +44,10 @@ async function fetchBlogPaths(locale: Locale) {
     }
     return paths
   } catch (error) {
-    console.error('Error fetching blog paths for locale:', locale, error)
+    logger.error('Error fetching blog paths for locale', {
+      locale,
+      error: error instanceof Error ? error.message : String(error)
+    })
     // Return empty array to allow build to continue
     return []
   }

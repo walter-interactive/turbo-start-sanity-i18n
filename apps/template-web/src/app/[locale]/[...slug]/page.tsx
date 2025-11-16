@@ -1,3 +1,4 @@
+import { logger } from '@workspace/logger'
 import { notFound } from 'next/navigation'
 import { setRequestLocale } from 'next-intl/server'
 import { PageBuilder } from '@/components/pagebuilder'
@@ -34,7 +35,10 @@ async function fetchSlugPagePaths(locale: Locale) {
     }
     return paths
   } catch (error) {
-    console.error('Error fetching slug paths for locale:', locale, error)
+    logger.error('Error fetching slug paths for locale', {
+      locale,
+      error: error instanceof Error ? error.message : String(error)
+    })
     // Return empty array to allow build to continue
     return []
   }

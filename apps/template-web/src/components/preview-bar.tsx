@@ -1,4 +1,5 @@
 'use client'
+import { logger } from '@workspace/logger'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { disableDraftMode } from '@/app/actions'
@@ -9,7 +10,7 @@ export const PreviewBar: FC = () => {
   const [pending, startTransition] = useTransition()
 
   const disable = () => {
-    console.log('Disabling draft mode')
+    logger.debug('Disabling draft mode')
     startTransition(async () => {
       await disableDraftMode()
       router.refresh()
