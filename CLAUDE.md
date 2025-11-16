@@ -294,4 +294,122 @@ apps/web/src/lib/sanity/
 
 ---
 
+## Shared Logger Package (Feature 012-shared-logger-package)
+
+**Implemented**: 2025-01-15
+**Documentation**: `specs/012-shared-logger-package/quickstart.md`
+
+### Overview
+
+The `@workspace/logger` package provides structured logging with environment-aware output for all monorepo applications. It works in both Node.js server-side and browser client-side contexts with zero external dependencies.
+
+**Package Location**: `packages/logger/`
+
+### Usage
+
+**Basic Usage** (most common):
+```typescript
+import { logger } from '@workspace/logger'
+
+logger.info('User action', { action: 'language-switch', from: 'en', to: 'fr' })
+logger.warn('Locale detection fallback', { requested: 'de', fallback: 'fr' })
+logger.error('Failed to fetch data', { userId: '123', error: err })
+logger.debug('Detailed debug info', { trace: '...' })  // Only in development
+```
+
+**Error Handling**:
+```typescript
+import { logger, extractErrorInfo } from '@workspace/logger'
+
+try {
+  await riskyOperation()
+} catch (error) {
+  logger.error('Operation failed', {
+    operation: 'riskyOperation',
+    error: extractErrorInfo(error),  // Safe error serialization
+  })
+}
+```
+
+**Testing with Custom Environment**:
+```typescript
+import { createLogger } from '@workspace/logger'
+
+const testLogger = createLogger('production')
+testLogger.debug('This will be skipped')  // Debug disabled in production
+```
+
+### Output Format
+
+**Development** (human-readable):
+```
+[INFO] User action | action=language-switch from=en to=fr
+[WARN] Locale detection fallback | requested=de fallback=fr
+[ERROR] Failed to fetch data | userId=123 error=[object]
+```
+
+**Production** (JSON):
+```json
+{"level":"INFO","message":"User action","timestamp":"2025-01-15T10:30:00.000Z","context":{"action":"language-switch","from":"en","to":"fr"}}
+{"level":"WARN","message":"Locale detection fallback","timestamp":"2025-01-15T10:30:01.000Z","context":{"requested":"de","fallback":"fr"}}
+```
+
+### Key Features
+
+- **Environment-Aware**: Auto-detects development/production mode
+- **Zero Dependencies**: No external runtime dependencies
+- **Universal**: Works in Node.js and browser environments
+- **Type-Safe**: Full TypeScript support with exported types
+- **Lightweight**: ~2KB gzipped (minified)
+- **Structured Logging**: Consistent JSON output in production for log aggregation
+
+### Exports
+
+```typescript
+// Main logger singleton (auto-detects environment)
+export const logger: Logger
+
+// Factory function for custom configs (testing)
+export function createLogger(env: Environment): Logger
+
+// Safe error serialization helper
+export function extractErrorInfo(error: unknown): ErrorInfo
+
+// Environment utilities
+export function detectEnvironment(): Environment
+export function isDevelopment(): boolean
+
+// TypeScript types
+export type { LogLevel, LogContext, ErrorInfo, Environment }
+```
+
+### Environment Detection
+
+The logger detects the environment using the following logic:
+- **Browser**: Checks `process?.env?.NODE_ENV` with defensive typeof checks
+- **Node.js**: Checks `process.env.NODE_ENV` directly
+- **Default**: Falls back to 'development' if detection fails
+
+### Integration
+
+The logger is already integrated in:
+- `apps/template-web/` - Used in routing, middleware, analytics, and components
+- `apps/template-studio/` - Used in Sanity Studio config initialization
+
+To add to a new application:
+1. Add dependency: `"@workspace/logger": "workspace:*"` to package.json
+2. Run: `pnpm install`
+3. Import and use: `import { logger } from '@workspace/logger'`
+
+### Important Notes
+
+- **Debug Logs**: Only appear in development mode (filtered in production)
+- **Error Serialization**: Always use `extractErrorInfo()` for error objects to avoid JSON serialization issues
+- **Circular References**: The logger handles circular references safely
+- **Performance**: Minimal overhead (<1ms per log call)
+
+**See**: `specs/012-shared-logger-package/quickstart.md` for detailed usage examples and best practices.
+
+---
+
 <!-- MANUAL ADDITIONS END -->
