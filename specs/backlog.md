@@ -1,6 +1,6 @@
 # TODO
 - [x] Reconfigure tsconfig for the entire code base (add build steps, tsconfig.build.json, tsconfig.lint.json if necessary) Try barrel export again to see if it would work - DOES NOT WORK
-- [ ] Extract logger to package
+- [x] Extract logger to package
 - [ ] Extract remaining queries in query.ts to package
 - [ ] Create factory methods for i18n-config creation to be reused in other projects
 - [ ] Find any other potentially reusable code that should be extracted to common packages

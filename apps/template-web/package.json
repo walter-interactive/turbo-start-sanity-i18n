@@ -18,6 +18,7 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/visual-editing": "^3.0.3",
     "@workspace/i18n-config": "workspace:*",
+    "@workspace/logger": "workspace:*",
     "@workspace/sanity-atoms": "workspace:*",
     "@workspace/sanity-blocks": "workspace:*",
     "@workspace/ui": "workspace:*",

@@ -1,6 +1,6 @@
+import { logger } from '@workspace/logger'
 import createMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/routing'
-import { logger } from './lib/logger'
 import type { NextRequest } from 'next/server'
 
 /**

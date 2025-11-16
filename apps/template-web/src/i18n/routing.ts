@@ -9,7 +9,7 @@ import {
   PATHNAMES
 } from '@workspace/i18n-config'
 import { defineRouting } from 'next-intl/routing'
-import { logger } from '@/lib/logger'
+import { logger } from '@workspace/logger'
 
 /**
  * Re-export core configuration from shared package

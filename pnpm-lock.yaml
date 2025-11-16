@@ -120,6 +120,9 @@ importers:
       '@workspace/i18n-config':
         specifier: workspace:*
         version: link:../../packages/i18n-config
+      '@workspace/logger':
+        specifier: workspace:*
+        version: link:../../packages/logger
       '@workspace/sanity-atoms':
         specifier: workspace:*
         version: link:../../packages/sanity-atoms
@@ -184,6 +187,18 @@ importers:
 
   packages/i18n-config:
     devDependencies:
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
+  packages/logger:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.11
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
