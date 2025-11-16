@@ -1,7 +1,9 @@
 import { defineQuery } from 'next-sanity'
 import { imageFragment, richTextFragment } from '@workspace/sanity-atoms/fragments'
 import { blogAuthorFragment } from '../author/fragments'
-import { ogFieldsFragment, pageBuilderFragment, translationsFragment } from '../../shared/fragments'
+import { ogFieldsFragment } from '../../shared/og-images'
+import { pageBuilderFragment } from '../../shared/page-builder'
+import { translationsFragment } from '../../shared/i18n'
 
 /**
  * Fetch a single blog post by slug

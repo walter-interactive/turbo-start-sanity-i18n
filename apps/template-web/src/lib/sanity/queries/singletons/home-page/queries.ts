@@ -1,5 +1,7 @@
 import { defineQuery } from 'next-sanity'
-import { ogFieldsFragment, pageBuilderFragment, translationsFragment } from '../../shared/fragments'
+import { ogFieldsFragment, } from '../../shared/og-images'
+import { pageBuilderFragment } from '../../shared/page-builder'
+import { translationsFragment } from '../../shared/i18n'
 
 /**
  * Fetch homepage data

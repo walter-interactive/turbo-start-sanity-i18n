@@ -1,6 +1,7 @@
 import { defineQuery } from 'next-sanity'
 import { blogCardFragment } from '../../collections/blog/fragments'
-import { pageBuilderFragment, translationsFragment } from '../../shared/fragments'
+import { pageBuilderFragment } from '../../shared/page-builder'
+import { translationsFragment } from '../../shared/i18n'
 
 /**
  * Fetch blog index page data with all blog posts

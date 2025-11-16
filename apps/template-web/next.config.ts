@@ -1,6 +1,6 @@
 import createNextIntlPlugin from 'next-intl/plugin'
 import { client } from '@/lib/sanity/client'
-import { queryRedirects } from '@/lib/sanity/redirect-query'
+import { queryRedirects } from '@/lib/sanity/queries'
 import type { NextConfig } from 'next'
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')

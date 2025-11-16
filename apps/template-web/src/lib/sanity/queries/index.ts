@@ -8,6 +8,9 @@ export * from './collections/blog/queries'
 // Collections - Page
 export * from './collections/page/queries'
 
+// Collections - Redirects
+export * from './collections/redirect/queries'
+
 // Singletons - Home Page
 export * from './singletons/home-page/queries'
 
@@ -23,8 +26,8 @@ export * from './singletons/footer/queries'
 // Singletons - Settings
 export * from './singletons/settings/queries'
 
+
 // Shared
-export * from './shared/fragments'
 export * from './shared/i18n'
 export * from './shared/sitemap'
 export * from './shared/og-images'

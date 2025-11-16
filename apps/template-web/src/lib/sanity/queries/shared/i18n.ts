@@ -1,5 +1,21 @@
-import { defineQuery } from 'next-sanity'
-import { translationsFragment } from './fragments'
+import { groq, defineQuery } from 'next-sanity'
+
+/**
+ * Translation metadata fragment
+ * Used across all i18n-enabled document types
+ */
+// @sanity-typegen-ignore
+export const translationsFragment = groq`
+  "_translations": *[
+    _type == "translation.metadata" && references(^._id)
+  ][0].translations[].value->{
+    _id,
+    _type,
+    language,
+    "slug": slug.current,
+    title
+  }
+`
 
 /**
  * Query all localized documents with their translation metadata

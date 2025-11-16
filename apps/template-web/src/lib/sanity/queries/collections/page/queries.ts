@@ -1,5 +1,7 @@
 import { defineQuery } from 'next-sanity'
-import { ogFieldsFragment, pageBuilderFragment, translationsFragment } from '../../shared/fragments'
+import { ogFieldsFragment } from '../../shared/og-images'
+import { translationsFragment } from '../../shared/i18n'
+import { pageBuilderFragment } from '../../shared/page-builder'
 
 /**
  * Fetch a single page by slug
