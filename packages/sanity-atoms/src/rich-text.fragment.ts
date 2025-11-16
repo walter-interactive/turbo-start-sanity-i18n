@@ -1,4 +1,4 @@
-import { imageFields } from './image.fragment'
+import { imageFields } from '@workspace/sanity-atoms/fragments/image'
 
 export const customLinkFragment = /* groq */ `
   ...customLink{

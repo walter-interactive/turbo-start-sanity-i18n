@@ -14,7 +14,7 @@
  * ```
  */
 
-import { customUrlFragment } from './custom-url.fragment'
+import { customUrlFragment } from '@workspace/sanity-atoms/fragments/custom-url'
 
 export const buttonFragment = /* groq */ `
   variant,

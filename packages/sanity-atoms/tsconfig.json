@@ -1,13 +1,15 @@
 {
-  "extends": "@workspace/typescript-config/base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "bundler",
     "module": "ESNext",
-    "paths": {
-      "@workspace/sanity-atoms/*": ["./src/*"]
-    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

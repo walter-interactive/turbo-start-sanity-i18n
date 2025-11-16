@@ -1,4 +1,4 @@
-import { richTextFragment } from '@workspace/sanity-atoms/fragments/rich-text'
+import { richTextFragment } from '@workspace/sanity-atoms/fragments'
 
 export const featureCardsIconFragment = /* groq */ `
   _type == "featureCardsIcon" => {

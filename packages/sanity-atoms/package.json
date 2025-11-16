@@ -4,7 +4,9 @@
   "type": "module",
   "private": true,
   "exports": {
+    "./schemas": "./src/schemas.ts",
     "./schemas/*": "./src/*.schema.ts",
+    "./fragments": "./src/fragments.ts",
     "./fragments/*": "./src/*.fragment.ts"
   },
   "scripts": {

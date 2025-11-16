@@ -4,17 +4,17 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
-      "@workspace/sanity-atoms/schemas/*": [
-        "./packages/sanity-atoms/src/*.schema.ts"
+      "@workspace/sanity-atoms/fragments": [
+        "./packages/sanity-atoms/src/fragments.ts"
       ],
-      "@workspace/sanity-atoms/fragments/*": [
-        "./packages/sanity-atoms/src/*.fragment.ts"
+      "@workspace/sanity-atoms/schemas": [
+        "./packages/sanity-atoms/src/schemas.ts"
       ],
-      "@workspace/sanity-blocks/schemas/*": [
-        "./packages/sanity-blocks/src/*.schema.ts"
+      "@workspace/sanity-blocks/schemas": [
+        "./packages/sanity-blocks/src/schemas.ts"
       ],
-      "@workspace/sanity-blocks/fragments/*": [
-        "./packages/sanity-blocks/src/*.fragment.ts"
+      "@workspace/sanity-blocks/fragments": [
+        "./packages/sanity-blocks/src/fragments.ts"
       ]
     }
   }

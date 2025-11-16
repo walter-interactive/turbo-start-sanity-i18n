@@ -1,19 +1,19 @@
 // ============================================================================
 // Shared Atoms (from @workspace/sanity-atoms)
 // ============================================================================
-import { buttonSchema } from '@workspace/sanity-atoms/schemas/button'
-import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas/buttons'
-import { customUrlSchema } from '@workspace/sanity-atoms/schemas/custom-url'
-import { richTextSchema } from '@workspace/sanity-atoms/schemas/rich-text'
+import { buttonSchema } from '@workspace/sanity-atoms/schemas'
+import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas'
+import { customUrlSchema } from '@workspace/sanity-atoms/schemas'
+import { richTextSchema } from '@workspace/sanity-atoms/schemas'
 // ============================================================================
 // Shared Blocks (from @workspace/sanity-blocks)
 // ============================================================================
-import { ctaSchema } from '@workspace/sanity-blocks/schemas/cta'
-import { faqAccordionSchema } from '@workspace/sanity-blocks/schemas/faq-accordion'
-import { featureCardsIconSchema } from '@workspace/sanity-blocks/schemas/feature-cards-icon'
-import { heroSectionSchema } from '@workspace/sanity-blocks/schemas/hero-section'
-import { imageLinkCardsSchema } from '@workspace/sanity-blocks/schemas/image-link-cards'
-import { subscribeNewsletterSchema } from '@workspace/sanity-blocks/schemas/subscribe-newsletter'
+import { ctaSchema } from '@workspace/sanity-blocks/schemas'
+import { faqAccordionSchema } from '@workspace/sanity-blocks/schemas'
+import { featureCardsIconSchema } from '@workspace/sanity-blocks/schemas'
+import { heroSectionSchema } from '@workspace/sanity-blocks/schemas'
+import { imageLinkCardsSchema } from '@workspace/sanity-blocks/schemas'
+import { subscribeNewsletterSchema } from '@workspace/sanity-blocks/schemas'
 import { defineArrayMember, defineType } from 'sanity'
 // ============================================================================
 // Collections (multi-instance documents)

@@ -2,7 +2,11 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,21 +18,12 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": "../..",
-    "paths": {
-      "@workspace/sanity-atoms/schemas/*": [
-        "./packages/sanity-atoms/src/*.schema.ts"
-      ],
-      "@workspace/sanity-atoms/fragments/*": [
-        "./packages/sanity-atoms/src/*.fragment.ts"
-      ],
-      "@workspace/sanity-blocks/schemas/*": [
-        "./packages/sanity-blocks/src/*.schema.ts"
-      ],
-      "@workspace/sanity-blocks/fragments/*": [
-        "./packages/sanity-blocks/src/*.fragment.ts"
-      ]
-    }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
