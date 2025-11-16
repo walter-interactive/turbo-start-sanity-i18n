@@ -32,6 +32,7 @@
     "@sanity/uuid": "^3.0.2",
     "@sanity/vision": "^4.4.1",
     "@workspace/i18n-config": "workspace:*",
+    "@workspace/logger": "workspace:*",
     "@workspace/sanity-atoms": "workspace:*",
     "@workspace/sanity-blocks": "workspace:*",
     "friendlier-words": "^1.1.3",

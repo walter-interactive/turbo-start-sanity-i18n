@@ -59,6 +59,9 @@ importers:
       '@workspace/i18n-config':
         specifier: workspace:*
         version: link:../../packages/i18n-config
+      '@workspace/logger':
+        specifier: workspace:*
+        version: link:../../packages/logger
       '@workspace/sanity-atoms':
         specifier: workspace:*
         version: link:../../packages/sanity-atoms

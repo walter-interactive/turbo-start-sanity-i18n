@@ -2,6 +2,7 @@ import { assist } from '@sanity/assist'
 import { documentInternationalization } from '@sanity/document-internationalization'
 import { visionTool } from '@sanity/vision'
 import { SANITY_LANGUAGES } from '@workspace/i18n-config'
+import { logger } from '@workspace/logger'
 import { defineConfig } from 'sanity'
 import { presentationTool } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
@@ -18,6 +19,8 @@ import { getPresentationUrl } from './utils/helper'
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID ?? ''
 const dataset = process.env.SANITY_STUDIO_DATASET
 const title = process.env.SANITY_STUDIO_TITLE
+
+logger.info('Sanity Studio initialized', { projectId, dataset, title })
 
 export default defineConfig({
   name: 'default',

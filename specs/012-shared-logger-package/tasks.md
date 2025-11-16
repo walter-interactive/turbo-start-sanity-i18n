@@ -99,13 +99,13 @@
 
 ### Implementation for User Story 3
 
-- [ ] T027 [US3] Add @workspace/logger dependency to apps/template-studio/package.json
-- [ ] T028 [US3] Run pnpm install from repository root to install logger for template-studio
-- [ ] T029 [US3] Add logger import to apps/template-studio/sanity.config.ts: import { logger } from '@workspace/logger'
-- [ ] T030 [US3] Add logger.info call to studio config initialization: logger.info('Sanity Studio initialized')
-- [ ] T031 [US3] Run type checking for template-studio: pnpm --filter template-studio check-types
-- [ ] T032 [US3] Start template-studio dev server and verify logger output appears in console
-- [ ] T033 [US3] Verify environment detection works correctly in Sanity Studio context
+- [X] T027 [US3] Add @workspace/logger dependency to apps/template-studio/package.json
+- [X] T028 [US3] Run pnpm install from repository root to install logger for template-studio
+- [X] T029 [US3] Add logger import to apps/template-studio/sanity.config.ts: import { logger } from '@workspace/logger'
+- [X] T030 [US3] Add logger.info call to studio config initialization: logger.info('Sanity Studio initialized')
+- [X] T031 [US3] Run type checking for template-studio: pnpm --filter template-studio check-types
+- [X] T032 [US3] Start template-studio dev server and verify logger output appears in console
+- [X] T033 [US3] Verify environment detection works correctly in Sanity Studio context
 
 **Checkpoint**: template-studio successfully uses @workspace/logger with zero configuration beyond adding dependency
 
