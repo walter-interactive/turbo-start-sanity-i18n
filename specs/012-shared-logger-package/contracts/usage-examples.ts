@@ -5,7 +5,7 @@
  * These examples demonstrate best practices and common scenarios.
  */
 
-import type { Logger, LogContext, ErrorInfo } from './logger-api'
+import type { ErrorInfo, Logger } from './logger-api'
 
 // Mock imports (in real usage, import from @workspace/logger)
 declare const logger: Logger
@@ -360,10 +360,10 @@ export function antiPatternsExample() {
   // }
 
   // ✅ DO: Log batch summaries
-  logger.debug('Batch processing started', { itemCount: 10000 })
+  logger.debug('Batch processing started', { itemCount: 10_000 })
   // ... process items ...
   logger.info('Batch processing completed', {
-    itemCount: 10000,
+    itemCount: 10_000,
     duration: '1.2s',
     errors: 3
   })

@@ -1,16 +1,17 @@
-import { buttonsFragment } from '@workspace/sanity-atoms/fragments'
 import {
+  buttonsFragment,
   imageFields,
-  imageFragment
+  imageFragment,
+  richTextFragment
 } from '@workspace/sanity-atoms/fragments'
-import { richTextFragment } from '@workspace/sanity-atoms/fragments'
-import { ctaFragment } from '@workspace/sanity-blocks/fragments'
-import { faqSectionFragment } from '@workspace/sanity-blocks/fragments'
-import { featureCardsIconFragment } from '@workspace/sanity-blocks/fragments'
-import { heroSectionFragment } from '@workspace/sanity-blocks/fragments'
-import { imageLinkCardsFragment } from '@workspace/sanity-blocks/fragments'
-import { subscribeNewsletterFragment } from '@workspace/sanity-blocks/fragments'
-
+import {
+  ctaFragment,
+  faqSectionFragment,
+  featureCardsIconFragment,
+  heroSectionFragment,
+  imageLinkCardsFragment,
+  subscribeNewsletterFragment
+} from '@workspace/sanity-blocks/fragments'
 import { defineQuery } from 'next-sanity'
 import { translationsFragment } from './i18n'
 

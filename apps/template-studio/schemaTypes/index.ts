@@ -1,19 +1,23 @@
 // ============================================================================
 // Shared Atoms (from @workspace/sanity-atoms)
 // ============================================================================
-import { buttonSchema } from '@workspace/sanity-atoms/schemas'
-import { buttonsGroupSchema } from '@workspace/sanity-atoms/schemas'
-import { customUrlSchema } from '@workspace/sanity-atoms/schemas'
-import { richTextSchema } from '@workspace/sanity-atoms/schemas'
+import {
+  buttonSchema,
+  buttonsGroupSchema,
+  customUrlSchema,
+  richTextSchema
+} from '@workspace/sanity-atoms/schemas'
 // ============================================================================
 // Shared Blocks (from @workspace/sanity-blocks)
 // ============================================================================
-import { ctaSchema } from '@workspace/sanity-blocks/schemas'
-import { faqAccordionSchema } from '@workspace/sanity-blocks/schemas'
-import { featureCardsIconSchema } from '@workspace/sanity-blocks/schemas'
-import { heroSectionSchema } from '@workspace/sanity-blocks/schemas'
-import { imageLinkCardsSchema } from '@workspace/sanity-blocks/schemas'
-import { subscribeNewsletterSchema } from '@workspace/sanity-blocks/schemas'
+import {
+  ctaSchema,
+  faqAccordionSchema,
+  featureCardsIconSchema,
+  heroSectionSchema,
+  imageLinkCardsSchema,
+  subscribeNewsletterSchema
+} from '@workspace/sanity-blocks/schemas'
 import { defineArrayMember, defineType } from 'sanity'
 // ============================================================================
 // Collections (multi-instance documents)
